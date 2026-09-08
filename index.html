@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abdelaty Bedeir | Arabic & English Teacher</title>
+
+  <style>
+    :root {
+      --primary: #176b87;
+      --secondary: #64ccc5;
+      --dark: #163a4a;
+      --text: #405563;
+      --light: #f4fbfb;
+      --white: #ffffff;
+      --border: #dcebed;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      line-height: 1.6;
+      background: var(--light);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1120px, 92%);
+      margin: auto;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.95);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+    }
+
+    .nav-content {
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: var(--primary);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+      font-size: 0.95rem;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .hero {
+      padding: 90px 0;
+      background:
+        linear-gradient(135deg, rgba(23, 107, 135, 0.95), rgba(100, 204, 197, 0.85)),
+        radial-gradient(circle at top right, #fff, transparent 35%);
+      color: var(--white);
+    }
+
+    .hero-content {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      align-items: center;
+      gap: 60px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.8rem);
+      line-height: 1.1;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 span {
+      color: #d9fffc;
+    }
+
+    .hero p {
+      max-width: 650px;
+      font-size: 1.15rem;
+      margin-bottom: 28px;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 12px 22px;
+      border-radius: 30px;
+      font-weight: bold;
+      transition: 0.25s;
+    }
+
+    .button-primary {
+      background: var(--white);
+      color: var(--primary);
+    }
+
+    .button-outline {
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      color: var(--white);
+    }
+
+    .button:hover {
+      transform: translateY(-3px);
+      opacity: 0.9;
+    }
+
+    .profile-card {
+      padding: 32px;
+      border-radius: 24px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .profile-icon {
+      width: 150px;
+      height: 150px;
+      margin: 0 auto 20px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--white);
+      color: var(--primary);
+      font-size: 4.5rem;
+    }
+
+    section {
+      padding: 80px 0;
+    }
+
+    .section-title {
+      text-align: center;
+      color: var(--dark);
+      font-size: 2rem;
+      margin-bottom: 45px;
+    }
+
+    .section-title::after {
+      content: "";
+      display: block;
+      width: 55px;
+      height: 4px;
+      margin: 12px auto 0;
+      border-radius: 4px;
+      background: var(--secondary);
+    }
+
+    .about-grid,
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 8px 25px rgba(22, 58, 74, 0.05);
+    }
+
+    .card h3 {
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+
+    .facts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .fact {
+      padding: 14px;
+      border-radius: 10px;
+      background: var(--light);
+    }
+
+    .fact strong {
+      display: block;
+      color: var(--dark);
+    }
+
+    .timeline {
+      max-width: 850px;
+      margin: auto;
+      border-left: 3px solid var(--secondary);
+      padding-left: 28px;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 32px;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -38px;
+      top: 5px;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: var(--primary);
+      border: 3px solid var(--light);
+    }
+
+    .timeline-item h3 {
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+
+    .date {
+      color: var(--primary);
+      font-size: 0.9rem;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .skill {
+      padding: 22px;
+      text-align: center;
+      background: var(--white);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+    }
+
+    .skill-icon {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+
+    .language-list {
+      max-width: 750px;
+      margin: auto;
+    }
+
+    .language {
+      margin-bottom: 22px;
+    }
+
+    .language-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 7px;
+      color: var(--dark);
+      font-weight: bold;
+    }
+
+    .progress {
+      height: 10px;
+      overflow: hidden;
+      border-radius: 10px;
+      background: #dcebed;
+    }
+
+    .progress span {
+      display: block;
+      height: 100%;
+      border-radius: 10px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+
+    .contact-info p {
+      margin: 14px 0;
+    }
+
+    .contact-info strong {
+      color: var(--dark);
+    }
+
+    form {
+      display: grid;
+      gap: 14px;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 13px 15px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font: inherit;
+    }
+
+    textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+      font: inherit;
+      background: var(--primary);
+      color: var(--white);
+    }
+
+    footer {
+      padding: 24px;
+      text-align: center;
+      color: var(--white);
+      background: var(--dark);
+    }
+
+    @media (max-width: 760px) {
+      .nav-content {
+        flex-direction: column;
+        padding: 16px 0;
+      }
+
+      .nav-links {
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .hero {
+        padding: 65px 0;
+      }
+
+      .hero-content,
+      .about-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .skills-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .skills-grid,
+      .facts {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <div class="container nav-content">
+      <a href="#home" class="logo">Abdelaty Bedeir</a>
+
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#languages">Languages</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="hero" id="home">
+    <div class="container hero-content">
+      <div>
+        <p>Arabic & English Language Educator</p>
+
+        <h1>
+          Learn with confidence.<br />
+          <span>Speak with purpose.</span>
+        </h1>
+
+        <p>
+          Experienced Arabic and English teacher helping students build
+          strong communication skills through engaging, practical, and
+          personalized lessons.
+        </p>
+
+        <div class="buttons">
+          <a href="#contact" class="button button-primary">Book a Lesson</a>
+          <a href="#experience" class="button button-outline">View Experience</a>
+        </div>
+      </div>
+
+      <div class="profile-card">
+        <div class="profile-icon">ع</div>
+        <h2>Abdelaty Bedeir</h2>
+        <p>Certified Language Teacher</p>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <section id="about">
+      <div class="container">
+        <h2 class="section-title">About Me</h2>
+
+        <div class="about-grid">
+          <div class="card">
+            <h3>Teaching Philosophy</h3>
+            <p>
+              I believe language learning should be practical, enjoyable, and
+              connected to real life. My lessons combine conversation,
+              grammar, culture, reading, and writing to help students become
+              confident communicators.
+            </p>
+          </div>
+
+          <div class="card">
+            <h3>Professional Profile</h3>
+            <p>
+              Dedicated Arabic and English teacher with more than 8 years of
+              experience teaching children, university students, and
+              professionals in both classroom and online environments.
+            </p>
+
+            <div class="facts">
+              <div class="fact">
+                <strong>8+ Years</strong>
+                Teaching experience
+              </div>
+
+              <div class="fact">
+                <strong>500+</strong>
+                Students taught
+              </div>
+
+              <div class="fact">
+                <strong>Online & In-Person</strong>
+                Flexible lessons
+              </div>
+
+              <div class="fact">
+                <strong>All Levels</strong>
+                Beginner to advanced
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="container">
+        <h2 class="section-title">Professional Experience</h2>
+
+        <div class="timeline">
+
+          <div class="timeline-item">
+            <div class="date">2021 – Present</div>
+            <h3>Senior Arabic & English Teacher</h3>
+            <p>Global Language Academy</p>
+            <p>
+              Plan personalized lessons, assess student progress, and teach
+              communication skills to learners from diverse backgrounds.
+            </p>
+          </div>
+
+          <div class="timeline-item">
+            <div class="date">2018 – 2021</div>
+            <h3>English Language Instructor</h3>
+            <p>Bright Future International School</p>
+            <p>
+              Taught English grammar, reading, writing, and speaking to
+              secondary school students and prepared students for examinations.
+            </p>
+          </div>
+
+          <div class="timeline-item">
+            <div class="date">2016 – 2018</div>
+            <h3>Arabic Tutor</h3>
+            <p>Independent Online Educator</p>
+            <p>
+              Delivered one-to-one Arabic lessons for non-native speakers,
+              focusing on conversation, pronunciation, and cultural fluency.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="container">
+        <h2 class="section-title">Teaching Skills</h2>
+
+        <div class="skills-grid">
+          <div class="skill">
+            <div class="skill-icon">💬</div>
+            <h3>Conversation Practice</h3>
+            <p>Real-world speaking and listening activities.</p>
+          </div>
+
+          <div class="skill">
+            <div class="skill-icon">📚</div>
+            <h3>Grammar & Writing</h3>
+            <p>Clear explanations and structured exercises.</p>
+          </div>
+
+          <div class="skill">
+            <div class="skill-icon">🌍</div>
+            <h3>Cultural Education</h3>
+            <p>Language learning through culture and context.</p>
+          </div>
+
+          <div class="skill">
+            <div class="skill-icon">🎯</div>
+            <h3>Exam Preparation</h3>
+            <p>Focused preparation for language assessments.</p>
+          </div>
+
+          <div class="skill">
+            <div class="skill-icon">💻</div>
+            <h3>Online Teaching</h3>
+            <p>Interactive lessons using modern digital tools.</p>
+          </div>
+
+          <div class="skill">
+            <div class="skill-icon">👩‍🏫</div>
+            <h3>Student Support</h3>
+            <p>Patient, encouraging, and personalized instruction.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="languages">
+      <div class="container">
+        <h2 class="section-title">Language Proficiency</h2>
+
+        <div class="language-list">
+          <div class="language">
+            <div class="language-header">
+              <span>Arabic</span>
+              <span>Native</span>
+            </div>
+            <div class="progress">
+              <span style="width: 100%;"></span>
+            </div>
+          </div>
+
+          <div class="language">
+            <div class="language-header">
+              <span>English</span>
+              <span>Fluent</span>
+            </div>
+            <div class="progress">
+              <span style="width: 96%;"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="education">
+      <div class="container">
+        <h2 class="section-title">Education & Certifications</h2>
+
+        <div class="about-grid">
+          <div class="card">
+            <h3>Master of Applied Linguistics</h3>
+            <p>University of London · 2016</p>
+          </div>
+
+          <div class="card">
+            <h3>CELTA Certification</h3>
+            <p>Cambridge English · 2017</p>
+          </div>
+
+          <div class="card">
+            <h3>Teaching Arabic as a Foreign Language</h3>
+            <p>International Language Institute · 2018</p>
+          </div>
+
+          <div class="card">
+            <h3>Digital Education Certificate</h3>
+            <p>Online Teaching Academy · 2020</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <h2 class="section-title">Get in Touch</h2>
+
+        <div class="contact-grid">
+          <div class="card contact-info">
+            <h3>Let’s learn together</h3>
+            <p>
+              Contact me to discuss private lessons, group classes, exam
+              preparation, or corporate language training.
+            </p>
+
+            <p><strong>Email:</strong> abdelaty@bedir.shop</p>
+            <p><strong>Phone:</strong> +992 17 540 0220</p>
+            <p><strong>Location:</strong> Available worldwide online</p>
+          </div>
+
+          <div class="card">
+            <form onsubmit="sendMessage(event)">
+              <input type="text" placeholder="Your name" required />
+              <input type="email" placeholder="Your email" required />
+              <textarea placeholder="How can I help you?" required></textarea>
+              <button type="submit" class="button">Send Message</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>© 2026 Abdelaty Bedeir. Arabic & English Language Teacher.</p>
+  </footer>
+
+  <script>
+    function sendMessage(event) {
+      event.preventDefault();
+      alert("Thank you! Your message has been received.");
+    }
+  </script>
+
+</body>
+</html>
