@@ -10,786 +10,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <style>
-    :root {
-      --primary: #0f4c5c;
-      --primary-light: #1e6b7b;
-      --secondary: #e36414;
-      --accent: #00a896;
-      --dark: #0f172a;
-      --text: #475569;
-      --text-light: #64748b;
-      --bg-light: #f8fafc;
-      --white: #ffffff;
-      --border: #e2e8f0;
-      
-      --whatsapp: #25d366;
-      --whatsapp-hover: #1da851;
-      --telegram: #229ed9;
-      --telegram-hover: #1a7ab0;
-
-      --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.04);
-      --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.08);
-      --shadow-lg: 0 16px 32px rgba(15, 23, 42, 0.12);
-      
-      --radius-sm: 10px;
-      --radius-md: 16px;
-      --radius-lg: 24px;
-      --radius-full: 9999px;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: 'Outfit', 'Cairo', sans-serif;
-      color: var(--text);
-      line-height: 1.6;
-      background: var(--bg-light);
-      overflow-x: hidden;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .container {
-      width: min(1180px, 92%);
-      margin: auto;
-    }
-
-    /* Header & Navigation */
-    .navbar {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: rgba(255, 255, 255, 0.9);
-      border-bottom: 1px solid var(--border);
-      backdrop-filter: blur(12px);
-      transition: all 0.3s ease;
-    }
-
-    .nav-content {
-      min-height: 76px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .logo {
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .logo i {
-      color: var(--accent);
-    }
-
-    .nav-menu {
-      display: flex;
-      align-items: center;
-      gap: 32px;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: var(--dark);
-      font-weight: 500;
-      font-size: 0.95rem;
-      transition: color 0.2s ease;
-    }
-
-    .nav-links a:hover {
-      color: var(--accent);
-    }
-
-    /* Language Switcher */
-    .language-switcher {
-      position: relative;
-    }
-
-    .language-button {
-      padding: 8px 16px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-full);
-      background: var(--white);
-      color: var(--dark);
-      cursor: pointer;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.2s ease;
-    }
-
-    .language-button:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    .language-options {
-      position: absolute;
-      top: calc(100% + 8px);
-      right: 0;
-      display: none;
-      min-width: 140px;
-      border-radius: var(--radius-sm);
-      background: var(--white);
-      box-shadow: var(--shadow-md);
-      border: 1px solid var(--border);
-      overflow: hidden;
-      z-index: 100;
-    }
-
-    .language-options.active {
-      display: block;
-      animation: fadeIn 0.2s ease;
-    }
-
-    .language-options button {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      width: 100%;
-      padding: 10px 16px;
-      border: 0;
-      background: transparent;
-      color: var(--text);
-      font-size: 0.9rem;
-      font-weight: 500;
-      text-align: left;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .language-options button:hover {
-      background: var(--bg-light);
-      color: var(--primary);
-    }
-
-    .menu-toggle {
-      display: none;
-      width: 42px;
-      height: 42px;
-      border: 0;
-      border-radius: var(--radius-sm);
-      background: var(--bg-light);
-      cursor: pointer;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .menu-toggle span {
-      width: 22px;
-      height: 2px;
-      background: var(--dark);
-      transition: 0.3s;
-      border-radius: 2px;
-    }
-
-    /* Hero Section */
-    .hero {
-      padding: 90px 0 100px;
-      background: linear-gradient(135deg, #0f4c5c 0%, #00a896 100%);
-      color: var(--white);
-      position: relative;
-    }
-
-    .hero-content {
-      display: grid;
-      grid-template-columns: 1.3fr 0.9fr;
-      align-items: center;
-      gap: 50px;
-    }
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 16px;
-      background: rgba(255, 255, 255, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      border-radius: var(--radius-full);
-      font-size: 0.88rem;
-      font-weight: 500;
-      margin-bottom: 20px;
-      backdrop-filter: blur(5px);
-    }
-
-    .hero h1 {
-      font-size: clamp(2.4rem, 5vw, 3.8rem);
-      line-height: 1.15;
-      font-weight: 700;
-      margin-bottom: 20px;
-    }
-
-    .hero h1 span {
-      color: #72efdd;
-    }
-
-    .hero p {
-      font-size: 1.15rem;
-      opacity: 0.92;
-      margin-bottom: 32px;
-      max-width: 600px;
-      line-height: 1.7;
-    }
-
-    /* Action Buttons */
-    .buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 13px 26px;
-      border-radius: var(--radius-full);
-      font-weight: 600;
-      font-size: 0.95rem;
-      transition: all 0.25s ease;
-      cursor: pointer;
-      border: none;
-    }
-
-    .btn-white {
-      background: var(--white);
-      color: var(--primary);
-    }
-
-    .btn-white:hover {
-      background: #f1f5f9;
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-    }
-
-    .btn-outline {
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      color: var(--white);
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    .btn-outline:hover {
-      background: rgba(255, 255, 255, 0.15);
-      border-color: var(--white);
-      transform: translateY(-2px);
-    }
-
-    .btn-whatsapp {
-      background: var(--whatsapp);
-      color: var(--white);
-    }
-
-    .btn-whatsapp:hover {
-      background: var(--whatsapp-hover);
-      color: var(--white);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35);
-    }
-
-    .btn-telegram {
-      background: var(--telegram);
-      color: var(--white);
-    }
-
-    .btn-telegram:hover {
-      background: var(--telegram-hover);
-      color: var(--white);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(34, 158, 217, 0.35);
-    }
-
-    /* Profile Card */
-    .profile-card {
-      background: rgba(255, 255, 255, 0.12);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      border-radius: var(--radius-lg);
-      padding: 40px 30px;
-      text-align: center;
-      backdrop-filter: blur(16px);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .profile-avatar {
-      width: 140px;
-      height: 140px;
-      margin: 0 auto 24px;
-      border-radius: 50%;
-      background: var(--white);
-      color: var(--primary);
-      display: grid;
-      place-items: center;
-      font-size: 3.5rem;
-      font-weight: bold;
-      border: 4px solid rgba(255, 255, 255, 0.3);
-      box-shadow: var(--shadow-md);
-    }
-
-    .profile-card h2 {
-      font-size: 1.6rem;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .profile-card p {
-      opacity: 0.85;
-      font-size: 0.95rem;
-      margin-bottom: 20px;
-    }
-
-    .quick-socials {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-    }
-
-    .social-icon-btn {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      color: var(--white);
-      transition: all 0.25s ease;
-      background: rgba(255, 255, 255, 0.15);
-    }
-
-    .social-icon-btn:hover {
-      transform: translateY(-3px) scale(1.05);
-    }
-
-    .social-icon-btn.wa:hover { background: var(--whatsapp); }
-    .social-icon-btn.tg:hover { background: var(--telegram); }
-
-    /* Sections */
-    section {
-      padding: 90px 0;
-    }
-
-    .section-title {
-      text-align: center;
-      color: var(--dark);
-      font-size: 2.2rem;
-      font-weight: 700;
-      margin-bottom: 50px;
-      position: relative;
-    }
-
-    .section-title::after {
-      content: "";
-      display: block;
-      width: 60px;
-      height: 4px;
-      background: var(--accent);
-      margin: 12px auto 0;
-      border-radius: 4px;
-    }
-
-    /* Cards & Grid Layouts */
-    .about-grid, .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 30px;
-    }
-
-    .card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 32px;
-      box-shadow: var(--shadow-sm);
-      transition: all 0.3s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-md);
-      border-color: #cbd5e1;
-    }
-
-    .card h3 {
-      color: var(--primary);
-      font-size: 1.35rem;
-      font-weight: 600;
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .card p {
-      color: var(--text);
-      line-height: 1.7;
-    }
-
-    .facts {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-      margin-top: 24px;
-    }
-
-    .fact {
-      padding: 16px;
-      border-radius: var(--radius-sm);
-      background: var(--bg-light);
-      border: 1px solid var(--border);
-    }
-
-    .fact strong {
-      display: block;
-      color: var(--primary);
-      font-size: 1.25rem;
-      font-weight: 700;
-    }
-
-    .fact span {
-      font-size: 0.88rem;
-      color: var(--text-light);
-    }
-
-    /* Skills Section */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
-    }
-
-    .skill-card {
-      background: var(--white);
-      padding: 30px;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow-sm);
-      text-align: center;
-      transition: all 0.3s ease;
-    }
-
-    .skill-card:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--shadow-md);
-      border-color: var(--accent);
-    }
-
-    .skill-icon {
-      width: 60px;
-      height: 60px;
-      margin: 0 auto 18px;
-      border-radius: 50%;
-      background: rgba(0, 168, 150, 0.1);
-      color: var(--accent);
-      display: grid;
-      place-items: center;
-      font-size: 1.6rem;
-    }
-
-    .skill-card h3 {
-      font-size: 1.15rem;
-      color: var(--dark);
-      margin-bottom: 8px;
-    }
-
-    .skill-card p {
-      font-size: 0.9rem;
-      color: var(--text-light);
-    }
-
-    /* Language Proficiency */
-    .languages-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 20px;
-      max-width: 900px;
-      margin: auto;
-    }
-
-    .language {
-      background: var(--white);
-      padding: 20px 24px;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .language-header {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 10px;
-      color: var(--dark);
-      font-weight: 600;
-    }
-
-    .progress {
-      height: 10px;
-      border-radius: var(--radius-full);
-      background: #e2e8f0;
-      overflow: hidden;
-    }
-
-    .progress-bar {
-      height: 100%;
-      border-radius: var(--radius-full);
-      background: linear-gradient(90deg, var(--primary), var(--accent));
-      transition: width 1s ease-in-out;
-    }
-
-    /* Contact Section */
-    .contact-info p {
-      margin: 16px 0;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 1rem;
-    }
-
-    .contact-info i {
-      color: var(--accent);
-      font-size: 1.1rem;
-      width: 24px;
-    }
-
-    .contact-methods {
-      margin-top: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    input, textarea {
-      width: 100%;
-      padding: 14px 18px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      font-family: inherit;
-      font-size: 0.95rem;
-      background: var(--bg-light);
-      transition: all 0.2s;
-    }
-
-    input:focus, textarea:focus {
-      outline: none;
-      border-color: var(--accent);
-      background: var(--white);
-      box-shadow: 0 0 0 3px rgba(0, 168, 150, 0.15);
-    }
-
-    textarea {
-      min-height: 130px;
-      resize: vertical;
-    }
-
-    /* Footer */
-    footer {
-      padding: 30px;
-      text-align: center;
-      color: var(--white);
-      background: var(--dark);
-      font-size: 0.9rem;
-    }
-
-    /* Floating Quick Chat Widget */
-    .floating-chat {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      z-index: 999;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .chat-btn {
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
-      color: var(--white);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      box-shadow: var(--shadow-lg);
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    .chat-btn:hover {
-      transform: scale(1.1);
-    }
-
-    .chat-btn.wa { background: var(--whatsapp); }
-    .chat-btn.tg { background: var(--telegram); }
-
-    /* RTL Styles for Arabic Interface */
-    html[dir="rtl"] {
-      text-align: right;
-    }
-
-    html[dir="rtl"] .language-options {
-      right: auto;
-      left: 0;
-    }
-
-    html[dir="rtl"] .language-options button {
-      text-align: right;
-    }
-
-    html[dir="rtl"] .floating-chat {
-      right: auto;
-      left: 24px;
-    }
-
-    /* Responsive Media Queries */
-    @media (max-width: 992px) {
-      .hero-content {
-        grid-template-columns: 1fr;
-        gap: 40px;
-        text-align: center;
-      }
-
-      .hero p {
-        margin-left: auto;
-        margin-right: auto;
-      }
-
-      .buttons {
-        justify-content: center;
-      }
-
-      .profile-card {
-        max-width: 480px;
-        margin: auto;
-      }
-
-      .about-grid, .contact-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .menu-toggle {
-        display: flex;
-      }
-
-      .nav-menu {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: var(--white);
-        border-bottom: 1px solid var(--border);
-        padding: 20px 24px;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 20px;
-        box-shadow: var(--shadow-md);
-        display: none;
-      }
-
-      .nav-menu.active {
-        display: flex;
-        animation: slideDown 0.3s ease;
-      }
-
-      .nav-links {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 16px;
-      }
-
-      html[dir="rtl"] .nav-links {
-        align-items: flex-end;
-      }
-
-      .language-switcher {
-        align-self: flex-start;
-      }
-
-      html[dir="rtl"] .language-switcher {
-        align-self: flex-end;
-      }
-
-      .language-options {
-        top: auto;
-        bottom: calc(100% + 8px);
-      }
-
-      section {
-        padding: 60px 0;
-      }
-
-      .section-title {
-        font-size: 1.8rem;
-        margin-bottom: 36px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .facts {
-        grid-template-columns: 1fr;
-      }
-
-      .buttons {
-        flex-direction: column;
-        width: 100%;
-      }
-
-      .btn {
-        width: 100%;
-      }
-
-      .floating-chat {
-        bottom: 16px;
-        right: 16px;
-      }
-
-      html[dir="rtl"] .floating-chat {
-        left: 16px;
-      }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  
 </head>
 
 <body>
@@ -813,6 +36,7 @@
           <li><a href="#about" data-i18n="about">About</a></li>
           <li><a href="#courses" data-i18n="courses">Courses & Services</a></li>
           <li><a href="#languages" data-i18n="languages">Languages</a></li>
+          <li><a href="#team" data-i18n="team">Instructors</a></li>
           <li><a href="#contact" data-i18n="contact">Contact</a></li>
         </ul>
 
@@ -825,6 +49,7 @@
           <div class="language-options" id="languageOptions">
             <button data-language="en">English</button>
             <button data-language="ru">Русский</button>
+            <button data-language="tj">Точики</button>
             <button data-language="ar">العربية</button>
           </div>
         </div>
@@ -864,7 +89,9 @@
       </div>
 
       <div class="profile-card">
-        <div class="profile-avatar"><i class="fa-solid fa-language"></i></div>
+              <div class="profile-avatar" style="margin: 0 auto 1rem auto;">
+                <img src="img/teacher.jpg" alt="Instructor" class="profile-img" />
+              </div>
         <h2 data-i18n="profileName">Polyglot</h2>
         <p data-i18n="profileRole">Language Educator & Certification Specialist</p>
 
@@ -961,26 +188,6 @@
         <div class="languages-grid">
           <div class="language">
             <div class="language-header">
-              <span data-i18n="langA">Language A</span>
-              <span data-i18n="native">Native / Advanced</span>
-            </div>
-            <div class="progress">
-              <div class="progress-bar" style="width: 100%;"></div>
-            </div>
-          </div>
-
-          <div class="language">
-            <div class="language-header">
-              <span data-i18n="langB">Language B</span>
-              <span data-i18n="fluent">Fluent</span>
-            </div>
-            <div class="progress">
-              <div class="progress-bar" style="width: 98%;"></div>
-            </div>
-          </div>
-
-          <div class="language">
-            <div class="language-header">
               <span data-i18n="langEn">English</span>
               <span data-i18n="fluent">Fluent / Instructor Level</span>
             </div>
@@ -1019,11 +226,110 @@
             </div>
           </div>
         </div>
+
+        <!-- Extra Languages Callout Note -->
+        <div class="more-languages-banner" style="margin-top: 2.5rem; text-align: center; background: var(--bg-light, #f8fafc); padding: 1.5rem; rounded-lg; border: 1px dashed #cbd5e1; border-radius: 12px;">
+          <p style="margin: 0; font-size: 1.05rem; color: #475569;">
+            <i class="fa-solid fa-globe" style="color: #2563eb; margin-right: 6px;"></i>
+            <span data-i18n="moreLanguagesNotice">Looking to learn other languages?</span>
+            <a href="#contact" style="color: #2563eb; font-weight: 700; text-decoration: underline;" data-i18n="contactUsLink">Contact us to inquire about additional language courses!</a>
+          </p>
+        </div>
       </div>
     </section>
 
+    <!-- Additional Instructors Section -->
+    <section id="team" style="background: var(--bg-light);">
+      <div class="container">
+        <h2 class="section-title" data-i18n="teamTitle">Associate Instructors</h2>
+
+<div class="about-grid">
+  <!-- Teacher 1: Merna -->
+  <div class="card instructor-card">
+    <div class="profile-avatar" style="margin: 0 auto 1rem auto;">
+      <img src="img/teacher1.jpg" alt="Instructor" class="profile-img" />
+    </div>
+    <h3 style="text-align: center; margin-bottom: 0.25rem;">Merna</h3>
+    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1rem;" data-i18n="mernaRole">Language Instructor</p>
+
+    <p data-i18n="mernaBio">
+      I’m an English language teacher with a BA in English and a TEFL certification, with several years of international experience teaching teenagers and adults from elementary to advanced levels. I specialize in General English, speaking, communication, vocabulary, and practical language skills.
+    </p>
+
+    <div class="facts" style="margin: 1rem 0;">
+      <div class="fact">
+        <strong data-i18n="mernaExp">5 Years</strong>
+        <span data-i18n="factExpLabel">Experience</span>
+      </div>
+      <div class="fact">
+        <strong data-i18n="langEn">English</strong>
+        <span data-i18n="factLangLabel">Language</span>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: row; gap: 0.5rem; margin-top: 1.5rem;">
+      <!-- Telegram Link -->
+      <a href="https://t.me/+992751330330" target="_blank" class="btn btn-telegram" style="display: inline-flex; flex: 1; justify-content: center; align-items: center; gap: 6px; padding: 0.6rem 0.5rem; font-size: 0.9rem;">
+        <i class="fa-brands fa-telegram"></i> <span data-i18n="btnTelegram">Telegram</span>
+      </a>
+
+      <!-- WhatsApp Link -->
+      <a href="https://wa.me/+992920271870" target="_blank" class="btn btn-whatsapp" style="display: inline-flex; flex: 1; justify-content: center; align-items: center; gap: 6px; padding: 0.6rem 0.5rem; font-size: 0.9rem;">
+        <i class="fa-brands fa-whatsapp"></i> <span data-i18n="btnWhatsApp">WhatsApp</span>
+      </a>
+
+      <!-- Email Link -->
+      <a href="mailto:Mernasalah167@gmail.com" class="btn btn-white" style="display: inline-flex; flex: 1; justify-content: center; align-items: center; gap: 6px; border: 1px solid #cbd5e1; padding: 0.6rem 0.5rem; font-size: 0.9rem;">
+        <i class="fa-regular fa-envelope"></i> <span data-i18n="btnEmail">Email</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Teacher 2: Farida -->
+  <div class="card instructor-card">
+    <div class="profile-avatar" style="margin: 0 auto 1rem auto;">
+      <img src="img/teacher2.jpg" alt="Instructor" class="profile-img" />
+    </div>
+    <h3 style="text-align: center; margin-bottom: 0.25rem;">Farida</h3>
+    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1rem;" data-i18n="faridaRole">Assistant Language Tutor</p>
+
+    <p data-i18n="faridaBio">
+      My name is Farida Samadova . I am an English and Russian teacher with teaching experience. My English level is advanced, and Russian is my native language. I have experience teaching students and helping them improve their English and Russian skills. I am responsible, motivated, and passionate about teaching.
+    </p>
+
+    <div class="facts" style="margin: 1rem 0;">
+      <div class="fact">
+        <strong data-i18n="faridaExp">2 Years</strong>
+        <span data-i18n="factExpLabel">Experience</span>
+      </div>
+      <div class="fact">
+        <strong data-i18n="faridaLang">English, Russian, Tajik</strong>
+        <span data-i18n="factLangsLabel">Languages</span>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: row; gap: 0.5rem; margin-top: 1.5rem;">
+      <!-- Telegram Link -->
+      <a href="https://t.me/+992751330330" target="_blank" class="btn btn-telegram" style="display: inline-flex; flex: 1; justify-content: center; align-items: center; gap: 6px; padding: 0.6rem 0.5rem; font-size: 0.9rem;">
+        <i class="fa-brands fa-telegram"></i> <span data-i18n="btnTelegram">Telegram</span>
+      </a>
+
+      <!-- WhatsApp Link -->
+      <a href="https://wa.me/+992926779626" target="_blank" class="btn btn-whatsapp" style="display: inline-flex; flex: 1; justify-content: center; align-items: center; gap: 6px; padding: 0.6rem 0.5rem; font-size: 0.9rem;">
+        <i class="fa-brands fa-whatsapp"></i> <span data-i18n="btnWhatsApp">WhatsApp</span>
+      </a>
+
+      <!-- Email Link -->
+      <a href="mailto:samadovafarida221@gmail.com" class="btn btn-white" style="display: inline-flex; flex: 1; justify-content: center; align-items: center; gap: 6px; border: 1px solid #cbd5e1; padding: 0.6rem 0.5rem; font-size: 0.9rem;">
+        <i class="fa-regular fa-envelope"></i> <span data-i18n="btnEmail">Email</span>
+      </a>
+    </div>
+  </div>
+</div>
+</section>
+
     <!-- Contact Section -->
-    <section id="contact" style="background: var(--bg-light);">
+    <section id="contact">
       <div class="container">
         <h2 class="section-title" data-i18n="contactTitle">Get in Touch</h2>
 
@@ -1048,14 +354,14 @@
             </div>
           </div>
 
-          <div class="card">
-            <form onsubmit="sendMessage(event)">
-              <input type="text" placeholder="Your name" required />
-              <input type="email" placeholder="Your email" required />
-              <textarea placeholder="Tell me about your goals (e.g., General English, Business English, IELTS, TOEFL, ACT preparation)..." required></textarea>
-              <button type="submit" class="btn btn-white" style="background: var(--primary); color: white;" data-i18n="sendMessage">Send Message</button>
-            </form>
-          </div>
+         <div class="card">
+          <form id="contactForm" onsubmit="sendMessage(event)">
+            <input type="text" name="name" placeholder="Your name" required />
+            <input type="email" name="email" placeholder="Your email" required />
+            <textarea name="message" placeholder="Tell me about your goals (e.g., General English, Business English, IELTS, TOEFL, ACT preparation)..." required></textarea>
+            
+            <button type="submit" class="btn btn-white" style="background: var(--primary); color: white;" data-i18n="sendMessage">Send Message</button>
+          </form>
         </div>
       </div>
     </section>
@@ -1077,228 +383,8 @@
   </footer>
 
   <!-- JavaScript Logic -->
-  <script>
-    const menuToggle = document.getElementById("menuToggle");
-    const navMenu = document.getElementById("navMenu");
-    const languageButton = document.getElementById("languageButton");
-    const languageOptions = document.getElementById("languageOptions");
-    const currentLangText = document.getElementById("currentLang");
-
-    // Toggle Mobile Navigation Menu
-    menuToggle.addEventListener("click", () => {
-      navMenu.classList.toggle("active");
-    });
-
-    // Close Mobile Menu on Nav Link Click
-    document.querySelectorAll(".nav-links a").forEach((link) => {
-      link.addEventListener("click", () => {
-        navMenu.classList.remove("active");
-      });
-    });
-
-    // Toggle Language Menu Dropdown
-    languageButton.addEventListener("click", (e) => {
-      e.stopPropagation();
-      languageOptions.classList.toggle("active");
-    });
-
-    // Translation Data
-    const translations = {
-      en: {
-        logo: "Polyglot",
-        about: "About",
-        courses: "Courses & Services",
-        languages: "Languages",
-        contact: "Contact",
-
-        heroSubtitle: "25 Years of Educational Excellence",
-        heroTitle: "Master Languages.<br><span>Achieve International Success.</span>",
-        heroText: "Expert educator with 25 years of experience specializing in General English, Business English, and international certification prep (IELTS, TOEFL, ACT).",
-        bookLesson: "<i class='fa-regular fa-calendar-check'></i> Book a Consultation",
-
-        profileName: "Polyglot",
-        profileRole: "Language Educator & Certification Specialist",
-
-        aboutTitle: "About Polyglot",
-        teachingPhilosophy: "Teaching Approach",
-        teachingPhilosophyText: "With a quarter-century of global teaching experience, my methodology focuses on practical communication, rigorous preparation for standardized testing, and tailored strategies for corporate professionals and students alike.",
-        profileTitle: "Professional Profile",
-        profileText: "Seasoned multilingual instructor with 25 years of teaching expertise. Helping students unlock academic opportunities, global career advancement, and test success across multiple languages.",
-
-        factExp: "Teaching Experience",
-        factStudents: "Students & Professionals",
-        factFormat: "Online & Corporate",
-        factLevels: "IELTS, TOEFL & ACT Prep",
-
-        coursesTitle: "What I Teach",
-        course1Title: "General English",
-        course1Text: "Build practical fluency in reading, writing, listening, and real-world conversation for everyday life.",
-        course2Title: "Business English",
-        course2Text: "Master corporate communication, executive presentations, negotiations, email writing, and professional vocabulary.",
-        course3Title: "International Certification Prep",
-        course3Text: "Targeted test preparation for IELTS, TOEFL, and ACT with proven exam strategies and practice tests.",
-
-        languagesTitle: "Languages Spoken & Taught",
-        langA: "Language A",
-        langB: "Language B",
-        langEn: "English",
-        langTr: "Turkish",
-        langIt: "Italian",
-        langRu: "Russian",
-        native: "Native / Advanced",
-        fluent: "Fluent",
-
-        contactTitle: "Get in Touch",
-        contactHeading: "Start Your Learning Journey",
-        contactText: "Get in touch to schedule private lessons, corporate group training, or specialized exam prep (IELTS, TOEFL, ACT).",
-        sendMessage: "Send Message"
-      },
-
-      ru: {
-        logo: "Polyglot",
-        about: "Обо мне",
-        courses: "Курсы и Услуги",
-        languages: "Языки",
-        contact: "Контакты",
-
-        heroSubtitle: "25 лет академического опыта",
-        heroTitle: "Изучайте языки.<br><span>Достигайте международных целей.</span>",
-        heroText: "Опытный преподаватель с 25-летним стажем. Специализация: общий английский, деловой английский (Business English) и подготовка к международным сертификатам (IELTS, TOEFL, ACT).",
-        bookLesson: "<i class='fa-regular fa-calendar-check'></i> Записаться на консультацию",
-
-        profileName: "Polyglot",
-        profileRole: "Преподаватель языков и эксперт по экзаменам",
-
-        aboutTitle: "О Полиглоте",
-        teachingPhilosophy: "Методика обучения",
-        teachingPhilosophyText: "С четвертьвековым опытом преподавания моя методика ориентирована на практическое общение, качественную подготовку к тестам и адаптированные программы для бизнеса и учебы.",
-        profileTitle: "Профессиональный профиль",
-        profileText: "Преподаватель-мультилингв с 25-летним опытом. Помогаю студентам и специалистам добиваться успеха в учебе и международной карьере.",
-
-        factExp: "Опыт преподавания",
-        factStudents: "Студентов и специалистов",
-        factFormat: "Онлайн и корпоративно",
-        factLevels: "Подготовка к IELTS, TOEFL, ACT",
-
-        coursesTitle: "Направления обучения",
-        course1Title: "Общий английский (General English)",
-        course1Text: "Развитие разговорной речи, грамотности, чтения и восприятия на слух для жизни и общения.",
-        course2Title: "Деловой английский (Business English)",
-        course2Text: "Корпоративная переписка, переговоры, проведение презентаций и бизнес-лексика.",
-        course3Title: "Международные сертификаты",
-        course3Text: "Целенаправленная подготовка к сдаче экзаменов IELTS, TOEFL и ACT с проверенными стратегиями.",
-
-        languagesTitle: "Владение языками",
-        langA: "Язык А",
-        langB: "Язык Б",
-        langEn: "Английский",
-        langTr: "Турецкий",
-        langIt: "Итальянский",
-        langRu: "Русский",
-        native: "Родной / Продвинутый",
-        fluent: "Свободно",
-
-        contactTitle: "Связаться со мной",
-        contactHeading: "Начните обучение сегодня",
-        contactText: "Свяжитесь со мной для записи на индивидуальные уроки, корпоративное обучение или подготовку к экзаменам.",
-        sendMessage: "Отправить сообщение"
-      },
-
-      ar: {
-        logo: "Polyglot",
-        about: "نبذة عني",
-        courses: "الدورات والخدمات",
-        languages: "اللغات",
-        contact: "اتصل بي",
-
-        heroSubtitle: "25 عامًا من التميز التعليمي",
-        heroTitle: "أتقن اللغات.<br><span>وحقق النجاح الدولي.</span>",
-        heroText: "معلم وخبير ذو خبرة 25 عامًا في تدريس الإنجليزية العامة، الإنجليزية للأعمال (Business English)، والإعداد للاختبارات الدولية (IELTS, TOEFL, ACT).",
-        bookLesson: "<i class='fa-regular fa-calendar-check'></i> احجز استشارة",
-
-        profileName: "Polyglot",
-        profileRole: "مدرس لغات وخبير إعداد الاختبارات الدولية",
-
-        aboutTitle: "عن Polyglot",
-        teachingPhilosophy: "نهج التدريس",
-        teachingPhilosophyText: "مع ربع قرن من الخبرة في التدريس، يركز منهجي على التواصل العملي والإعداد المكثف للاختبارات الدولية مع استراتيجيات مخصصة للطلاب والمهنيين.",
-        profileTitle: "الملف المهني",
-        profileText: "معلم متعدد اللغات بخبرة 25 عامًا. أساعد الطلاب والمهنيين على فتح آفاق جديدة في مسيرتهم الأكاديمية والمهنية.",
-
-        factExp: "خبرة في التدريس",
-        factStudents: "طالب ومهني",
-        factFormat: "عبر الإنترنت وللشركات",
-        factLevels: "تحضير IELTS, TOEFL, ACT",
-
-        coursesTitle: "مجالات التدريس",
-        course1Title: "اللغة الإنجليزية العامة",
-        course1Text: "بناء الطلاقة في القراءة والكتابة والاستماع والمحادثة اليومية.",
-        course2Title: "إنجليزية الأعمال (Business English)",
-        course2Text: "إتقان التواصل المؤسسي، العروض التقديمية، المفاوضات، والمراسلات التجارية.",
-        course3Title: "الإعداد للاختبارات الدولية",
-        course3Text: "تحضير مركز ومكثف لاختبارات IELTS و TOEFL و ACT مع استراتيجيات نجاح مجربة.",
-
-        languagesTitle: "اللغات اللاتي أدرسها وأتحدث بها",
-        langA: "اللغة (أ)",
-        langB: "اللغة (ب)",
-        langEn: "الإنجليزية",
-        langTr: "التركية",
-        langIt: "الإيطالية",
-        langRu: "الروسية",
-        native: "اللغة الأم / متقدم",
-        fluent: "طلاقة",
-
-        contactTitle: "تواصل معي",
-        contactHeading: "ابدأ رحلة التعلم اليوم",
-        contactText: "تواصل معي لتحديد موعد للدروس الخاصة، التدريب المؤسسي، أو الإعداد للاختبارات (IELTS, TOEFL, ACT).",
-        sendMessage: "إرسال الرسالة"
-      }
-    };
-
-    // Change Language Function
-    function changeLanguage(lang) {
-      const selected = translations[lang];
-
-      document.documentElement.lang = lang;
-      document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
-
-      document.querySelectorAll("[data-i18n]").forEach((el) => {
-        const key = el.getAttribute("data-i18n");
-        if (selected[key]) {
-          el.innerHTML = selected[key];
-        }
-      });
-
-      currentLangText.textContent = lang.toUpperCase();
-      languageOptions.classList.remove("active");
-      localStorage.setItem("selectedLanguage", lang);
-    }
-
-    // Attach Event Listeners to Language Buttons
-    document.querySelectorAll("[data-language]").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        changeLanguage(btn.dataset.language);
-      });
-    });
-
-    // Close Language Menu On Outside Click
-    document.addEventListener("click", (e) => {
-      if (!e.target.closest(".language-switcher")) {
-        languageOptions.classList.remove("active");
-      }
-    });
-
-    // Form Submission Handler
-    function sendMessage(event) {
-      event.preventDefault();
-      alert("Thank you! Your message has been sent successfully.");
-      event.target.reset();
-    }
-
-    // Load Initial Saved Language
-    const savedLanguage = localStorage.getItem("selectedLanguage") || "en";
-    changeLanguage(savedLanguage);
-  </script>
+  <script src="translations.js"></script>
+  <script src="script.js"></script>
 
 </body>
 </html>
