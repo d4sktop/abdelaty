@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Polyglot | Language & Exam Preparation Expert</title>
+  <title>learnly | Language & Exam Preparation Expert</title>
   
   <!-- Google Fonts & Font Awesome Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,51 +11,55 @@
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" type="text/css" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Cormorant+Garamond:ital,wght@0,700;1,700&family=Syne:wght@700;800&family=Unbounded:wght@700;900&display=swap" rel="stylesheet">
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   
 </head>
 
 <body>
+<!-- Navigation Bar -->
+<nav class="navbar">
+  <div class="container nav-content">
+    <a href="#home" class="logo">
+      <i class="fa-solid fa-earth-americas"></i>
+      <span>Learnly</span>
+    </a>
 
-  <!-- Navigation Bar -->
-  <nav class="navbar">
-    <div class="container nav-content">
-      <a href="#home" class="logo">
-        <i class="fa-solid fa-earth-americas"></i>
-        <span data-i18n="logo">Polyglot</span>
-      </a>
+    <!-- Right Header Actions: Language Switcher + Hamburger Toggle -->
+    <div class="nav-actions">
+      <div class="language-switcher">
+        <button class="language-button" id="languageButton">
+          <i class="fa-solid fa-globe"></i>
+          <span id="currentLang">EN</span> ▾
+        </button>
+
+        <div class="language-options" id="languageOptions">
+          <button data-language="en">English</button>
+          <button data-language="ru">Русский</button>
+          <button data-language="tj">Точики</button>
+          <button data-language="ar">العربية</button>
+        </div>
+      </div>
 
       <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">
         <span></span>
         <span></span>
         <span></span>
       </button>
-
-      <div class="nav-menu" id="navMenu">
-        <ul class="nav-links">
-          <li><a href="#about" data-i18n="about">About</a></li>
-          <li><a href="#courses" data-i18n="courses">Courses & Services</a></li>
-          <li><a href="#languages" data-i18n="languages">Languages</a></li>
-          <li><a href="#team" data-i18n="team">Instructors</a></li>
-          <li><a href="#contact" data-i18n="contact">Contact</a></li>
-        </ul>
-
-        <div class="language-switcher">
-          <button class="language-button" id="languageButton">
-            <i class="fa-solid fa-globe"></i>
-            <span id="currentLang">EN</span> ▾
-          </button>
-
-          <div class="language-options" id="languageOptions">
-            <button data-language="en">English</button>
-            <button data-language="ru">Русский</button>
-            <button data-language="tj">Точики</button>
-            <button data-language="ar">العربية</button>
-          </div>
-        </div>
-      </div>
     </div>
-  </nav>
+
+    <!-- Mobile Nav Menu (Only links now) -->
+    <div class="nav-menu" id="navMenu">
+      <ul class="nav-links">
+        <li><a href="#about" data-i18n="about">About</a></li>
+        <li><a href="#courses" data-i18n="courses">Courses & Services</a></li>
+        <li><a href="#languages" data-i18n="languages">Languages</a></li>
+        <li><a href="#team" data-i18n="team">Instructors</a></li>
+        <li><a href="#contact" data-i18n="contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
   <!-- Hero Section -->
   <header class="hero" id="home">
@@ -92,7 +96,7 @@
               <div class="profile-avatar" style="margin: 0 auto 1rem auto;">
                 <img src="img/teacher.jpg" alt="Instructor" class="profile-img" />
               </div>
-        <h2 data-i18n="profileName">Polyglot</h2>
+        <h2 data-i18n="profileName">learnly</h2>
         <p data-i18n="profileRole">Language Educator & Certification Specialist</p>
 
         <div class="quick-socials">
@@ -114,7 +118,7 @@
     <!-- About Section -->
     <section id="about">
       <div class="container">
-        <h2 class="section-title" data-i18n="aboutTitle">About Polyglot</h2>
+        <h2 class="section-title" data-i18n="aboutTitle">About learnly</h2>
 
         <div class="about-grid">
           <div class="card">
@@ -379,7 +383,7 @@
 
   <!-- Footer -->
   <footer>
-    <p>© 2026 Polyglot. Language & Certification Educator.</p>
+    <p>© 2026 learnly. Language & Certification Educator.</p>
   </footer>
 
   <!-- JavaScript Logic -->

@@ -1,6 +1,5 @@
 const translations = {
   en: {
-    logo: "Polyglot",
     about: "About",
     courses: "Courses & Services",
     languages: "Languages",
@@ -10,9 +9,9 @@ const translations = {
     heroTitle: "Master Languages.<br /><span>Achieve International Success.</span>",
     heroText: "Expert educator with 25 years of experience specializing in General English, Business English, and international certification prep (IELTS, TOEFL, ACT).",
     bookLesson: '<i class="fa-regular fa-calendar-check"></i> Book a Consultation',
-    profileName: "Polyglot",
+    profileName: "learnly",
     profileRole: "Language Educator & Certification Specialist",
-    aboutTitle: "About Polyglot",
+    aboutTitle: "About learnly",
     teachingPhilosophy: "Teaching Approach",
     teachingPhilosophyText: "With a quarter-century of global teaching experience, my methodology focuses on practical communication, rigorous preparation for standardized testing, and tailored strategies for corporate professionals and students alike.",
     profileTitle: "Professional Profile",
@@ -59,7 +58,6 @@ const translations = {
   },
 
   tj: {
-    logo: "Polyglot",
     about: "Дар бораи мо",
     courses: "Курсҳо ва хизматрасониҳо",
     languages: "Забонҳо",
@@ -118,7 +116,6 @@ const translations = {
   },
 
   ru: {
-    logo: "Polyglot",
     about: "О нас",
     courses: "Курсы и услуги",
     languages: "Языки",
@@ -177,7 +174,6 @@ const translations = {
   },
 
   ar: {
-    logo: "Polyglot",
     about: "عن المعلم",
     courses: "الدورات والخدمات",
     languages: "اللغات",
@@ -187,9 +183,9 @@ const translations = {
     heroTitle: "أتقن اللغات.<br /><span>وحقق النجاح الدولي.</span>",
     heroText: "معلم خبير بأسلوب متميز وخبرة 25 عاماً في تدريس اللغة الإنجليزية العامة، وإدارة الأعمال، والتحضير للاختبارات الدولية (IELTS, TOEFL, ACT).",
     bookLesson: '<i class="fa-regular fa-calendar-check"></i> احجز استشارة',
-    profileName: "Polyglot",
+    profileName: "learnly",
     profileRole: "معلم لغات ومختص بالشهادات الدولية",
-    aboutTitle: "عن Polyglot",
+    aboutTitle: "عن learnly",
     teachingPhilosophy: "نهج التدريس",
     teachingPhilosophyText: "مع ربع قرن من الخبرة التعليمية العالمية، تركز منهجيتي على التواصل العملي، والتحضير الدقيق للاختبارات القياسية.",
     profileTitle: "الملف الشخصي المهني",

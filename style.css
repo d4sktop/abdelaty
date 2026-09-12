@@ -42,7 +42,72 @@
       background: var(--bg-light);
       overflow-x: hidden;
     }
+/* Ensure navbar doesn't hide overflowing dropdowns */
+.navbar {
+  overflow: visible !important;
+  z-index: 1000;
+}
 
+/* Container for Switcher + Hamburger Button */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+/* Anchor container */
+.language-switcher {
+  position: relative !important;
+  display: inline-block;
+}
+
+/* Dropdown Menu - Edge Aligned (No transform conflicts) */
+.language-options {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px) !important;
+  bottom: auto !important;
+  right: 0;               /* Align to the right edge of the button in LTR */
+  left: auto;
+  background: #ffffff;
+  min-width: 130px;
+  padding: 6px 0;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
+  border: 1px solid #e2e8f0;
+  z-index: 99999 !important;
+
+  /* Overrides conflicting animations that cause shifting */
+  animation: none !important;
+  transform: none !important;
+}
+
+/* RTL Mode (Arabic): Align to the left edge so it doesn't clip off-screen */
+html[dir="rtl"] .language-options {
+  right: auto;
+  left: 0;
+}
+
+.language-options.active {
+  display: flex !important;
+  flex-direction: column;
+}
+
+.language-options button {
+  background: transparent;
+  border: none;
+  padding: 8px 16px;
+  text-align: inherit;
+  width: 100%;
+  cursor: pointer;
+  color: #334155;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+.language-options button:hover {
+  background-color: #f1f5f9;
+  color: #2563eb;
+}
     a {
       color: inherit;
       text-decoration: none;
