@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Abdelaty Bedeir | Arabic & English Teacher</title>
+  <title>Polyglot | Language & Exam Preparation Expert</title>
   
   <!-- Google Fonts & Font Awesome Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -150,7 +150,7 @@
     .language-options {
       position: absolute;
       top: calc(100% + 8px);
-      margin-left: 20px;
+      right: 0;
       display: none;
       min-width: 140px;
       border-radius: var(--radius-sm);
@@ -345,7 +345,7 @@
       color: var(--primary);
       display: grid;
       place-items: center;
-      font-size: 4rem;
+      font-size: 3.5rem;
       font-weight: bold;
       border: 4px solid rgba(255, 255, 255, 0.3);
       box-shadow: var(--shadow-md);
@@ -476,61 +476,6 @@
       color: var(--text-light);
     }
 
-    /* Timeline Section */
-    .timeline {
-      max-width: 850px;
-      margin: auto;
-      border-left: 3px solid var(--accent);
-      padding-left: 32px;
-      position: relative;
-    }
-
-    .timeline-item {
-      position: relative;
-      margin-bottom: 40px;
-    }
-
-    .timeline-item:last-child {
-      margin-bottom: 0;
-    }
-
-    .timeline-item::before {
-      content: "";
-      position: absolute;
-      left: -42px;
-      top: 6px;
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      background: var(--primary);
-      border: 3px solid var(--bg-light);
-      box-shadow: 0 0 0 3px var(--accent);
-    }
-
-    .timeline-item h3 {
-      color: var(--dark);
-      font-size: 1.25rem;
-      font-weight: 600;
-    }
-
-    .timeline-item .company {
-      color: var(--primary);
-      font-weight: 500;
-      font-size: 0.95rem;
-      margin-bottom: 6px;
-    }
-
-    .date {
-      display: inline-block;
-      padding: 2px 10px;
-      background: rgba(0, 168, 150, 0.1);
-      color: var(--accent);
-      font-size: 0.85rem;
-      font-weight: 600;
-      border-radius: var(--radius-full);
-      margin-bottom: 10px;
-    }
-
     /* Skills Section */
     .skills-grid {
       display: grid;
@@ -578,13 +523,15 @@
     }
 
     /* Language Proficiency */
-    .language-list {
-      max-width: 750px;
+    .languages-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+      max-width: 900px;
       margin: auto;
     }
 
     .language {
-      margin-bottom: 28px;
       background: var(--white);
       padding: 20px 24px;
       border-radius: var(--radius-md);
@@ -705,7 +652,7 @@
     .chat-btn.wa { background: var(--whatsapp); }
     .chat-btn.tg { background: var(--telegram); }
 
-    /* RTL Styles for Arabic */
+    /* RTL Styles for Arabic Interface */
     html[dir="rtl"] {
       text-align: right;
     }
@@ -717,18 +664,6 @@
 
     html[dir="rtl"] .language-options button {
       text-align: right;
-    }
-
-    html[dir="rtl"] .timeline {
-      border-left: 0;
-      border-right: 3px solid var(--accent);
-      padding-left: 0;
-      padding-right: 32px;
-    }
-
-    html[dir="rtl"] .timeline-item::before {
-      left: auto;
-      right: -42px;
     }
 
     html[dir="rtl"] .floating-chat {
@@ -863,8 +798,8 @@
   <nav class="navbar">
     <div class="container nav-content">
       <a href="#home" class="logo">
-        <i class="fa-solid fa-graduation-cap"></i>
-        <span data-i18n="logo">Abdelaty Bedeir</span>
+        <i class="fa-solid fa-earth-americas"></i>
+        <span data-i18n="logo">Polyglot</span>
       </a>
 
       <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">
@@ -876,8 +811,7 @@
       <div class="nav-menu" id="navMenu">
         <ul class="nav-links">
           <li><a href="#about" data-i18n="about">About</a></li>
-          <li><a href="#experience" data-i18n="experience">Experience</a></li>
-          <li><a href="#skills" data-i18n="skills">Skills</a></li>
+          <li><a href="#courses" data-i18n="courses">Courses & Services</a></li>
           <li><a href="#languages" data-i18n="languages">Languages</a></li>
           <li><a href="#contact" data-i18n="contact">Contact</a></li>
         </ul>
@@ -904,41 +838,41 @@
       <div>
         <div class="hero-badge">
           <i class="fa-solid fa-award"></i>
-          <span data-i18n="heroSubtitle">Arabic & English Language Educator</span>
+          <span data-i18n="heroSubtitle">25 Years of Educational Excellence</span>
         </div>
 
         <h1 data-i18n="heroTitle">
-          Learn with confidence.<br />
-          <span>Speak with purpose.</span>
+          Master Languages.<br />
+          <span>Achieve International Success.</span>
         </h1>
 
         <p data-i18n="heroText">
-          Experienced Arabic and English teacher helping students build strong communication skills through engaging, practical, and personalized lessons.
+          Expert educator with 25 years of experience specializing in General English, Business English, and international certification prep (IELTS, TOEFL, ACT).
         </p>
 
         <div class="buttons">
           <a href="#contact" class="btn btn-white" data-i18n="bookLesson">
-            <i class="fa-regular fa-calendar-check"></i> Book a Lesson
+            <i class="fa-regular fa-calendar-check"></i> Book a Consultation
           </a>
-          <a href="https://wa.me/992175400220" target="_blank" class="btn btn-whatsapp">
+          <a href="https://wa.me/201025570505" target="_blank" class="btn btn-whatsapp">
             <i class="fa-brands fa-whatsapp"></i> WhatsApp
           </a>
-          <a href="https://t.me/Abdelaty_Bedir" target="_blank" class="btn btn-telegram">
+          <a href="https://t.me/Mr_abdelaty" target="_blank" class="btn btn-telegram">
             <i class="fa-brands fa-telegram"></i> Telegram
           </a>
         </div>
       </div>
 
       <div class="profile-card">
-        <div class="profile-avatar">ع</div>
-        <h2 data-i18n="profileName">Abdelaty Bedeir</h2>
-        <p data-i18n="profileRole">Certified Language Instructor</p>
+        <div class="profile-avatar"><i class="fa-solid fa-language"></i></div>
+        <h2 data-i18n="profileName">Polyglot</h2>
+        <p data-i18n="profileRole">Language Educator & Certification Specialist</p>
 
         <div class="quick-socials">
-          <a href="https://wa.me/992175400220" target="_blank" class="social-icon-btn wa" title="WhatsApp">
+          <a href="https://wa.me/201025570505" target="_blank" class="social-icon-btn wa" title="WhatsApp">
             <i class="fa-brands fa-whatsapp"></i>
           </a>
-          <a href="https://t.me/abdelaty_bedeir" target="_blank" class="social-icon-btn tg" title="Telegram">
+          <a href="https://t.me/Mr_abdelaty" target="_blank" class="social-icon-btn tg" title="Telegram">
             <i class="fa-brands fa-telegram"></i>
           </a>
           <a href="mailto:abdelaty@bedir.shop" class="social-icon-btn" title="Email">
@@ -953,38 +887,38 @@
     <!-- About Section -->
     <section id="about">
       <div class="container">
-        <h2 class="section-title" data-i18n="aboutTitle">About Me</h2>
+        <h2 class="section-title" data-i18n="aboutTitle">About Polyglot</h2>
 
         <div class="about-grid">
           <div class="card">
-            <h3><i class="fa-solid fa-lightbulb"></i> <span data-i18n="teachingPhilosophy">Teaching Philosophy</span></h3>
+            <h3><i class="fa-solid fa-lightbulb"></i> <span data-i18n="teachingPhilosophy">Teaching Approach</span></h3>
             <p data-i18n="teachingPhilosophyText">
-              I believe language learning should be practical, enjoyable, and connected to real life. My lessons combine conversation, grammar, culture, reading, and writing to help students become confident communicators.
+              With a quarter-century of global teaching experience, my methodology focuses on practical communication, rigorous preparation for standardized testing, and tailored strategies for corporate professionals and students alike.
             </p>
           </div>
 
           <div class="card">
             <h3><i class="fa-solid fa-user-tie"></i> <span data-i18n="profileTitle">Professional Profile</span></h3>
             <p data-i18n="profileText">
-              Dedicated Arabic and English teacher with more than 8 years of experience teaching children, university students, and professionals in both classroom and online environments.
+              Seasoned multilingual instructor with 25 years of teaching expertise. Helping students unlock academic opportunities, global career advancement, and test success across multiple languages.
             </p>
 
             <div class="facts">
               <div class="fact">
-                <strong>8+ Years</strong>
+                <strong>25 Years</strong>
                 <span data-i18n="factExp">Teaching Experience</span>
               </div>
               <div class="fact">
-                <strong>500+</strong>
-                <span data-i18n="factStudents">Students Taught</span>
+                <strong>1000+</strong>
+                <span data-i18n="factStudents">Students & Professionals</span>
               </div>
               <div class="fact">
-                <strong>Flexible</strong>
-                <span data-i18n="factFormat">Online & In-Person</span>
+                <strong>Global</strong>
+                <span data-i18n="factFormat">Online & Corporate</span>
               </div>
               <div class="fact">
-                <strong>All Levels</strong>
-                <span data-i18n="factLevels">Beginner to Advanced</span>
+                <strong>High Pass Rate</strong>
+                <span data-i18n="factLevels">IELTS, TOEFL & ACT</span>
               </div>
             </div>
           </div>
@@ -992,97 +926,43 @@
       </div>
     </section>
 
-    <!-- Experience Section -->
-    <section id="experience" style="background: var(--bg-light);">
+    <!-- Services & Courses Section -->
+    <section id="courses" style="background: var(--bg-light);">
       <div class="container">
-        <h2 class="section-title" data-i18n="experienceTitle">Professional Experience</h2>
-
-        <div class="timeline">
-          <div class="timeline-item">
-            <div class="date">2021 – Present</div>
-            <h3 data-i18n="exp1Title">Senior Arabic & English Teacher</h3>
-            <div class="company">Global Language Academy</div>
-            <p data-i18n="exp1Text">
-              Plan personalized lessons, assess student progress, and teach communication skills to learners from diverse backgrounds.
-            </p>
-          </div>
-
-          <div class="timeline-item">
-            <div class="date">2018 – 2021</div>
-            <h3 data-i18n="exp2Title">English Language Instructor</h3>
-            <div class="company">Bright Future International School</div>
-            <p data-i18n="exp2Text">
-              Taught English grammar, reading, writing, and speaking to secondary school students and prepared students for examinations.
-            </p>
-          </div>
-
-          <div class="timeline-item">
-            <div class="date">2016 – 2018</div>
-            <h3 data-i18n="exp3Title">Arabic Tutor</h3>
-            <div class="company">Independent Online Educator</div>
-            <p data-i18n="exp3Text">
-              Delivered one-to-one Arabic lessons for non-native speakers, focusing on conversation, pronunciation, and cultural fluency.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section id="skills">
-      <div class="container">
-        <h2 class="section-title" data-i18n="skillsTitle">Teaching Skills</h2>
+        <h2 class="section-title" data-i18n="coursesTitle">What I Teach</h2>
 
         <div class="skills-grid">
           <div class="skill-card">
             <div class="skill-icon"><i class="fa-solid fa-comments"></i></div>
-            <h3 data-i18n="skill1Title">Conversation Practice</h3>
-            <p data-i18n="skill1Text">Real-world speaking and listening activities to boost fluency.</p>
+            <h3 data-i18n="course1Title">General English</h3>
+            <p data-i18n="course1Text">Build practical fluency in reading, writing, listening, and real-world conversation for everyday life.</p>
           </div>
 
           <div class="skill-card">
-            <div class="skill-icon"><i class="fa-solid fa-book-open"></i></div>
-            <h3 data-i18n="skill2Title">Grammar & Writing</h3>
-            <p data-i18n="skill2Text">Clear explanations and structured exercises tailored to your level.</p>
+            <div class="skill-icon"><i class="fa-solid fa-briefcase"></i></div>
+            <h3 data-i18n="course2Title">Business English</h3>
+            <p data-i18n="course2Text">Master corporate communication, executive presentations, negotiations, email writing, and professional vocabulary.</p>
           </div>
 
           <div class="skill-card">
-            <div class="skill-icon"><i class="fa-solid fa-earth-americas"></i></div>
-            <h3 data-i18n="skill3Title">Cultural Education</h3>
-            <p data-i18n="skill3Text">Language learning integrated with real cultural context and nuances.</p>
-          </div>
-
-          <div class="skill-card">
-            <div class="skill-icon"><i class="fa-solid fa-bullseye"></i></div>
-            <h3 data-i18n="skill4Title">Exam Preparation</h3>
-            <p data-i18n="skill4Text">Focused preparation strategies for standard language assessments.</p>
-          </div>
-
-          <div class="skill-card">
-            <div class="skill-icon"><i class="fa-solid fa-laptop-code"></i></div>
-            <h3 data-i18n="skill5Title">Online Teaching</h3>
-            <p data-i18n="skill5Text">Interactive digital lessons using modern collaborative tools.</p>
-          </div>
-
-          <div class="skill-card">
-            <div class="skill-icon"><i class="fa-solid fa-heart"></i></div>
-            <h3 data-i18n="skill6Title">Student Support</h3>
-            <p data-i18n="skill6Text">Patient, encouraging, and highly adaptive teaching style.</p>
+            <div class="skill-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+            <h3 data-i18n="course3Title">International Certification Prep</h3>
+            <p data-i18n="course3Text">Targeted test preparation for IELTS, TOEFL, and ACT with proven exam strategies and practice tests.</p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Languages Section -->
-    <section id="languages" style="background: var(--bg-light);">
+    <section id="languages">
       <div class="container">
-        <h2 class="section-title" data-i18n="languagesTitle">Language Proficiency</h2>
+        <h2 class="section-title" data-i18n="languagesTitle">Languages Spoken & Taught</h2>
 
-        <div class="language-list">
+        <div class="languages-grid">
           <div class="language">
             <div class="language-header">
-              <span data-i18n="langArabic">Arabic</span>
-              <span data-i18n="native">Native</span>
+              <span data-i18n="langA">Language A</span>
+              <span data-i18n="native">Native / Advanced</span>
             </div>
             <div class="progress">
               <div class="progress-bar" style="width: 100%;"></div>
@@ -1091,41 +971,52 @@
 
           <div class="language">
             <div class="language-header">
-              <span data-i18n="langEnglish">English</span>
+              <span data-i18n="langB">Language B</span>
               <span data-i18n="fluent">Fluent</span>
             </div>
             <div class="progress">
-              <div class="progress-bar" style="width: 96%;"></div>
+              <div class="progress-bar" style="width: 98%;"></div>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- Education Section -->
-    <section id="education">
-      <div class="container">
-        <h2 class="section-title" data-i18n="educationTitle">Education & Certifications</h2>
-
-        <div class="about-grid">
-          <div class="card">
-            <h3><i class="fa-solid fa-graduation-cap"></i> Master of Applied Linguistics</h3>
-            <p>University of London · 2016</p>
+          <div class="language">
+            <div class="language-header">
+              <span data-i18n="langEn">English</span>
+              <span data-i18n="fluent">Fluent / Instructor Level</span>
+            </div>
+            <div class="progress">
+              <div class="progress-bar" style="width: 98%;"></div>
+            </div>
           </div>
 
-          <div class="card">
-            <h3><i class="fa-solid fa-certificate"></i> CELTA Certification</h3>
-            <p>Cambridge English · 2017</p>
+          <div class="language">
+            <div class="language-header">
+              <span data-i18n="langTr">Turkish</span>
+              <span data-i18n="fluent">Proficient</span>
+            </div>
+            <div class="progress">
+              <div class="progress-bar" style="width: 90%;"></div>
+            </div>
           </div>
 
-          <div class="card">
-            <h3><i class="fa-solid fa-certificate"></i> Teaching Arabic as a Foreign Language</h3>
-            <p>International Language Institute · 2018</p>
+          <div class="language">
+            <div class="language-header">
+              <span data-i18n="langIt">Italian</span>
+              <span data-i18n="fluent">Proficient</span>
+            </div>
+            <div class="progress">
+              <div class="progress-bar" style="width: 88%;"></div>
+            </div>
           </div>
 
-          <div class="card">
-            <h3><i class="fa-solid fa-laptop"></i> Digital Education Certificate</h3>
-            <p>Online Teaching Academy · 2020</p>
+          <div class="language">
+            <div class="language-header">
+              <span data-i18n="langRu">Russian</span>
+              <span data-i18n="fluent">Proficient</span>
+            </div>
+            <div class="progress">
+              <div class="progress-bar" style="width: 90%;"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -1138,9 +1029,9 @@
 
         <div class="contact-grid">
           <div class="card contact-info">
-            <h3 data-i18n="contactHeading">Let’s Learn Together</h3>
+            <h3 data-i18n="contactHeading">Start Your Learning Journey</h3>
             <p data-i18n="contactText">
-              Contact me to discuss private lessons, group classes, exam preparation, or corporate language training.
+              Get in touch to schedule private lessons, corporate group training, or specialized exam prep (IELTS, TOEFL, ACT).
             </p>
 
             <p><i class="fa-regular fa-envelope"></i> <strong>Email:</strong> abdelaty@bedir.shop</p>
@@ -1148,10 +1039,10 @@
             <p><i class="fa-solid fa-location-dot"></i> <strong>Location:</strong> Available worldwide online</p>
 
             <div class="contact-methods">
-              <a href="https://wa.me/992175400220" target="_blank" class="btn btn-whatsapp">
+              <a href="https://wa.me/201025570505" target="_blank" class="btn btn-whatsapp">
                 <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp
               </a>
-              <a href="https://t.me/abdelaty_bedeir" target="_blank" class="btn btn-telegram">
+              <a href="https://t.me/Mr_abdelaty" target="_blank" class="btn btn-telegram">
                 <i class="fa-brands fa-telegram"></i> Chat on Telegram
               </a>
             </div>
@@ -1161,7 +1052,7 @@
             <form onsubmit="sendMessage(event)">
               <input type="text" placeholder="Your name" required />
               <input type="email" placeholder="Your email" required />
-              <textarea placeholder="How can I help you?" required></textarea>
+              <textarea placeholder="Tell me about your goals (e.g., General English, Business English, IELTS, TOEFL, ACT preparation)..." required></textarea>
               <button type="submit" class="btn btn-white" style="background: var(--primary); color: white;" data-i18n="sendMessage">Send Message</button>
             </form>
           </div>
@@ -1172,20 +1063,20 @@
 
   <!-- Floating Quick Chat Buttons -->
   <div class="floating-chat">
-    <a href="https://wa.me/992175400220" target="_blank" class="chat-btn wa" title="WhatsApp Chat">
+    <a href="https://wa.me/201025570505" target="_blank" class="chat-btn wa" title="WhatsApp Chat">
       <i class="fa-brands fa-whatsapp"></i>
     </a>
-    <a href="https://t.me/abdelaty_bedeir" target="_blank" class="chat-btn tg" title="Telegram Chat">
+    <a href="https://t.me/Mr_abdelaty" target="_blank" class="chat-btn tg" title="Telegram Chat">
       <i class="fa-brands fa-telegram"></i>
     </a>
   </div>
 
   <!-- Footer -->
   <footer>
-    <p>© 2026 Abdelaty Bedeir. Arabic & English Language Teacher.</p>
+    <p>© 2026 Polyglot. Language & Certification Educator.</p>
   </footer>
 
-  <!-- Combined JavaScript Logic -->
+  <!-- JavaScript Logic -->
   <script>
     const menuToggle = document.getElementById("menuToggle");
     const navMenu = document.getElementById("navMenu");
@@ -1214,191 +1105,152 @@
     // Translation Data
     const translations = {
       en: {
-        logo: "Abdelaty Bedeir",
+        logo: "Polyglot",
         about: "About",
-        experience: "Experience",
-        skills: "Skills",
+        courses: "Courses & Services",
         languages: "Languages",
         contact: "Contact",
 
-        heroSubtitle: "Arabic & English Language Educator",
-        heroTitle: "Learn with confidence.<br><span>Speak with purpose.</span>",
-        heroText: "Experienced Arabic and English teacher helping students build strong communication skills through engaging, practical, and personalized lessons.",
-        bookLesson: "<i class='fa-regular fa-calendar-check'></i> Book a Lesson",
+        heroSubtitle: "25 Years of Educational Excellence",
+        heroTitle: "Master Languages.<br><span>Achieve International Success.</span>",
+        heroText: "Expert educator with 25 years of experience specializing in General English, Business English, and international certification prep (IELTS, TOEFL, ACT).",
+        bookLesson: "<i class='fa-regular fa-calendar-check'></i> Book a Consultation",
 
-        profileName: "Abdelaty Bedeir",
-        profileRole: "Certified Language Instructor",
+        profileName: "Polyglot",
+        profileRole: "Language Educator & Certification Specialist",
 
-        aboutTitle: "About Me",
-        teachingPhilosophy: "Teaching Philosophy",
-        teachingPhilosophyText: "I believe language learning should be practical, enjoyable, and connected to real life. My lessons combine conversation, grammar, culture, reading, and writing to help students become confident communicators.",
+        aboutTitle: "About Polyglot",
+        teachingPhilosophy: "Teaching Approach",
+        teachingPhilosophyText: "With a quarter-century of global teaching experience, my methodology focuses on practical communication, rigorous preparation for standardized testing, and tailored strategies for corporate professionals and students alike.",
         profileTitle: "Professional Profile",
-        profileText: "Dedicated Arabic and English teacher with more than 8 years of experience teaching children, university students, and professionals in both classroom and online environments.",
+        profileText: "Seasoned multilingual instructor with 25 years of teaching expertise. Helping students unlock academic opportunities, global career advancement, and test success across multiple languages.",
 
         factExp: "Teaching Experience",
-        factStudents: "Students Taught",
-        factFormat: "Online & In-Person",
-        factLevels: "Beginner to Advanced",
+        factStudents: "Students & Professionals",
+        factFormat: "Online & Corporate",
+        factLevels: "IELTS, TOEFL & ACT Prep",
 
-        experienceTitle: "Professional Experience",
-        exp1Title: "Senior Arabic & English Teacher",
-        exp1Text: "Plan personalized lessons, assess student progress, and teach communication skills to learners from diverse backgrounds.",
-        exp2Title: "English Language Instructor",
-        exp2Text: "Taught English grammar, reading, writing, and speaking to secondary school students and prepared students for examinations.",
-        exp3Title: "Arabic Tutor",
-        exp3Text: "Delivered one-to-one Arabic lessons for non-native speakers, focusing on conversation, pronunciation, and cultural fluency.",
+        coursesTitle: "What I Teach",
+        course1Title: "General English",
+        course1Text: "Build practical fluency in reading, writing, listening, and real-world conversation for everyday life.",
+        course2Title: "Business English",
+        course2Text: "Master corporate communication, executive presentations, negotiations, email writing, and professional vocabulary.",
+        course3Title: "International Certification Prep",
+        course3Text: "Targeted test preparation for IELTS, TOEFL, and ACT with proven exam strategies and practice tests.",
 
-        skillsTitle: "Teaching Skills",
-        skill1Title: "Conversation Practice",
-        skill1Text: "Real-world speaking and listening activities to boost fluency.",
-        skill2Title: "Grammar & Writing",
-        skill2Text: "Clear explanations and structured exercises tailored to your level.",
-        skill3Title: "Cultural Education",
-        skill3Text: "Language learning integrated with real cultural context and nuances.",
-        skill4Title: "Exam Preparation",
-        skill4Text: "Focused preparation strategies for standard language assessments.",
-        skill5Title: "Online Teaching",
-        skill5Text: "Interactive digital lessons using modern collaborative tools.",
-        skill6Title: "Student Support",
-        skill6Text: "Patient, encouraging, and highly adaptive teaching style.",
-
-        languagesTitle: "Language Proficiency",
-        langArabic: "Arabic",
-        langEnglish: "English",
-        native: "Native",
+        languagesTitle: "Languages Spoken & Taught",
+        langA: "Language A",
+        langB: "Language B",
+        langEn: "English",
+        langTr: "Turkish",
+        langIt: "Italian",
+        langRu: "Russian",
+        native: "Native / Advanced",
         fluent: "Fluent",
 
-        educationTitle: "Education & Certifications",
-
         contactTitle: "Get in Touch",
-        contactHeading: "Let’s Learn Together",
-        contactText: "Contact me to discuss private lessons, group classes, exam preparation, or corporate language training.",
+        contactHeading: "Start Your Learning Journey",
+        contactText: "Get in touch to schedule private lessons, corporate group training, or specialized exam prep (IELTS, TOEFL, ACT).",
         sendMessage: "Send Message"
       },
 
       ru: {
-        logo: "Абделяти Бедейр",
+        logo: "Polyglot",
         about: "Обо мне",
-        experience: "Опыт",
-        skills: "Навыки",
+        courses: "Курсы и Услуги",
         languages: "Языки",
         contact: "Контакты",
 
-        heroSubtitle: "Преподаватель арабского и английского языков",
-        heroTitle: "Учитесь уверенно.<br><span>Говорите свободно.</span>",
-        heroText: "Опытный преподаватель арабского и английского языков, помогающий студентам развить отличные коммуникативные навыки с помощью интересной и практической методики.",
-        bookLesson: "<i class='fa-regular fa-calendar-check'></i> Записаться на урок",
+        heroSubtitle: "25 лет академического опыта",
+        heroTitle: "Изучайте языки.<br><span>Достигайте международных целей.</span>",
+        heroText: "Опытный преподаватель с 25-летним стажем. Специализация: общий английский, деловой английский (Business English) и подготовка к международным сертификатам (IELTS, TOEFL, ACT).",
+        bookLesson: "<i class='fa-regular fa-calendar-check'></i> Записаться на консультацию",
 
-        profileName: "Абделяти Бедейр",
-        profileRole: "Дипломированный преподаватель",
+        profileName: "Polyglot",
+        profileRole: "Преподаватель языков и эксперт по экзаменам",
 
-        aboutTitle: "Обо мне",
-        teachingPhilosophy: "Методика преподавания",
-        teachingPhilosophyText: "Я верю, что изучение языка должно быть практичным и увлекательным. Мои уроки сочетают разговорную речь, грамматику, культуру, чтение и письмо.",
+        aboutTitle: "О Полиглоте",
+        teachingPhilosophy: "Методика обучения",
+        teachingPhilosophyText: "С четвертьвековым опытом преподавания моя методика ориентирована на практическое общение, качественную подготовку к тестам и адаптированные программы для бизнеса и учебы.",
         profileTitle: "Профессиональный профиль",
-        profileText: "Преподаватель с более чем 8-летним опытом работы с детьми, студентами университетов и специалистами как очно, так и онлайн.",
+        profileText: "Преподаватель-мультилингв с 25-летним опытом. Помогаю студентам и специалистам добиваться успеха в учебе и международной карьере.",
 
         factExp: "Опыт преподавания",
-        factStudents: "Обученных студентов",
-        factFormat: "Онлайн и Очно",
-        factLevels: "От новичка до профи",
+        factStudents: "Студентов и специалистов",
+        factFormat: "Онлайн и корпоративно",
+        factLevels: "Подготовка к IELTS, TOEFL, ACT",
 
-        experienceTitle: "Профессиональный опыт",
-        exp1Title: "Старший преподаватель арабского и английского",
-        exp1Text: "Разработка индивидуальных программ, оценка прогресса и развитие языковых навыков у студентов с разным уровнем подготовки.",
-        exp2Title: "Преподаватель английского языка",
-        exp2Text: "Обучение грамматике, чтению, письму и устной речи учащихся средних классов, подготовка к экзаменам.",
-        exp3Title: "Репетитор арабского языка",
-        exp3Text: "Индивидуальные уроки арабского языка для иностранцев с акцентом на разговорную речь и произношение.",
-
-        skillsTitle: "Педагогические навыки",
-        skill1Title: "Разговорная практика",
-        skill1Text: "Интерактивные упражнения для развития свободной устной речи.",
-        skill2Title: "Грамматика и письмо",
-        skill2Text: "Понятное объяснение правил и практические задания.",
-        skill3Title: "Культурология",
-        skill3Text: "Изучение языка в контексте культурных особенностей и традиций.",
-        skill4Title: "Подготовка к экзаменам",
-        skill4Text: "Целенаправленная подготовка к языковым тестам и экзаменам.",
-        skill5Title: "Онлайн-обучение",
-        skill5Text: "Использование современных цифровых платформ и инструментов.",
-        skill6Title: "Поддержка студентов",
-        skill6Text: "Терпеливый, индивидуальный и мотивирующий подход к каждому.",
+        coursesTitle: "Направления обучения",
+        course1Title: "Общий английский (General English)",
+        course1Text: "Развитие разговорной речи, грамотности, чтения и восприятия на слух для жизни и общения.",
+        course2Title: "Деловой английский (Business English)",
+        course2Text: "Корпоративная переписка, переговоры, проведение презентаций и бизнес-лексика.",
+        course3Title: "Международные сертификаты",
+        course3Text: "Целенаправленная подготовка к сдаче экзаменов IELTS, TOEFL и ACT с проверенными стратегиями.",
 
         languagesTitle: "Владение языками",
-        langArabic: "Арабский",
-        langEnglish: "Английский",
-        native: "Родной",
+        langA: "Язык А",
+        langB: "Язык Б",
+        langEn: "Английский",
+        langTr: "Турецкий",
+        langIt: "Итальянский",
+        langRu: "Русский",
+        native: "Родной / Продвинутый",
         fluent: "Свободно",
 
-        educationTitle: "Образование и сертификаты",
-
         contactTitle: "Связаться со мной",
-        contactHeading: "Давайте учиться вместе",
-        contactText: "Свяжитесь со мной для обсуждения частных уроков, групповых занятий или подготовки к экзаменам.",
+        contactHeading: "Начните обучение сегодня",
+        contactText: "Свяжитесь со мной для записи на индивидуальные уроки, корпоративное обучение или подготовку к экзаменам.",
         sendMessage: "Отправить сообщение"
       },
 
       ar: {
-        logo: "عبد العاطي بدير",
+        logo: "Polyglot",
         about: "نبذة عني",
-        experience: "الخبرة",
-        skills: "المهارات",
+        courses: "الدورات والخدمات",
         languages: "اللغات",
         contact: "اتصل بي",
 
-        heroSubtitle: "مدرّس اللغة العربية والإنجليزية",
-        heroTitle: "تعلّم بثقة.<br><span>وتحدث بهدف.</span>",
-        heroText: "مدرّس متمرس في اللغة العربية والإنجليزية، أساعد الطلاب على تطوير مهارات التواصل من خلال دروس عملية وتفاعلية ومخصصة.",
-        bookLesson: "<i class='fa-regular fa-calendar-check'></i> احجز درسًا",
+        heroSubtitle: "25 عامًا من التميز التعليمي",
+        heroTitle: "أتقن اللغات.<br><span>وحقق النجاح الدولي.</span>",
+        heroText: "معلم وخبير ذو خبرة 25 عامًا في تدريس الإنجليزية العامة، الإنجليزية للأعمال (Business English)، والإعداد للاختبارات الدولية (IELTS, TOEFL, ACT).",
+        bookLesson: "<i class='fa-regular fa-calendar-check'></i> احجز استشارة",
 
-        profileName: "عبد العاطي بدير",
-        profileRole: "مدرس لغات معتمد",
+        profileName: "Polyglot",
+        profileRole: "مدرس لغات وخبير إعداد الاختبارات الدولية",
 
-        aboutTitle: "نبذة عني",
-        teachingPhilosophy: "فلسفة التدريس",
-        teachingPhilosophyText: "أؤمن بأن تعلم اللغة يجب أن يكون عمليًا وممتعًا. تجمع الدروس بين المحادثة، القواعد، الثقافة، القراءة والكتابة لبناء ثقة الطالب.",
+        aboutTitle: "عن Polyglot",
+        teachingPhilosophy: "نهج التدريس",
+        teachingPhilosophyText: "مع ربع قرن من الخبرة في التدريس، يركز منهجي على التواصل العملي والإعداد المكثف للاختبارات الدولية مع استراتيجيات مخصصة للطلاب والمهنيين.",
         profileTitle: "الملف المهني",
-        profileText: "معلم مخصص للغتين العربية والإنجليزية مع أكثر من 8 سنوات من الخبرة في تدريس الأطفال وطلاب الجامعات والمهنيين.",
+        profileText: "معلم متعدد اللغات بخبرة 25 عامًا. أساعد الطلاب والمهنيين على فتح آفاق جديدة في مسيرتهم الأكاديمية والمهنية.",
 
-        factExp: "سنوات خبرة",
-        factStudents: "طالب تم تدريسهم",
-        factFormat: "عبر الإنترنت وحضوري",
-        factLevels: "من المبتدئ إلى المتقدم",
+        factExp: "خبرة في التدريس",
+        factStudents: "طالب ومهني",
+        factFormat: "عبر الإنترنت وللشركات",
+        factLevels: "تحضير IELTS, TOEFL, ACT",
 
-        experienceTitle: "الخبرة المهنية",
-        exp1Title: "كبير مدرسي اللغة العربية والإنجليزية",
-        exp1Text: "تخطيط دروس مخصصة، تقييم تقدم الطلاب، وتدريس مهارات التواصل لطلاب من خلفيات متنوعة.",
-        exp2Title: "مدرس لغة إنجليزية",
-        exp2Text: "تدريس القواعد والإعداد للاختبارات لطلاب المرحلة الثانوية.",
-        exp3Title: "معلم لغة عربية",
-        exp3Text: "تقديم دروس عربية فردية لغير الناطقين بها مع التركيز على المحادثة والنطق.",
+        coursesTitle: "مجالات التدريس",
+        course1Title: "اللغة الإنجليزية العامة",
+        course1Text: "بناء الطلاقة في القراءة والكتابة والاستماع والمحادثة اليومية.",
+        course2Title: "إنجليزية الأعمال (Business English)",
+        course2Text: "إتقان التواصل المؤسسي، العروض التقديمية، المفاوضات، والمراسلات التجارية.",
+        course3Title: "الإعداد للاختبارات الدولية",
+        course3Text: "تحضير مركز ومكثف لاختبارات IELTS و TOEFL و ACT مع استراتيجيات نجاح مجربة.",
 
-        skillsTitle: "مهارات التدريس",
-        skill1Title: "ممارسة المحادثة",
-        skill1Text: "أنشطة استماع وتحدث من واقع الحياة لتعزيز الطلاقة.",
-        skill2Title: "القواعد والكتابة",
-        skill2Text: "شرح واضح وتمارين منظمة تناسب مستواك.",
-        skill3Title: "التعليم الثقافي",
-        skill3Text: "دمج تعلم اللغة مع السياق الثقافي الحقيقي.",
-        skill4Title: "الإعداد للاختبارات",
-        skill4Text: "استراتيجيات تحضير مركزة لاختبارات الكفاءة اللغوية.",
-        skill5Title: "التدريس عبر الإنترنت",
-        skill5Text: "دروس رقمية تفاعلية باستخدام أحدث الأدوات.",
-        skill6Title: "دعم الطلاب",
-        skill6Text: "أسلوب تدريس صبور ومشجع ومتكيف مع احتياجات الطالب.",
-
-        languagesTitle: "إتقان اللغات",
-        langArabic: "العربية",
-        langEnglish: "الإنجليزية",
-        native: "اللغة الأم",
-        fluent: "طلاقة كاملة",
-
-        educationTitle: "التعليم والشهادات",
+        languagesTitle: "اللغات اللاتي أدرسها وأتحدث بها",
+        langA: "اللغة (أ)",
+        langB: "اللغة (ب)",
+        langEn: "الإنجليزية",
+        langTr: "التركية",
+        langIt: "الإيطالية",
+        langRu: "الروسية",
+        native: "اللغة الأم / متقدم",
+        fluent: "طلاقة",
 
         contactTitle: "تواصل معي",
-        contactHeading: "دعنا نتعلم معًا",
-        contactText: "تواصل معي لمناقشة الدروس الخاصة، الدورات الجماعية، أو الإعداد للاختبارات.",
+        contactHeading: "ابدأ رحلة التعلم اليوم",
+        contactText: "تواصل معي لتحديد موعد للدروس الخاصة، التدريب المؤسسي، أو الإعداد للاختبارات (IELTS, TOEFL, ACT).",
         sendMessage: "إرسال الرسالة"
       }
     };
