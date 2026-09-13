@@ -120,3 +120,28 @@ document.addEventListener("DOMContentLoaded", () => {
   const savedLanguage = localStorage.getItem("selectedLanguage") || "en";
   changeLanguage(savedLanguage);
 });
+
+function openCertModal() {
+  const modal = document.getElementById("certModal");
+  if (modal) {
+    modal.classList.add("active");
+    document.body.style.overflow = "hidden"; // Freeze background scroll
+  }
+}
+
+function closeCertModal(event) {
+  if (!event || event.target.classList.contains("modal-overlay") || event.target.classList.contains("modal-close")) {
+    const modal = document.getElementById("certModal");
+    if (modal) {
+      modal.classList.remove("active");
+      document.body.style.overflow = ""; // Restore scrolling
+    }
+  }
+}
+
+// Close modal on Escape key press
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    closeCertModal();
+  }
+});

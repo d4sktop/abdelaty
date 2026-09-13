@@ -863,3 +863,195 @@ html[dir="rtl"] .language-options {
   object-fit: cover; /* Keeps image proportions intact without stretching */
   display: block;
 }
+
+/* Modal Trigger Button */
+.cert-modal-btn {
+  margin-top: 1rem;
+  background: none;
+  border: none;
+  color: #2563eb;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s;
+}
+
+.cert-modal-btn:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+/* Modal Overlay Backdrop */
+.modal-overlay {
+  display: flex;
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 100000;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+
+  /* Hidden state (allows CSS transitions to work properly) */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Modal Dialog Box - Smooth Scale & Slide Entrance */
+.modal-content {
+  background: #ffffff;
+  width: 100%;
+  max-width: 680px;
+  max-height: 85vh;
+  overflow-y: auto;
+  border-radius: 16px;
+  padding: 2rem;
+  position: relative;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+  /* Start state for entrance effect */
+  transform: scale(0.92) translateY(16px);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.modal-overlay.active .modal-content {
+  transform: scale(1) translateY(0);
+}
+
+/* Close Button */
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  background: #f1f5f9;
+  border: none;
+  font-size: 1.5rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.modal-close:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+/* Layout Grid & Typography */
+.modal-title {
+  font-size: 1.4rem;
+  color: #0f172a;
+  margin-bottom: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.modal-subtitle {
+  color: #64748b;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+.cert-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.cert-item {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.cert-badge {
+  display: inline-block;
+  background: #2563eb;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.cert-item h4 {
+  margin: 0 0 0.4rem 0;
+  color: #1e293b;
+  font-size: 1.05rem;
+}
+
+.cert-item p {
+  margin: 0;
+  font-size: 0.88rem;
+  color: #475569;
+  line-height: 1.45;
+}
+
+/* RTL Support */
+html[dir="rtl"] .modal-close {
+  right: auto;
+  left: 1.25rem;
+}
+/* Box-sizing normalization for the contact section */
+#contact,
+#contact * {
+  box-sizing: border-box;
+}
+
+/* Responsive grid container */
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 2rem;
+  width: 100%;
+}
+
+/* Crucial: Prevents long text/inputs from stretching grid columns */
+.contact-grid > .card {
+  min-width: 0;
+  width: 100%;
+}
+
+/* Force form inputs to respect parent boundaries */
+#contactForm {
+  width: 100%;
+}
+
+#contactForm input,
+#contactForm textarea {
+  width: 100%;
+  max-width: 100%;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+/* Prevent action buttons from breaking out on smaller screens */
+.contact-methods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  width: 100%;
+}

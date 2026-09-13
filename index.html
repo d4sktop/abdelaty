@@ -76,7 +76,7 @@
         </h1>
 
         <p data-i18n="heroText">
-          Expert educator with 25 years of experience specializing in General English, Business English, and international certification prep (IELTS, TOEFL, ACT).
+          Expert educator with 25 years of experience specializing in General English, Business English, and international certification prep (IELTS, TOEFL, SAT, OET, PTE).
         </p>
 
         <div class="buttons">
@@ -106,7 +106,7 @@
           <a href="https://t.me/Mr_abdelaty" target="_blank" class="social-icon-btn tg" title="Telegram">
             <i class="fa-brands fa-telegram"></i>
           </a>
-          <a href="mailto:abdelaty@bedir.shop" class="social-icon-btn" title="Email">
+          <a href="mailto:abdelatybedeir1980@gmail.com" class="social-icon-btn" title="Email">
             <i class="fa-regular fa-envelope"></i>
           </a>
         </div>
@@ -149,7 +149,7 @@
               </div>
               <div class="fact">
                 <strong>High Pass Rate</strong>
-                <span data-i18n="factLevels">IELTS, TOEFL & ACT</span>
+                <span data-i18n="factLevels">IELTS, TOEFL, SAT, OET & PTE</span>
               </div>
             </div>
           </div>
@@ -178,7 +178,12 @@
           <div class="skill-card">
             <div class="skill-icon"><i class="fa-solid fa-graduation-cap"></i></div>
             <h3 data-i18n="course3Title">International Certification Prep</h3>
-            <p data-i18n="course3Text">Targeted test preparation for IELTS, TOEFL, and ACT with proven exam strategies and practice tests.</p>
+            <p data-i18n="course3Text">Targeted test preparation for IELTS, TOEFL, SAT, and OET with proven exam strategies and practice tests.</p>
+            
+            <button type="button" class="cert-modal-btn" onclick="openCertModal()">
+              <span data-i18n="compareCerts">Compare Exam Purposes</span> 
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
           </div>
         </div>
       </div>
@@ -257,7 +262,7 @@
     <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1rem;" data-i18n="mernaRole">Language Instructor</p>
 
     <p data-i18n="mernaBio">
-      I’m an English language teacher with a BA in English and a TEFL certification, with several years of international experience teaching teenagers and adults from elementary to advanced levels. I specialize in General English, speaking, communication, vocabulary, and practical language skills.
+      I’m an English language teacher with a BA in English and a TOEFL certification, with several years of international experience teaching teenagers and adults from elementary to advanced levels. I specialize in General English, speaking, communication, vocabulary, and practical language skills.
     </p>
 
     <div class="facts" style="margin: 1rem 0;">
@@ -332,54 +337,54 @@
 </div>
 </section>
 
-    <!-- Contact Section -->
-    <section id="contact">
-      <div class="container">
-        <h2 class="section-title" data-i18n="contactTitle">Get in Touch</h2>
+<!-- Contact Section -->
+<section id="contact">
+  <div class="container">
+    <h2 class="section-title" data-i18n="contactTitle">Get in Touch</h2>
 
-        <div class="contact-grid">
-          <div class="card contact-info">
-            <h3 data-i18n="contactHeading">Start Your Learning Journey</h3>
-            <p data-i18n="contactText">
-              Get in touch to schedule private lessons, corporate group training, or specialized exam prep (IELTS, TOEFL, ACT).
-            </p>
+    <div class="contact-grid">
+      <div class="card contact-info">
+        <h3 data-i18n="contactHeading">Start Your Learning Journey</h3>
+        <p data-i18n="contactText">
+          Get in touch to schedule private lessons, corporate group training, or specialized exam prep (IELTS, TOEFL, SAT, OET, PTE).
+        </p>
 
-            <p><i class="fa-regular fa-envelope"></i> <strong>Email:</strong> abdelaty@bedir.shop</p>
-            <p><i class="fa-solid fa-phone"></i> <strong>Phone:</strong> +992 17 540 0220</p>
-            <p><i class="fa-solid fa-location-dot"></i> <strong>Location:</strong> Available worldwide online</p>
+        <p><i class="fa-regular fa-envelope"></i> <strong data-i18n="labelEmail">Email:</strong> abdelatybedeir1980@gmail.com</p>
+        <p><i class="fa-solid fa-phone"></i> <strong data-i18n="labelPhone">Phone:</strong> +992 17 540 0220</p>
+        <p><i class="fa-solid fa-location-dot"></i> <strong data-i18n="labelLocation">Location:</strong> <span data-i18n="valLocation">Available worldwide online</span></p>
 
-            <div class="contact-methods">
-              <a href="https://wa.me/201025570505" target="_blank" class="btn btn-whatsapp">
-                <i class="fa-brands fa-whatsapp"></i>Chat on WhatsApp
-              </a>
-              <a href="https://t.me/Mr_abdelaty" target="_blank" class="btn btn-telegram">
-                <i class="fa-brands fa-telegram"></i>Chat on Telegram
-              </a>
-            </div>
-          </div>
-
-         <div class="card">
-          <form id="contactForm" onsubmit="sendMessage(event)">
-            <input type="text" name="name" placeholder="Your name" required />
-            <input type="email" name="email" placeholder="Your email" required />
-            <textarea name="message" placeholder="Tell me about your goals (e.g., General English, Business English, IELTS, TOEFL, ACT preparation)..." required></textarea>
-            
-            <button type="submit" class="btn btn-white" style="background: var(--primary); color: white;" data-i18n="sendMessage">Send Message</button>
-          </form>
+        <div class="contact-methods">
+          <a href="https://wa.me/201025570505" target="_blank" class="btn btn-whatsapp">
+            <i class="fa-brands fa-whatsapp"></i><span data-i18n="chatWhatsapp">Chat on WhatsApp</span>
+          </a>
+          <a href="https://t.me/Mr_abdelaty" target="_blank" class="btn btn-telegram">
+            <i class="fa-brands fa-telegram"></i><span data-i18n="chatTelegram">Chat on Telegram</span>
+          </a>
         </div>
       </div>
-    </section>
-  </main>
 
-  <!-- Floating Quick Chat Buttons -->
-  <div class="floating-chat">
-    <a href="https://wa.me/201025570505" target="_blank" class="chat-btn wa" title="WhatsApp Chat">
-      <i class="fa-brands fa-whatsapp"></i>
-    </a>
-    <a href="https://t.me/Mr_abdelaty" target="_blank" class="chat-btn tg" title="Telegram Chat">
-      <i class="fa-brands fa-telegram"></i>
-    </a>
+      <div class="card">
+        <form id="contactForm" onsubmit="sendMessage(event)">
+          <input type="text" name="name" placeholder="Your name" data-i18n-placeholder="namePlaceholder" required />
+          <input type="email" name="email" placeholder="Your email" data-i18n-placeholder="emailPlaceholder" required />
+          <textarea name="message" placeholder="Tell me about your goals (e.g., General English, Business English, IELTS, TOEFL, SAT, OET, PTE preparation)..." data-i18n-placeholder="messagePlaceholder" required></textarea>
+          
+          <button type="submit" class="btn btn-white" style="background: var(--primary); color: white;" data-i18n="sendMessage">Send Message</button>
+        </form>
+      </div>
+    </div>
   </div>
+</section>
+
+<!-- Floating Quick Chat Buttons -->
+<div class="floating-chat">
+  <a href="https://wa.me/201025570505" target="_blank" class="chat-btn wa" title="WhatsApp Chat">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+  <a href="https://t.me/Mr_abdelaty" target="_blank" class="chat-btn tg" title="Telegram Chat">
+    <i class="fa-brands fa-telegram"></i>
+  </a>
+</div>
 
   <!-- Footer -->
   <footer>
@@ -389,6 +394,45 @@
   <!-- JavaScript Logic -->
   <script src="translations.js"></script>
   <script src="script.js"></script>
+
+<!-- Modal Popup -->
+<div id="certModal" class="modal-overlay" onclick="closeCertModal(event)">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <button type="button" class="modal-close" onclick="closeCertModal()">&times;</button>
+    
+    <h2 class="modal-title">
+      <i class="fa-solid fa-certificate" style="color: #2563eb;"></i> 
+      <span data-i18n="certModalTitle">Exam Guide & Purposes</span>
+    </h2>
+    <p class="modal-subtitle" data-i18n="certModalSubtitle">Choose the right certification for your academic or professional goals:</p>
+
+    <div class="cert-grid">
+      <div class="cert-item">
+        <span class="cert-badge">IELTS</span>
+        <h4 data-i18n="ieltsType">Academic & General</h4>
+        <p><strong data-i18n="bestForLabel">Best for:</strong> <span data-i18n="ieltsDesc">Higher education and immigration to the UK, Australia, Canada, New Zealand, and Europe.</span></p>
+      </div>
+
+      <div class="cert-item">
+        <span class="cert-badge">TOEFL</span>
+        <h4 data-i18n="toeflType">Academic English</h4>
+        <p><strong data-i18n="bestForLabel">Best for:</strong> <span data-i18n="toeflDesc">University admission (undergraduate & graduate degrees) primarily in the USA, Canada, and global programs.</span></p>
+      </div>
+
+      <div class="cert-item">
+        <span class="cert-badge">SAT</span>
+        <h4 data-i18n="satType">College Admissions</h4>
+        <p><strong data-i18n="bestForLabel">Best for:</strong> <span data-i18n="satDesc">High school students seeking undergraduate admission to US universities and international scholarships.</span></p>
+      </div>
+
+      <div class="cert-item">
+        <span class="cert-badge">OET</span>
+        <h4 data-i18n="oetType">Healthcare Professionals</h4>
+        <p><strong data-i18n="bestForLabel">Best for:</strong> <span data-i18n="oetDesc">Doctors, nurses, and medical staff applying for registration and clinical work in the UK, USA, Australia, and Ireland.</span></p>
+      </div>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
