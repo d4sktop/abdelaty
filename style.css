@@ -622,7 +622,6 @@ html[dir="rtl"] .language-options {
     }
 
     .contact-info i {
-      color: var(--accent);
       font-size: 1.1rem;
       width: 24px;
     }
