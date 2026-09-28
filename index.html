@@ -36,6 +36,7 @@
         <div class="language-options" id="languageOptions">
           <button data-language="en">English</button>
           <button data-language="ru">Русский</button>
+          <button data-language="tj">Точики</button>
           <button data-language="ar">العربية</button>
         </div>
       </div>
@@ -52,6 +53,7 @@
       <ul class="nav-links">
         <li><a href="#about" data-i18n="about">About</a></li>
         <li><a href="#courses" data-i18n="courses">Courses & Services</a></li>
+        <li><a href="#placement-test">English Test</a></li>
         <li><a href="#languages" data-i18n="languages">Languages</a></li>
         <li><a href="#team" data-i18n="team">Instructors</a></li>
         <li><a href="#contact" data-i18n="contact">Contact</a></li>
@@ -188,6 +190,98 @@
       </div>
     </section>
 
+
+    <!-- English Placement Test -->
+    <section id="placement-test" class="placement-section">
+      <div class="container">
+        <div class="placement-header">
+          <span class="placement-kicker"><i class="fa-solid fa-chart-simple"></i> English Level Check</span>
+          <h2 class="section-title">Find Your English Level</h2>
+          <p class="placement-intro">
+            Take this short placement test to estimate your CEFR level from A1 to C1.
+            It checks grammar, vocabulary, sentence structure, and practical English use.
+          </p>
+        </div>
+
+        <div class="placement-card" id="placementTest">
+          <div class="placement-start" id="placementStart">
+            <div class="placement-start-icon"><i class="fa-solid fa-language"></i></div>
+            <h3>Ready to check your level?</h3>
+            <p>36 multiple-choice questions · about 10–15 minutes · no registration required</p>
+            <div class="placement-features">
+              <span><i class="fa-solid fa-check"></i> A1–C1 coverage</span>
+              <span><i class="fa-solid fa-check"></i> Instant result</span>
+              <span><i class="fa-solid fa-check"></i> Retake anytime</span>
+            </div>
+            <button type="button" class="btn placement-primary" id="startPlacementBtn">
+              <i class="fa-solid fa-play"></i> Start Test
+            </button>
+            <p class="placement-note"><i class="fa-solid fa-circle-info"></i> This is a placement estimate, not an official CEFR certification.</p>
+          </div>
+
+          <div class="placement-quiz" id="placementQuiz" hidden>
+            <div class="placement-topbar">
+              <div>
+                <span class="placement-question-label">Question</span>
+                <strong><span id="placementCurrent">1</span> / <span id="placementTotal">36</span></strong>
+              </div>
+              <button type="button" class="placement-exit" id="placementExitBtn">Exit</button>
+            </div>
+            <div class="placement-progress-track">
+              <div class="placement-progress-bar" id="placementProgressBar"></div>
+            </div>
+
+            <div class="placement-question-wrap">
+              <div class="placement-level-chip" id="placementDifficulty">A1</div>
+              <h3 id="placementQuestion"></h3>
+              <div class="placement-options" id="placementOptions"></div>
+            </div>
+
+            <div class="placement-navigation">
+              <button type="button" class="btn placement-secondary" id="placementPrevBtn">
+                <i class="fa-solid fa-arrow-left"></i> Previous
+              </button>
+              <button type="button" class="btn placement-primary" id="placementNextBtn">
+                Next <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="placement-result" id="placementResult" hidden>
+            <div class="result-icon"><i class="fa-solid fa-trophy"></i></div>
+            <span class="result-label">Your estimated level</span>
+            <div class="result-level" id="placementResultLevel">B1</div>
+            <h3 id="placementResultTitle">Intermediate</h3>
+            <p id="placementResultDescription"></p>
+
+            <div class="result-score">
+              <div><span>Score</span><strong id="placementScore">0 / 36</strong></div>
+              <div><span>Accuracy</span><strong id="placementAccuracy">0%</strong></div>
+            </div>
+
+            <div class="result-range">
+              <div class="result-range-head">
+                <span>A1</span><span>A2</span><span>B1</span><span>B2</span><span>C1</span>
+              </div>
+              <div class="result-range-track">
+                <span class="result-marker" id="placementResultMarker"></span>
+              </div>
+            </div>
+
+            <div class="result-actions">
+              <button type="button" class="btn placement-primary" id="placementRetakeBtn">
+                <i class="fa-solid fa-rotate-right"></i> Retake Test
+              </button>
+              <a href="#contact" class="btn placement-secondary">
+                <i class="fa-regular fa-calendar-check"></i> Discuss Your Result
+              </a>
+            </div>
+            <p class="placement-note"><i class="fa-solid fa-circle-info"></i> Your result is stored only in this browser and is not sent anywhere.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Languages Section -->
     <section id="languages">
       <div class="container">
@@ -311,7 +405,7 @@
         <span data-i18n="factExpLabel">Experience</span>
       </div>
       <div class="fact">
-        <strong data-i18n="faridaLang">English, Russian</strong>
+        <strong data-i18n="faridaLang">English, Russian, Tajik</strong>
         <span data-i18n="factLangsLabel">Languages</span>
       </div>
     </div>
