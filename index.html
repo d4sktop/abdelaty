@@ -1,531 +1,490 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>learnly | Language & Exam Preparation Expert</title>
-  
-  <!-- Google Fonts & Font Awesome Icons -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Learnly — English lessons, IELTS & TOEFL prep, free level test</title>
+  <meta name="description" content="Private and online English lessons with a teacher of 25 years' experience: General and Business English, IELTS, TOEFL, SAT, OET and PTE preparation. Take a free 40-question placement test (A1–C1).">
+  <meta name="theme-color" content="#1E2A78">
+  <link rel="canonical" href="https://learnly.space/">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://learnly.space/">
+  <meta property="og:title" content="Learnly — English lessons & exam preparation">
+  <meta property="og:description" content="25 years of teaching. General & Business English, IELTS, TOEFL, SAT, OET, PTE. Free English level test.">
+  <meta property="og:image" content="https://learnly.space/img/og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" type="text/css" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Cormorant+Garamond:ital,wght@0,700;1,700&family=Syne:wght@700;800&family=Unbounded:wght@700;900&display=swap" rel="stylesheet">
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-  
+  <link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,600;7..72,700&family=Onest:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "name": "Learnly",
+    "url": "https://learnly.space/",
+    "email": "abdelatybedeir1980@gmail.com",
+    "telephone": "+992175400220",
+    "description": "English lessons and international exam preparation: IELTS, TOEFL, SAT, OET, PTE.",
+    "areaServed": "Worldwide",
+    "sameAs": ["https://t.me/Mr_abdelaty"]
+  }
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3.11.0/dist/email.min.js"></script>
+  <script defer src="translations.js"></script>
+  <script defer src="script.js"></script>
 </head>
 
 <body>
-<!-- Navigation Bar -->
-<nav class="navbar">
-  <div class="container nav-content">
-    <a href="#home" class="logo">
-      <i class="fa-solid fa-earth-americas"></i>
+<!-- Icon sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-wa" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M3.6 20.4l1.2-4.1A8.6 8.6 0 1 1 8 19.3z"/><path fill="currentColor" d="M9.1 7.6c.3 0 .5 0 .7.5l.8 1.8c.1.3 0 .5-.1.7l-.6.7c-.1.2-.2.4 0 .6.7 1.2 1.8 2.2 3.1 2.8.2.1.4.1.6-.1l.8-.9c.2-.2.4-.3.7-.2l1.8.8c.3.1.4.3.4.6 0 .9-.6 1.9-1.6 2.1-1 .2-2.5 0-4.6-1.5-1.8-1.3-3-3-3.4-4.2-.4-1.3 0-2.4.5-3 .2-.3.4-.4.9-.7z"/></symbol>
+    <symbol id="i-tg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M21.3 3.6 2.9 10.7c-.9.4-.9 1.6.1 1.9l4.5 1.4 1.8 5.5c.3.8 1.2 1 1.8.4l2.6-2.4 4.6 3.4c.7.5 1.6.1 1.8-.7l3-14.7c.2-1.1-.8-1.9-1.8-1.5z"/><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="m7.6 14 10-7.2-7.6 8.2"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></g></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M6.6 3.5h2.5l1.5 4-2 1.3a11 11 0 0 0 6.6 6.6l1.3-2 4 1.5v2.5c0 1.1-.9 2-2 2C10.6 19.4 4.6 13.4 4.6 5.5c0-1.1.9-2 2-2z"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></g></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-4.5 4V16h0A1.5 1.5 0 0 1 4 14.5z"/></symbol>
+    <symbol id="i-case" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7M3 13h18"/></g></symbol>
+    <symbol id="i-cap" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M2.5 9 12 4.5 21.5 9 12 13.5z"/><path d="M6.5 11v4.5c1.5 1.6 3.4 2.5 5.5 2.5s4-.9 5.5-2.5V11M21.5 9v5"/></g></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-5-5 5 5-5 5"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m5-5-5 5 5 5"/></symbol>
+    <symbol id="i-retry" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 12a8 8 0 1 0 2.4-5.7L4 8.6M4 4v4.6h4.6"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></g></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linejoin="round" d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></g></symbol>
+  </defs>
+</svg>
+
+<a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
+
+<header class="site-header" id="top">
+  <div class="wrap header-row">
+    <a href="#home" class="brand" aria-label="Learnly">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="currentColor"/><path d="M10 8v16h12" fill="none" stroke="#FFD84A" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <span>Learnly</span>
     </a>
 
-    <!-- Right Header Actions: Language Switcher + Hamburger Toggle -->
-    <div class="nav-actions">
-      <div class="language-switcher">
-        <button class="language-button" id="languageButton">
-          <i class="fa-solid fa-globe"></i>
-          <span id="currentLang">EN</span> ▾
-        </button>
+    <nav class="main-nav" id="mainNav" aria-label="Main">
+      <ul>
+        <li><a href="#about" data-i18n="navAbout">About</a></li>
+        <li><a href="#courses" data-i18n="navCourses">Courses</a></li>
+        <li><a href="#placement-test" data-i18n="navTest">Level test</a></li>
+        <li><a href="#team" data-i18n="navTeam">Teachers</a></li>
+        <li><a href="#contact" data-i18n="navContact">Contact</a></li>
+        <li class="nav-cta"><a href="#placement-test" class="btn btn-mark" data-i18n="ctaTestFree">Take the free level test</a></li>
+      </ul>
+    </nav>
 
-        <div class="language-options" id="languageOptions">
-          <button data-language="en">English</button>
-          <button data-language="ru">Русский</button>
-          <button data-language="tj">Точики</button>
-          <button data-language="ar">العربية</button>
-        </div>
-      </div>
-
-      <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">
-        <span></span>
-        <span></span>
-        <span></span>
+    <div class="header-actions">
+      <label class="lang-select">
+        <svg class="ico" aria-hidden="true"><use href="#i-globe"/></svg>
+        <span class="sr-only" data-i18n="langLabel">Language</span>
+        <select id="langSelect">
+          <option value="en">English</option>
+          <option value="ru">Русский</option>
+          <option value="ar">العربية</option>
+        </select>
+      </label>
+      <a href="#placement-test" class="btn btn-mark btn-sm header-cta" data-i18n="ctaTest">Check my level</a>
+      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mainNav">
+        <span class="sr-only" data-i18n="menu">Menu</span>
+        <span class="bar bar1"></span><span class="bar bar2"></span>
       </button>
     </div>
+  </div>
+</header>
 
-    <!-- Mobile Nav Menu (Only links now) -->
-    <div class="nav-menu" id="navMenu">
-      <ul class="nav-links">
-        <li><a href="#about" data-i18n="about">About</a></li>
-        <li><a href="#courses" data-i18n="courses">Courses & Services</a></li>
-        <li><a href="#placement-test">English Test</a></li>
-        <li><a href="#languages" data-i18n="languages">Languages</a></li>
-        <li><a href="#team" data-i18n="team">Instructors</a></li>
-        <li><a href="#contact" data-i18n="contact">Contact</a></li>
+<main id="main">
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="hero-kicker" data-i18n="heroKicker">English teacher with 25 years of experience</p>
+        <h1 data-i18n="heroTitle">Master languages. Achieve international success.</h1>
+        <p class="hero-lead" data-i18n="heroText">General English, Business English and preparation for IELTS, TOEFL, SAT, OET and PTE. Private and group lessons online, from anywhere in the world.</p>
+        <div class="hero-actions">
+          <a href="#placement-test" class="btn btn-mark" data-i18n="ctaTestFree">Take the free level test</a>
+          <a href="https://wa.me/201025570505" target="_blank" rel="noopener" class="btn btn-ghost">
+            <svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg><span>WhatsApp</span>
+          </a>
+          <a href="https://t.me/Mr_abdelaty" target="_blank" rel="noopener" class="btn btn-ghost">
+            <svg class="ico" aria-hidden="true"><use href="#i-tg"/></svg><span>Telegram</span>
+          </a>
+        </div>
+      </div>
+
+      <figure class="hero-photo">
+        <picture>
+          <source srcset="img/teacher.webp" type="image/webp">
+          <img src="img/teacher.jpg" width="480" height="600" alt="Learnly lead teacher" data-i18n-alt="leadPhotoAlt" fetchpriority="high">
+        </picture>
+        <figcaption>
+          <strong data-i18n="leadName">Lead teacher, Learnly</strong>
+          <span data-i18n="leadRole">Language educator & exam specialist</span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <!-- CEFR ruler: the signature element -->
+    <div class="wrap">
+      <div class="ruler" aria-labelledby="rulerTitle">
+        <div class="ruler-head">
+          <h2 id="rulerTitle" data-i18n="rulerTitle">Where are you on the scale?</h2>
+          <p class="ruler-you" id="rulerYou" hidden></p>
+        </div>
+        <ol class="ruler-scale" id="heroRuler">
+          <li data-level="A1"><a href="#placement-test"><b>A1</b><span data-i18n="lvlA1">Beginner</span></a></li>
+          <li data-level="A2"><a href="#placement-test"><b>A2</b><span data-i18n="lvlA2">Elementary</span></a></li>
+          <li data-level="B1"><a href="#placement-test"><b>B1</b><span data-i18n="lvlB1">Intermediate</span></a></li>
+          <li data-level="B2"><a href="#placement-test"><b>B2</b><span data-i18n="lvlB2">Upper-intermediate</span></a></li>
+          <li data-level="C1"><a href="#placement-test"><b>C1</b><span data-i18n="lvlC1">Advanced</span></a></li>
+        </ol>
+        <p class="ruler-foot"><span data-i18n="rulerFoot">Not sure? The free test takes 10–15 minutes and shows your level instantly.</span> <a href="#placement-test" data-i18n="rulerLink">Start the test</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section" id="about">
+    <div class="wrap about-grid">
+      <div>
+        <h2 class="h2" data-i18n="aboutTitle">About the teacher</h2>
+        <p class="lead" data-i18n="aboutText1">With a quarter-century of teaching experience, my method focuses on practical communication, rigorous preparation for standardized tests, and a plan tailored to each student — whether you are a school student, a university applicant or a working professional.</p>
+        <p data-i18n="aboutText2">I help students open academic doors, move forward in international careers and pass their exams with confidence.</p>
+      </div>
+      <dl class="facts">
+        <div><dt>25</dt><dd data-i18n="factYears">years of teaching</dd></div>
+        <div><dt>1000+</dt><dd data-i18n="factStudents">students and professionals</dd></div>
+        <div><dt data-i18n="factOnlineV">Online</dt><dd data-i18n="factOnline">lessons worldwide, plus corporate groups</dd></div>
+        <div><dt>5</dt><dd data-i18n="factExams">international exams: IELTS, TOEFL, SAT, OET, PTE</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- COURSES -->
+  <section class="section section-alt" id="courses">
+    <div class="wrap">
+      <h2 class="h2" data-i18n="coursesTitle">What I teach</h2>
+      <div class="courses">
+        <article class="course">
+          <svg class="course-ico" aria-hidden="true"><use href="#i-chat"/></svg>
+          <h3 data-i18n="c1Title">General English</h3>
+          <p data-i18n="c1Text">Practical fluency in reading, writing, listening and real conversation for everyday life and travel.</p>
+        </article>
+        <article class="course">
+          <svg class="course-ico" aria-hidden="true"><use href="#i-case"/></svg>
+          <h3 data-i18n="c2Title">Business English</h3>
+          <p data-i18n="c2Text">Corporate communication, presentations, negotiations, emails and professional vocabulary.</p>
+        </article>
+        <article class="course course-exams">
+          <svg class="course-ico" aria-hidden="true"><use href="#i-cap"/></svg>
+          <h3 data-i18n="c3Title">Exam preparation</h3>
+          <p data-i18n="c3Text">Targeted preparation with proven strategies and full practice tests.</p>
+          <ul class="chips" aria-label="Exams">
+            <li>IELTS</li><li>TOEFL</li><li>SAT</li><li>OET</li><li>PTE</li>
+          </ul>
+          <button type="button" class="link-btn" id="openExamGuide">
+            <span data-i18n="compareExams">Which exam do I need?</span>
+            <svg class="ico flip-rtl" aria-hidden="true"><use href="#i-arrow"/></svg>
+          </button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS (a real sequence) -->
+  <section class="section" id="how">
+    <div class="wrap">
+      <h2 class="h2" data-i18n="howTitle">How to start</h2>
+      <ol class="steps">
+        <li>
+          <h3 data-i18n="s1Title">Check your level</h3>
+          <p data-i18n="s1Text">Take the free test below. It takes 10–15 minutes.</p>
+        </li>
+        <li>
+          <h3 data-i18n="s2Title">Send me your result</h3>
+          <p data-i18n="s2Text">One tap sends it on WhatsApp, or write to me on Telegram or by email.</p>
+        </li>
+        <li>
+          <h3 data-i18n="s3Title">Talk about your goals</h3>
+          <p data-i18n="s3Text">We agree on the format, schedule and what you want to achieve.</p>
+        </li>
+        <li>
+          <h3 data-i18n="s4Title">Start your lessons</h3>
+          <p data-i18n="s4Text">Online, one-to-one or in a group, with a plan built for you.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- PLACEMENT TEST -->
+  <section class="test-section" id="placement-test" aria-labelledby="testTitle">
+    <div class="wrap">
+      <div class="test-head">
+        <h2 class="h2" id="testTitle" data-i18n="testTitle">Find your English level</h2>
+        <p data-i18n="testIntro">40 questions on grammar, vocabulary and sentence structure, from A1 to C1. The questions are in English; the interface is in your language.</p>
+      </div>
+
+      <div class="sheet" id="placementTest">
+        <!-- Start -->
+        <div class="pt-start" id="ptStart">
+          <ul class="pt-facts">
+            <li><strong>40</strong><span data-i18n="ptFactQ">questions</span></li>
+            <li><strong>10–15</strong><span data-i18n="ptFactMin">minutes</span></li>
+            <li><strong>A1–C1</strong><span data-i18n="ptFactRange">level range</span></li>
+          </ul>
+          <ul class="pt-rules">
+            <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span data-i18n="ptRule1">No registration. Your answers stay in this browser.</span></li>
+            <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span data-i18n="ptRule2">If you don't know an answer, choose “I don't know” — guessing makes the result less accurate.</span></li>
+            <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span data-i18n="ptRule3">You can leave and continue later. Progress is saved.</span></li>
+          </ul>
+          <div class="pt-start-actions">
+            <button type="button" class="btn btn-ink" id="ptStartBtn" data-i18n="ptStart">Start the test</button>
+            <button type="button" class="btn btn-line" id="ptResumeBtn" hidden></button>
+          </div>
+          <p class="pt-last" id="ptLast" hidden></p>
+          <p class="pt-note" data-i18n="ptDisclaimer">This is a placement estimate, not an official CEFR certificate.</p>
+        </div>
+
+        <!-- Quiz -->
+        <div class="pt-quiz" id="ptQuiz" hidden>
+          <div class="pt-top">
+            <p class="pt-count"><span data-i18n="ptQuestion">Question</span> <strong id="ptCurrent">1</strong> <span data-i18n="ptOf">of</span> <span id="ptTotal">40</span></p>
+            <span class="pt-level" id="ptLevel">A1</span>
+            <button type="button" class="pt-exit" id="ptExitBtn" data-i18n="ptExit">Save and exit</button>
+          </div>
+          <div class="pt-progress" role="progressbar" aria-valuemin="0" aria-valuemax="40" aria-valuenow="0" id="ptProgress"><span id="ptProgressBar"></span></div>
+
+          <fieldset class="pt-q">
+            <legend id="ptQuestionText"></legend>
+            <div class="pt-options" id="ptOptions"></div>
+          </fieldset>
+
+          <div class="pt-nav">
+            <button type="button" class="btn btn-line" id="ptPrevBtn">
+              <svg class="ico flip-rtl" aria-hidden="true"><use href="#i-back"/></svg><span data-i18n="ptPrev">Back</span>
+            </button>
+            <p class="pt-keys" data-i18n="ptKeys">Keys 1–4 to choose, Enter to continue</p>
+            <button type="button" class="btn btn-ink" id="ptNextBtn">
+              <span id="ptNextLabel" data-i18n="ptNext">Next</span><svg class="ico flip-rtl" aria-hidden="true"><use href="#i-arrow"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Result -->
+        <div class="pt-result" id="ptResult" hidden tabindex="-1">
+          <p class="pt-result-label" data-i18n="ptYourLevel">Your estimated level</p>
+          <div class="pt-result-main">
+            <span class="pt-result-level" id="ptResLevel">B1</span>
+            <div>
+              <h3 id="ptResTitle">Intermediate</h3>
+              <p id="ptResDesc"></p>
+            </div>
+          </div>
+
+          <ol class="ruler-scale ruler-scale--result" id="ptResRuler" aria-hidden="true">
+            <li data-level="A1"><span><b>A1</b></span></li>
+            <li data-level="A2"><span><b>A2</b></span></li>
+            <li data-level="B1"><span><b>B1</b></span></li>
+            <li data-level="B2"><span><b>B2</b></span></li>
+            <li data-level="C1"><span><b>C1</b></span></li>
+          </ol>
+
+          <div class="pt-stats">
+            <div><span data-i18n="ptScore">Correct answers</span><strong id="ptResScore">0 / 40</strong></div>
+            <div><span data-i18n="ptTime">Time</span><strong id="ptResTime">—</strong></div>
+          </div>
+
+          <h4 class="pt-sub" data-i18n="ptByLevel">Correct answers by level</h4>
+          <ul class="pt-breakdown" id="ptBreakdown"></ul>
+
+          <div class="pt-result-actions">
+            <a class="btn btn-wa" id="ptSendWa" href="#" target="_blank" rel="noopener">
+              <svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg><span data-i18n="ptSendWa">Send result to the teacher</span>
+            </a>
+            <button type="button" class="btn btn-line" id="ptCopyBtn">
+              <svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg><span data-i18n="ptCopy">Copy result</span>
+            </button>
+            <button type="button" class="btn btn-line" id="ptRetakeBtn">
+              <svg class="ico" aria-hidden="true"><use href="#i-retry"/></svg><span data-i18n="ptRetake">Retake</span>
+            </button>
+          </div>
+          <p class="pt-copied" id="ptCopied" role="status" aria-live="polite"></p>
+
+          <details class="pt-review" id="ptReviewWrap">
+            <summary><span data-i18n="ptReview">Review my mistakes</span> <span class="pt-review-count" id="ptReviewCount"></span></summary>
+            <ol class="pt-review-list" id="ptReviewList"></ol>
+          </details>
+          <p class="pt-note" data-i18n="ptDisclaimer">This is a placement estimate, not an official CEFR certificate.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LANGUAGES -->
+  <section class="section" id="languages">
+    <div class="wrap lang-grid">
+      <div>
+        <h2 class="h2" data-i18n="langsTitle">Languages I speak and teach</h2>
+        <p data-i18n="langsNote">Want to learn another language? Write to us and we'll tell you what's available.</p>
+        <a href="#contact" class="text-link" data-i18n="langsLink">Ask about other languages</a>
+      </div>
+      <ul class="lang-list">
+        <li><span data-i18n="langEn">English</span><span class="lang-lvl lang-lvl--top" data-i18n="lvlInstructor">Instructor level</span></li>
+        <li><span data-i18n="langRu">Russian</span><span class="lang-lvl" data-i18n="lvlProficient">Proficient</span></li>
+        <li><span data-i18n="langTr">Turkish</span><span class="lang-lvl" data-i18n="lvlProficient">Proficient</span></li>
+        <li><span data-i18n="langIt">Italian</span><span class="lang-lvl" data-i18n="lvlProficient">Proficient</span></li>
       </ul>
     </div>
+  </section>
+
+  <!-- TEAM -->
+  <section class="section section-alt" id="team">
+    <div class="wrap">
+      <h2 class="h2" data-i18n="teamTitle">Associate teachers</h2>
+      <div class="team">
+        <article class="person">
+          <picture>
+            <source srcset="img/teacher1.webp" type="image/webp">
+            <img src="img/teacher1.jpg" width="640" height="640" alt="Merna" loading="lazy">
+          </picture>
+          <div class="person-body">
+            <h3>Merna</h3>
+            <p class="person-role" data-i18n="mernaRole">English teacher</p>
+            <ul class="person-meta">
+              <li data-i18n="mernaExp">5 years of experience</li>
+              <li data-i18n="mernaLang">English</li>
+            </ul>
+            <p data-i18n="mernaBio">I'm an English teacher with a BA in English and a TOEFL certificate, with several years of international experience teaching teenagers and adults from elementary to advanced levels. I focus on General English, speaking, vocabulary and practical language skills.</p>
+            <div class="person-links">
+              <a href="https://t.me/+992751330330" target="_blank" rel="noopener" aria-label="Merna — Telegram"><svg class="ico" aria-hidden="true"><use href="#i-tg"/></svg>Telegram</a>
+              <a href="https://wa.me/992920271870" target="_blank" rel="noopener" aria-label="Merna — WhatsApp"><svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg>WhatsApp</a>
+              <a href="mailto:Mernasalah167@gmail.com" aria-label="Merna — Email"><svg class="ico" aria-hidden="true"><use href="#i-mail"/></svg>Email</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="person">
+          <picture>
+            <source srcset="img/teacher2.webp" type="image/webp">
+            <img src="img/teacher2.jpg" width="640" height="640" alt="Farida" loading="lazy">
+          </picture>
+          <div class="person-body">
+            <h3 data-i18n="faridaName">Farida Samadova</h3>
+            <p class="person-role" data-i18n="faridaRole">Assistant language tutor</p>
+            <ul class="person-meta">
+              <li data-i18n="faridaExp">2 years of experience</li>
+              <li data-i18n="faridaLang">English, Russian</li>
+            </ul>
+            <p data-i18n="faridaBio">I teach English and Russian. My English is advanced and Russian is my native language. I help students improve their English and Russian skills, and I'm responsible, motivated and passionate about teaching.</p>
+            <div class="person-links">
+              <a href="https://t.me/+992751330330" target="_blank" rel="noopener" aria-label="Farida — Telegram"><svg class="ico" aria-hidden="true"><use href="#i-tg"/></svg>Telegram</a>
+              <a href="https://wa.me/992926779626" target="_blank" rel="noopener" aria-label="Farida — WhatsApp"><svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg>WhatsApp</a>
+              <a href="mailto:samadovafarida221@gmail.com" aria-label="Farida — Email"><svg class="ico" aria-hidden="true"><use href="#i-mail"/></svg>Email</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section" id="contact">
+    <div class="wrap contact-grid">
+      <div class="contact-info">
+        <h2 class="h2" data-i18n="contactTitle">Get in touch</h2>
+        <p data-i18n="contactText">Write to schedule private lessons, corporate training or exam preparation. The fastest way is WhatsApp or Telegram.</p>
+        <div class="contact-quick">
+          <a href="https://wa.me/201025570505" target="_blank" rel="noopener" class="btn btn-wa">
+            <svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg><span data-i18n="chatWa">Write on WhatsApp</span>
+          </a>
+          <a href="https://t.me/Mr_abdelaty" target="_blank" rel="noopener" class="btn btn-tg">
+            <svg class="ico" aria-hidden="true"><use href="#i-tg"/></svg><span data-i18n="chatTg">Write on Telegram</span>
+          </a>
+        </div>
+        <ul class="contact-list">
+          <li><svg class="ico" aria-hidden="true"><use href="#i-mail"/></svg><a href="mailto:abdelatybedeir1980@gmail.com">abdelatybedeir1980@gmail.com</a></li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg><a href="tel:+992175400220" dir="ltr">+992 17 540 0220</a></li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg><span data-i18n="location">Online, worldwide</span></li>
+        </ul>
+      </div>
+
+      <form class="form" id="contactForm" novalidate>
+        <h3 data-i18n="formTitle">Or send a message</h3>
+        <div class="field">
+          <label for="fName" data-i18n="fName">Your name</label>
+          <input id="fName" type="text" name="name" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label for="fEmail" data-i18n="fEmail">Email</label>
+          <input id="fEmail" type="email" name="email" autocomplete="email" required>
+        </div>
+        <div class="field">
+          <label for="fMsg" data-i18n="fMsg">What would you like to learn?</label>
+          <textarea id="fMsg" name="message" rows="5" required data-i18n-placeholder="fMsgPh" placeholder="For example: IELTS 6.5 by June, Business English for work…"></textarea>
+        </div>
+        <input type="hidden" name="time">
+        <button type="submit" class="btn btn-ink" id="formSubmit" data-i18n="fSend">Send message</button>
+        <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-row">
+    <div>
+      <a href="#home" class="brand brand--light">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="currentColor"/><path d="M10 8v16h12" fill="none" stroke="#1E2A78" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Learnly</span>
+      </a>
+      <p data-i18n="footerText">English lessons and international exam preparation.</p>
+    </div>
+    <ul class="footer-links">
+      <li><a href="#placement-test" data-i18n="navTest">Level test</a></li>
+      <li><a href="#courses" data-i18n="navCourses">Courses</a></li>
+      <li><a href="#contact" data-i18n="navContact">Contact</a></li>
+    </ul>
+    <p class="copy">© <span id="year">2026</span> Learnly</p>
   </div>
-</nav>
+</footer>
 
-  <!-- Hero Section -->
-  <header class="hero" id="home">
-    <div class="container hero-content">
-      <div>
-        <div class="hero-badge">
-          <i class="fa-solid fa-award"></i>
-          <span data-i18n="heroSubtitle">25 Years of Educational Excellence</span>
-        </div>
-
-        <h1 data-i18n="heroTitle">
-          Master Languages.<br />
-          <span>Achieve International Success.</span>
-        </h1>
-
-        <p data-i18n="heroText">
-          Expert educator with 25 years of experience specializing in General English, Business English, and international certification prep (IELTS, TOEFL, SAT, OET, PTE).
-        </p>
-
-        <div class="buttons">
-          <a href="#contact" class="btn btn-white" data-i18n="bookLesson">
-            <i class="fa-regular fa-calendar-check"></i> Book a Consultation
-          </a>
-          <a href="https://wa.me/201025570505" target="_blank" class="btn btn-whatsapp">
-            <i class="fa-brands fa-whatsapp"></i> WhatsApp
-          </a>
-          <a href="https://t.me/Mr_abdelaty" target="_blank" class="btn btn-telegram">
-            <i class="fa-brands fa-telegram"></i> Telegram
-          </a>
-        </div>
-      </div>
-
-      <div class="profile-card">
-              <div class="profile-avatar" style="margin: 0 auto 1rem auto;">
-                <img src="img/teacher.jpg" alt="Instructor" class="profile-img" />
-              </div>
-        <h2 data-i18n="profileName">learnly</h2>
-        <p data-i18n="profileRole">Language Educator & Certification Specialist</p>
-
-        <div class="quick-socials">
-          <a href="https://wa.me/201025570505" target="_blank" class="social-icon-btn wa" title="WhatsApp">
-            <i class="fa-brands fa-whatsapp"></i>
-          </a>
-          <a href="https://t.me/Mr_abdelaty" target="_blank" class="social-icon-btn tg" title="Telegram">
-            <i class="fa-brands fa-telegram"></i>
-          </a>
-          <a href="mailto:abdelatybedeir1980@gmail.com" class="social-icon-btn" title="Email">
-            <i class="fa-regular fa-envelope"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <main>
-    <!-- About Section -->
-    <section id="about">
-      <div class="container">
-        <h2 class="section-title" data-i18n="aboutTitle">About learnly</h2>
-
-        <div class="about-grid">
-          <div class="card">
-            <h3><i class="fa-solid fa-lightbulb"></i> <span data-i18n="teachingPhilosophy">Teaching Approach</span></h3>
-            <p data-i18n="teachingPhilosophyText">
-              With a quarter-century of global teaching experience, my methodology focuses on practical communication, rigorous preparation for standardized testing, and tailored strategies for corporate professionals and students alike.
-            </p>
-          </div>
-
-          <div class="card">
-            <h3><i class="fa-solid fa-user-tie"></i> <span data-i18n="profileTitle">Professional Profile</span></h3>
-            <p data-i18n="profileText">
-              Seasoned multilingual instructor with 25 years of teaching expertise. Helping students unlock academic opportunities, global career advancement, and test success across multiple languages.
-            </p>
-
-            <div class="facts">
-              <div class="fact">
-                <strong>25 Years</strong>
-                <span data-i18n="factExp">Teaching Experience</span>
-              </div>
-              <div class="fact">
-                <strong>1000+</strong>
-                <span data-i18n="factStudents">Students & Professionals</span>
-              </div>
-              <div class="fact">
-                <strong>Global</strong>
-                <span data-i18n="factFormat">Online & Corporate</span>
-              </div>
-              <div class="fact">
-                <strong>High Pass Rate</strong>
-                <span data-i18n="factLevels">IELTS, TOEFL, SAT, OET & PTE</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Services & Courses Section -->
-    <section id="courses" style="background: var(--bg-light);">
-      <div class="container">
-        <h2 class="section-title" data-i18n="coursesTitle">What I Teach</h2>
-
-        <div class="skills-grid">
-          <div class="skill-card">
-            <div class="skill-icon"><i class="fa-solid fa-comments"></i></div>
-            <h3 data-i18n="course1Title">General English</h3>
-            <p data-i18n="course1Text">Build practical fluency in reading, writing, listening, and real-world conversation for everyday life.</p>
-          </div>
-
-          <div class="skill-card">
-            <div class="skill-icon"><i class="fa-solid fa-briefcase"></i></div>
-            <h3 data-i18n="course2Title">Business English</h3>
-            <p data-i18n="course2Text">Master corporate communication, executive presentations, negotiations, email writing, and professional vocabulary.</p>
-          </div>
-
-          <div class="skill-card">
-            <div class="skill-icon"><i class="fa-solid fa-graduation-cap"></i></div>
-            <h3 data-i18n="course3Title">International Certification Prep</h3>
-            <p data-i18n="course3Text">Targeted test preparation for IELTS, TOEFL, SAT, and OET with proven exam strategies and practice tests.</p>
-            
-            <button type="button" class="cert-modal-btn" onclick="openCertModal()">
-              <span data-i18n="compareCerts">Compare Exam Purposes</span> 
-              <i class="fa-solid fa-arrow-right"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-    <!-- English Placement Test -->
-    <section id="placement-test" class="placement-section">
-      <div class="container">
-        <div class="placement-header">
-          <span class="placement-kicker"><i class="fa-solid fa-chart-simple"></i> English Level Check</span>
-          <h2 class="section-title">Find Your English Level</h2>
-          <p class="placement-intro">
-            Take this short placement test to estimate your CEFR level from A1 to C1.
-            It checks grammar, vocabulary, sentence structure, and practical English use.
-          </p>
-        </div>
-
-        <div class="placement-card" id="placementTest">
-          <div class="placement-start" id="placementStart">
-            <div class="placement-start-icon"><i class="fa-solid fa-language"></i></div>
-            <h3>Ready to check your level?</h3>
-            <p>36 multiple-choice questions · about 10–15 minutes · no registration required</p>
-            <div class="placement-features">
-              <span><i class="fa-solid fa-check"></i> A1–C1 coverage</span>
-              <span><i class="fa-solid fa-check"></i> Instant result</span>
-              <span><i class="fa-solid fa-check"></i> Retake anytime</span>
-            </div>
-            <button type="button" class="btn placement-primary" id="startPlacementBtn">
-              <i class="fa-solid fa-play"></i> Start Test
-            </button>
-            <p class="placement-note"><i class="fa-solid fa-circle-info"></i> This is a placement estimate, not an official CEFR certification.</p>
-          </div>
-
-          <div class="placement-quiz" id="placementQuiz" hidden>
-            <div class="placement-topbar">
-              <div>
-                <span class="placement-question-label">Question</span>
-                <strong><span id="placementCurrent">1</span> / <span id="placementTotal">36</span></strong>
-              </div>
-              <button type="button" class="placement-exit" id="placementExitBtn">Exit</button>
-            </div>
-            <div class="placement-progress-track">
-              <div class="placement-progress-bar" id="placementProgressBar"></div>
-            </div>
-
-            <div class="placement-question-wrap">
-              <div class="placement-level-chip" id="placementDifficulty">A1</div>
-              <h3 id="placementQuestion"></h3>
-              <div class="placement-options" id="placementOptions"></div>
-            </div>
-
-            <div class="placement-navigation">
-              <button type="button" class="btn placement-secondary" id="placementPrevBtn">
-                <i class="fa-solid fa-arrow-left"></i> Previous
-              </button>
-              <button type="button" class="btn placement-primary" id="placementNextBtn">
-                Next <i class="fa-solid fa-arrow-right"></i>
-              </button>
-            </div>
-          </div>
-
-          <div class="placement-result" id="placementResult" hidden>
-            <div class="result-icon"><i class="fa-solid fa-trophy"></i></div>
-            <span class="result-label">Your estimated level</span>
-            <div class="result-level" id="placementResultLevel">B1</div>
-            <h3 id="placementResultTitle">Intermediate</h3>
-            <p id="placementResultDescription"></p>
-
-            <div class="result-score">
-              <div><span>Score</span><strong id="placementScore">0 / 36</strong></div>
-              <div><span>Accuracy</span><strong id="placementAccuracy">0%</strong></div>
-            </div>
-
-            <div class="result-range">
-              <div class="result-range-head">
-                <span>A1</span><span>A2</span><span>B1</span><span>B2</span><span>C1</span>
-              </div>
-              <div class="result-range-track">
-                <span class="result-marker" id="placementResultMarker"></span>
-              </div>
-            </div>
-
-            <div class="result-actions">
-              <button type="button" class="btn placement-primary" id="placementRetakeBtn">
-                <i class="fa-solid fa-rotate-right"></i> Retake Test
-              </button>
-              <a href="#contact" class="btn placement-secondary">
-                <i class="fa-regular fa-calendar-check"></i> Discuss Your Result
-              </a>
-            </div>
-            <p class="placement-note"><i class="fa-solid fa-circle-info"></i> Your result is stored only in this browser and is not sent anywhere.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Languages Section -->
-    <section id="languages">
-      <div class="container">
-        <h2 class="section-title" data-i18n="languagesTitle">Languages Spoken & Taught</h2>
-
-        <div class="languages-grid">
-          <div class="language">
-            <div class="language-header">
-              <span data-i18n="langEn">English</span>
-              <span data-i18n="fluent">Fluent / Instructor Level</span>
-            </div>
-            <div class="progress">
-              <div class="progress-bar" style="width: 98%;"></div>
-            </div>
-          </div>
-
-          <div class="language">
-            <div class="language-header">
-              <span data-i18n="langTr">Turkish</span>
-              <span data-i18n="fluent">Proficient</span>
-            </div>
-            <div class="progress">
-              <div class="progress-bar" style="width: 90%;"></div>
-            </div>
-          </div>
-
-          <div class="language">
-            <div class="language-header">
-              <span data-i18n="langIt">Italian</span>
-              <span data-i18n="fluent">Proficient</span>
-            </div>
-            <div class="progress">
-              <div class="progress-bar" style="width: 88%;"></div>
-            </div>
-          </div>
-
-          <div class="language">
-            <div class="language-header">
-              <span data-i18n="langRu">Russian</span>
-              <span data-i18n="fluent">Proficient</span>
-            </div>
-            <div class="progress">
-              <div class="progress-bar" style="width: 90%;"></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Extra Languages Callout Note -->
-        <div class="more-languages-banner" style="margin-top: 2.5rem; text-align: center; background: var(--bg-light, #f8fafc); padding: 1.5rem; rounded-lg; border: 1px dashed #cbd5e1; border-radius: 12px;">
-          <p style="margin: 0; font-size: 1.05rem; color: #475569;">
-            <i class="fa-solid fa-globe" style="color: #2563eb; margin-right: 6px;"></i>
-            <span data-i18n="moreLanguagesNotice">Looking to learn other languages?</span>
-            <a href="#contact" style="color: #2563eb; font-weight: 700; text-decoration: underline;" data-i18n="contactUsLink">Contact us to inquire about additional language courses!</a>
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Additional Instructors Section -->
-    <section id="team" style="background: var(--bg-light);">
-      <div class="container">
-        <h2 class="section-title" data-i18n="teamTitle">Associate Instructors</h2>
-
-<div class="about-grid">
-  <!-- Teacher 1: Merna -->
-  <div class="card instructor-card">
-    <div class="profile-avatar" style="margin: 0 auto 1rem auto;">
-      <img src="img/teacher1.jpg" alt="Instructor" class="profile-img" />
-    </div>
-    <h3 style="text-align: center; margin-bottom: 0.25rem;">Merna</h3>
-    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1rem;" data-i18n="mernaRole">Language Instructor</p>
-
-    <p data-i18n="mernaBio">
-      I’m an English language teacher with a BA in English and a TOEFL certification, with several years of international experience teaching teenagers and adults from elementary to advanced levels. I specialize in General English, speaking, communication, vocabulary, and practical language skills.
-    </p>
-
-    <div class="facts" style="margin: 1rem 0;">
-      <div class="fact">
-        <strong data-i18n="mernaExp">5 Years</strong>
-        <span data-i18n="factExpLabel">Experience</span>
-      </div>
-      <div class="fact">
-        <strong data-i18n="langEn">English</strong>
-        <span data-i18n="factLangLabel">Language</span>
-      </div>
-    </div>
-
-    <div style="display: flex; flex-direction: row; gap: 0.5rem; margin-top: 1.5rem;">
-      <!-- Telegram Link -->
-      <a href="https://t.me/+992751330330" target="_blank" class="btn btn-telegram" style="display: inline-flex; flex: 1; justify-content: center; align-items: center; gap: 6px; padding: 0.6rem 0.5rem; font-size: 0.9rem;">
-        <i class="fa-brands fa-telegram"></i> <span data-i18n="btnTelegram">Telegram</span>
-      </a>
-
-      <!-- WhatsApp Link -->
-      <a href="https://wa.me/+992920271870" target="_blank" class="btn btn-whatsapp" style="display: inline-flex; flex: 1; justify-content: center; align-items: center; gap: 6px; padding: 0.6rem 0.5rem; font-size: 0.9rem;">
-        <i class="fa-brands fa-whatsapp"></i> <span data-i18n="btnWhatsApp">WhatsApp</span>
-      </a>
-
-      <!-- Email Link -->
-      <a href="mailto:Mernasalah167@gmail.com" class="btn btn-white" style="display: inline-flex; flex: 1; justify-content: center; align-items: center; gap: 6px; border: 1px solid #cbd5e1; padding: 0.6rem 0.5rem; font-size: 0.9rem;">
-        <i class="fa-regular fa-envelope"></i> <span data-i18n="btnEmail">Email</span>
-      </a>
-    </div>
-  </div>
-
-  <!-- Teacher 2: Farida -->
-  <div class="card instructor-card">
-    <div class="profile-avatar" style="margin: 0 auto 1rem auto;">
-      <img src="img/teacher2.jpg" alt="Instructor" class="profile-img" />
-    </div>
-    <h3 style="text-align: center; margin-bottom: 0.25rem;">Farida</h3>
-    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1rem;" data-i18n="faridaRole">Assistant Language Tutor</p>
-
-    <p data-i18n="faridaBio">
-      My name is Farida Samadova . I am an English and Russian teacher with teaching experience. My English level is advanced, and Russian is my native language. I have experience teaching students and helping them improve their English and Russian skills. I am responsible, motivated, and passionate about teaching.
-    </p>
-
-    <div class="facts" style="margin: 1rem 0;">
-      <div class="fact">
-        <strong data-i18n="faridaExp">2 Years</strong>
-        <span data-i18n="factExpLabel">Experience</span>
-      </div>
-      <div class="fact">
-        <strong data-i18n="faridaLang">English, Russian, Tajik</strong>
-        <span data-i18n="factLangsLabel">Languages</span>
-      </div>
-    </div>
-
-    <div style="display: flex; flex-direction: row; gap: 0.5rem; margin-top: 1.5rem;">
-      <!-- Telegram Link -->
-      <a href="https://t.me/+992751330330" target="_blank" class="btn btn-telegram" style="display: inline-flex; flex: 1; justify-content: center; align-items: center; gap: 6px; padding: 0.6rem 0.5rem; font-size: 0.9rem;">
-        <i class="fa-brands fa-telegram"></i> <span data-i18n="btnTelegram">Telegram</span>
-      </a>
-
-      <!-- WhatsApp Link -->
-      <a href="https://wa.me/+992926779626" target="_blank" class="btn btn-whatsapp" style="display: inline-flex; flex: 1; justify-content: center; align-items: center; gap: 6px; padding: 0.6rem 0.5rem; font-size: 0.9rem;">
-        <i class="fa-brands fa-whatsapp"></i> <span data-i18n="btnWhatsApp">WhatsApp</span>
-      </a>
-
-      <!-- Email Link -->
-      <a href="mailto:samadovafarida221@gmail.com" class="btn btn-white" style="display: inline-flex; flex: 1; justify-content: center; align-items: center; gap: 6px; border: 1px solid #cbd5e1; padding: 0.6rem 0.5rem; font-size: 0.9rem;">
-        <i class="fa-regular fa-envelope"></i> <span data-i18n="btnEmail">Email</span>
-      </a>
-    </div>
-  </div>
-</div>
-</section>
-
-<!-- Contact Section -->
-<section id="contact">
-  <div class="container">
-    <h2 class="section-title" data-i18n="contactTitle">Get in Touch</h2>
-
-    <div class="contact-grid">
-      <div class="card contact-info">
-        <h3 data-i18n="contactHeading">Start Your Learning Journey</h3>
-        <p data-i18n="contactText">
-          Get in touch to schedule private lessons, corporate group training, or specialized exam prep (IELTS, TOEFL, SAT, OET, PTE).
-        </p>
-
-        <p><i class="fa-regular fa-envelope"></i> <strong data-i18n="labelEmail">Email:</strong> abdelatybedeir1980@gmail.com</p>
-        <p><i class="fa-solid fa-phone"></i> <strong data-i18n="labelPhone">Phone:</strong> +992 17 540 0220</p>
-        <p><i class="fa-solid fa-location-dot"></i> <strong data-i18n="labelLocation">Location:</strong> <span data-i18n="valLocation">Available worldwide online</span></p>
-
-        <div class="contact-methods">
-          <a href="https://wa.me/201025570505" target="_blank" class="btn btn-whatsapp">
-            <i class="fa-brands fa-whatsapp"></i><span data-i18n="chatWhatsapp">Chat on WhatsApp</span>
-          </a>
-          <a href="https://t.me/Mr_abdelaty" target="_blank" class="btn btn-telegram">
-            <i class="fa-brands fa-telegram"></i><span data-i18n="chatTelegram">Chat on Telegram</span>
-          </a>
-        </div>
-      </div>
-
-      <div class="card">
-        <form id="contactForm" onsubmit="sendMessage(event)">
-          <input type="text" name="name" placeholder="Your name" data-i18n-placeholder="namePlaceholder" required />
-          <input type="email" name="email" placeholder="Your email" data-i18n-placeholder="emailPlaceholder" required />
-          <textarea name="message" placeholder="Tell me about your goals (e.g., General English, Business English, IELTS, TOEFL, SAT, OET, PTE preparation)..." data-i18n-placeholder="messagePlaceholder" required></textarea>
-          
-          <button type="submit" class="btn btn-white" style="background: var(--primary); color: white;" data-i18n="sendMessage">Send Message</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Floating Quick Chat Buttons -->
-<div class="floating-chat">
-  <a href="https://wa.me/201025570505" target="_blank" class="chat-btn wa" title="WhatsApp Chat">
-    <i class="fa-brands fa-whatsapp"></i>
-  </a>
-  <a href="https://t.me/Mr_abdelaty" target="_blank" class="chat-btn tg" title="Telegram Chat">
-    <i class="fa-brands fa-telegram"></i>
-  </a>
-</div>
-
-  <!-- Footer -->
-  <footer>
-    <p>© 2026 learnly. Language & Certification Educator.</p>
-  </footer>
-
-  <!-- JavaScript Logic -->
-  <script src="translations.js"></script>
-  <script src="script.js"></script>
-
-<!-- Modal Popup -->
-<div id="certModal" class="modal-overlay" onclick="closeCertModal(event)">
-  <div class="modal-content" onclick="event.stopPropagation()">
-    <button type="button" class="modal-close" onclick="closeCertModal()">&times;</button>
-    
-    <h2 class="modal-title">
-      <i class="fa-solid fa-certificate" style="color: #2563eb;"></i> 
-      <span data-i18n="certModalTitle">Exam Guide & Purposes</span>
-    </h2>
-    <p class="modal-subtitle" data-i18n="certModalSubtitle">Choose the right certification for your academic or professional goals:</p>
-
-    <div class="cert-grid">
-      <div class="cert-item">
-        <span class="cert-badge">IELTS</span>
-        <h4 data-i18n="ieltsType">Academic & General</h4>
-        <p><strong data-i18n="bestForLabel">Best for:</strong> <span data-i18n="ieltsDesc">Higher education and immigration to the UK, Australia, Canada, New Zealand, and Europe.</span></p>
-      </div>
-
-      <div class="cert-item">
-        <span class="cert-badge">TOEFL</span>
-        <h4 data-i18n="toeflType">Academic English</h4>
-        <p><strong data-i18n="bestForLabel">Best for:</strong> <span data-i18n="toeflDesc">University admission (undergraduate & graduate degrees) primarily in the USA, Canada, and global programs.</span></p>
-      </div>
-
-      <div class="cert-item">
-        <span class="cert-badge">SAT</span>
-        <h4 data-i18n="satType">College Admissions</h4>
-        <p><strong data-i18n="bestForLabel">Best for:</strong> <span data-i18n="satDesc">High school students seeking undergraduate admission to US universities and international scholarships.</span></p>
-      </div>
-
-      <div class="cert-item">
-        <span class="cert-badge">OET</span>
-        <h4 data-i18n="oetType">Healthcare Professionals</h4>
-        <p><strong data-i18n="bestForLabel">Best for:</strong> <span data-i18n="oetDesc">Doctors, nurses, and medical staff applying for registration and clinical work in the UK, USA, Australia, and Ireland.</span></p>
-      </div>
-    </div>
+<!-- Floating chat -->
+<div class="float-chat" id="floatChat">
+  <button type="button" class="fc fc-toggle" id="fcToggle" aria-expanded="false" aria-controls="fcLinks">
+    <span class="sr-only" data-i18n="chatOpen">Write to the teacher</span>
+    <svg class="ico ico-chat" aria-hidden="true"><use href="#i-chat"/></svg>
+    <svg class="ico ico-x" aria-hidden="true"><use href="#i-x"/></svg>
+  </button>
+  <div class="fc-links" id="fcLinks">
+  <a href="https://wa.me/201025570505" target="_blank" rel="noopener" class="fc fc-wa" aria-label="WhatsApp"><svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg></a>
+  <a href="https://t.me/Mr_abdelaty" target="_blank" rel="noopener" class="fc fc-tg" aria-label="Telegram"><svg class="ico" aria-hidden="true"><use href="#i-tg"/></svg></a>
   </div>
 </div>
 
+<!-- Exam guide -->
+<dialog class="modal" id="examGuide" aria-labelledby="examGuideTitle">
+  <div class="modal-head">
+    <h2 id="examGuideTitle" data-i18n="egTitle">Which exam do I need?</h2>
+    <button type="button" class="modal-close" id="closeExamGuide"><span class="sr-only" data-i18n="close">Close</span><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button>
+  </div>
+  <p class="modal-sub" data-i18n="egSub">Pick the exam that matches your goal. Not sure? Ask me — I'll help you choose.</p>
+  <dl class="exam-list">
+    <div><dt>IELTS</dt><dd><strong data-i18n="ieltsType">Academic & General Training</strong><span data-i18n="ieltsDesc">University study and immigration to the UK, Australia, Canada, New Zealand and Europe.</span></dd></div>
+    <div><dt>TOEFL</dt><dd><strong data-i18n="toeflType">Academic English</strong><span data-i18n="toeflDesc">University admission, mostly in the USA and Canada, and many international programs.</span></dd></div>
+    <div><dt>SAT</dt><dd><strong data-i18n="satType">College admission</strong><span data-i18n="satDesc">High-school students applying to US universities and international scholarships.</span></dd></div>
+    <div><dt>OET</dt><dd><strong data-i18n="oetType">Healthcare professionals</strong><span data-i18n="oetDesc">Doctors, nurses and other medical staff registering to work in the UK, Ireland, Australia and other countries.</span></dd></div>
+    <div><dt>PTE</dt><dd><strong data-i18n="pteType">Computer-based Academic English</strong><span data-i18n="pteDesc">University study and visa applications, especially for Australia, New Zealand and the UK. Results usually come within a few days.</span></dd></div>
+  </dl>
+  <a href="#contact" class="btn btn-ink" id="egContact" data-i18n="egCta">Ask which exam fits me</a>
+</dialog>
+
+<noscript><style>.pt-start .btn{display:none}</style></noscript>
 </body>
 </html>
