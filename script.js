@@ -16,7 +16,7 @@
   };
 
   const $ = (id) => document.getElementById(id);
-  const LANGS = ["en", "ru", "tj", "ar"];
+  const LANGS = ["en", "ru", "ar"];
   const TEACHER_WA = "201025570505";
 
   /* ==========================================================
@@ -36,7 +36,6 @@
     if (saved && LANGS.includes(saved)) return saved;
     const nav = (navigator.language || "en").slice(0, 2).toLowerCase();
     if (nav === "ru") return "ru";
-    if (nav === "tg") return "tj";
     if (nav === "ar") return "ar";
     return "en";
   }
@@ -45,7 +44,7 @@
     if (!LANGS.includes(next)) next = "en";
     lang = next;
     const html = document.documentElement;
-    html.lang = next === "tj" ? "tg" : next;
+    html.lang = next;
     html.dir = next === "ar" ? "rtl" : "ltr";
 
     document.querySelectorAll("[data-i18n]").forEach((el) => {
@@ -192,7 +191,7 @@
     // pick the text for the current language, falling back to English, then any language
     const pick = (obj) => {
       if (!obj || typeof obj !== "object") return typeof obj === "string" ? obj : "";
-      return (obj[lang] || obj.en || obj.ru || obj.tj || obj.ar || "").trim();
+      return (obj[lang] || obj.en || obj.ru || obj.ar || "").trim();
     };
     const el = (tag, cls, text) => {
       const n = document.createElement(tag);
@@ -660,7 +659,7 @@
 
     function fmtDate(iso) {
       try {
-        return new Date(iso).toLocaleDateString(lang === "tj" ? "tg" : lang, { day: "numeric", month: "long", year: "numeric" });
+        return new Date(iso).toLocaleDateString(lang, { day: "numeric", month: "long", year: "numeric" });
       } catch (e) { return iso.slice(0, 10); }
     }
 
