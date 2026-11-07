@@ -1,43 +1,6 @@
 {
   "teachers": [
     {
-      "id": "merna",
-      "name": {
-        "en": "Merna",
-        "ru": "Мерна",
-        "tj": "Мерна",
-        "ar": "ميرنا"
-      },
-      "role": {
-        "en": "English teacher",
-        "ru": "Преподаватель английского",
-        "tj": "Омӯзгори забони англисӣ",
-        "ar": "معلمة لغة إنجليزية"
-      },
-      "experience": {
-        "en": "5 years of experience",
-        "ru": "5 лет опыта",
-        "tj": "5 сол таҷриба",
-        "ar": "5 سنوات خبرة"
-      },
-      "languages": {
-        "en": "English",
-        "ru": "Английский",
-        "tj": "Англисӣ",
-        "ar": "الإنجليزية"
-      },
-      "bio": {
-        "en": "I'm an English teacher with a BA in English and a TOEFL certificate, with several years of international experience teaching teenagers and adults from elementary to advanced levels. I focus on General English, speaking, vocabulary and practical language skills.",
-        "ru": "Я преподаватель английского со степенью бакалавра по английскому языку и сертификатом TOEFL. Несколько лет преподаю за рубежом подросткам и взрослым — от начального до продвинутого уровня. Специализируюсь на общем английском, разговорной речи, лексике и практических навыках.",
-        "tj": "Ман омӯзгори забони англисӣ бо дараҷаи бакалавр ва сертификати TOEFL ҳастам. Чанд сол дар хориҷа ба наврасон ва калонсолон аз сатҳи ибтидоӣ то пешрафта дарс додаам. Ба забони англисии умумӣ, гуфтугӯ, луғат ва малакаҳои амалӣ тахассус дорам.",
-        "ar": "أنا معلمة لغة إنجليزية حاصلة على بكالوريوس في اللغة الإنجليزية وشهادة TOEFL، ولدي سنوات من الخبرة الدولية في تدريس المراهقين والكبار من المستوى المبتدئ إلى المتقدم. أركز على الإنجليزية العامة والمحادثة والمفردات والمهارات العملية."
-      },
-      "photo": "img/teachers/merna.jpg",
-      "telegram": "https://t.me/+992751330330",
-      "whatsapp": "992920271870",
-      "email": "Mernasalah167@gmail.com"
-    },
-    {
       "id": "farida",
       "name": {
         "en": "Farida Samadova",
