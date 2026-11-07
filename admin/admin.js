@@ -1,19 +1,30 @@
 /* Learnly admin — edits data/teachers.json and data/courses.json in the GitHub repo.
    No server: the browser talks to the GitHub REST API with the admin's own token.
+
+   Sign-in: the GitHub token is entered once per device and stored ENCRYPTED in this
+   browser (AES-GCM, key derived from username + password with PBKDF2, 600k rounds).
+   After that the admin signs in with username + password; the decrypted token only
+   lives in this tab's sessionStorage and is gone when the tab is closed.
+
    All edits are kept as a draft and published as ONE commit (Git Data API). */
 (function () {
   "use strict";
 
   const CFG = Object.assign({ owner: "", repo: "", branch: "main", siteUrl: "../", apiBase: "https://api.github.com" }, window.LEARNLY_ADMIN || {});
   const LANGS = [
-    { code: "en", label: "EN", name: "English", html: "en", dir: "ltr" },
-    { code: "ru", label: "RU", name: "Русский", html: "ru", dir: "ltr" },
-    { code: "tj", label: "TJ", name: "Тоҷикӣ", html: "tg", dir: "ltr" },
-    { code: "ar", label: "AR", name: "العربية", html: "ar", dir: "rtl" }
+    { code: "en", label: "EN", name: "English", dir: "ltr" },
+    { code: "ru", label: "RU", name: "Russian", dir: "ltr" },
+    { code: "ar", label: "AR", name: "Arabic", dir: "rtl" }
   ];
+  const LANG_CODES = LANGS.map((l) => l.code);
   const FILES = { teachers: "data/teachers.json", courses: "data/courses.json" };
   const PHOTO_DIR = "img/teachers/";
-  const AUTH_KEY = "learnly.admin.auth";
+
+  const VAULT_KEY = "learnly.admin.vault";      // encrypted token (localStorage, per device)
+  const SESSION_KEY = "learnly.admin.session";  // decrypted creds for this tab only (sessionStorage)
+  const FAILS_KEY = "learnly.admin.fails";      // sign-in throttling
+  const LEGACY_KEY = "learnly.admin.auth";      // v1 stored the token in plain text — migrated & removed
+  const PBKDF2_ROUNDS = 600000;
 
   const $ = (id) => document.getElementById(id);
   const el = (tag, attrs, ...kids) => {
@@ -37,24 +48,49 @@
     return s;
   };
   const clone = (x) => JSON.parse(JSON.stringify(x));
-  const pick = (obj) => (obj && (obj.ru || obj.en || obj.tj || obj.ar)) || "";
+  const pick = (obj) => (obj && (obj.en || obj.ru || obj.ar)) || "";
 
-  /* ---------- storage ---------- */
-  const store = {
-    get() {
-      for (const s of [sessionStorage, localStorage]) {
-        try { const v = s.getItem(AUTH_KEY); if (v) return JSON.parse(v); } catch (e) { /* ignore */ }
-      }
-      return null;
-    },
-    set(v, remember) {
-      try { (remember ? localStorage : sessionStorage).setItem(AUTH_KEY, JSON.stringify(v)); } catch (e) { /* ignore */ }
-    },
-    clear() {
-      try { localStorage.removeItem(AUTH_KEY); } catch (e) { /* ignore */ }
-      try { sessionStorage.removeItem(AUTH_KEY); } catch (e) { /* ignore */ }
-    }
+  const ls = {
+    get(store, k) { try { const v = store.getItem(k); return v ? JSON.parse(v) : null; } catch (e) { return null; } },
+    set(store, k, v) { try { store.setItem(k, JSON.stringify(v)); return true; } catch (e) { return false; } },
+    del(store, k) { try { store.removeItem(k); } catch (e) { /* ignore */ } }
   };
+
+  /* ==========================================================
+     Vault: token encrypted with a key from username + password
+     ========================================================== */
+  const enc = new TextEncoder(), dec = new TextDecoder();
+  const toB64 = (buf) => btoa(String.fromCharCode(...new Uint8Array(buf)));
+  const fromB64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+
+  async function deriveKey(user, pass, salt, rounds) {
+    const material = await crypto.subtle.importKey("raw", enc.encode(user.trim().toLowerCase() + "\u0000" + pass), "PBKDF2", false, ["deriveKey"]);
+    return crypto.subtle.deriveKey({ name: "PBKDF2", salt, iterations: rounds, hash: "SHA-256" }, material, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]);
+  }
+  async function sealVault(user, pass, payload) {
+    const salt = crypto.getRandomValues(new Uint8Array(16));
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+    const key = await deriveKey(user, pass, salt, PBKDF2_ROUNDS);
+    const ct = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, enc.encode(JSON.stringify(payload)));
+    return { v: 1, rounds: PBKDF2_ROUNDS, salt: toB64(salt), iv: toB64(iv), ct: toB64(ct) };
+  }
+  async function openVault(user, pass, vault) {
+    const key = await deriveKey(user, pass, fromB64(vault.salt), vault.rounds || PBKDF2_ROUNDS);
+    const pt = await crypto.subtle.decrypt({ name: "AES-GCM", iv: fromB64(vault.iv) }, key, fromB64(vault.ct));
+    return JSON.parse(dec.decode(pt)); // throws on wrong username/password
+  }
+
+  // slow down guessing: after 5 wrong attempts, wait 30 s, doubling each time (max 15 min)
+  function lockRemaining() {
+    const f = ls.get(localStorage, FAILS_KEY);
+    return f && f.until ? Math.max(0, f.until - Date.now()) : 0;
+  }
+  function registerFail() {
+    const f = ls.get(localStorage, FAILS_KEY) || { n: 0 };
+    f.n++;
+    if (f.n >= 5) f.until = Date.now() + Math.min(30000 * Math.pow(2, f.n - 5), 15 * 60000);
+    ls.set(localStorage, FAILS_KEY, f);
+  }
 
   /* ==========================================================
      GitHub API
@@ -80,7 +116,7 @@
         cache: "no-store"
       });
     } catch (e) {
-      throw new ApiError(0, "Нет связи с GitHub. Проверьте интернет и попробуйте ещё раз.");
+      throw new ApiError(0, "Can't reach GitHub. Check your internet connection and try again.");
     }
     if (res.status === 204) return null;
     let data = null;
@@ -93,17 +129,16 @@
   function explain(err, context) {
     const s = err && err.status;
     if (s === 0) return err.message;
-    if (s === 401) return "GitHub не принял токен: он неверный, удалён или истёк. Создайте новый по инструкции.";
-    if (s === 403) return "У токена нет права на запись. В настройках токена нужно: Contents → Read and write.";
+    if (s === 401) return "GitHub didn't accept the token: it's wrong, deleted or expired.";
+    if (s === 403) return "The token can't write to the repository. It needs Contents → Read and write.";
     if (s === 404) return context === "repo"
-      ? "Репозиторий не найден. Проверьте владельца и название, и что токену выдан доступ к этому репозиторию."
-      : "Файл или ветка не найдены. Проверьте название ветки.";
-    if (s === 409 || s === 422) return "Данные на GitHub изменились, пока вы редактировали (например, с другого устройства). Обновите страницу и внесите правки заново.";
-    return "Ошибка GitHub (" + s + "): " + (err && err.message);
+      ? "Repository not found. Check the owner and name, and that the token has access to this repository."
+      : "File or branch not found. Check the branch name.";
+    if (s === 409 || s === 422) return "The data on GitHub changed while you were editing (for example, from another device). Reload the page and make your changes again.";
+    return "GitHub error (" + s + "): " + (err && err.message);
   }
 
-  // UTF-8 safe base64 decode
-  const b64decode = (b64) => new TextDecoder().decode(Uint8Array.from(atob(b64.replace(/\s/g, "")), (c) => c.charCodeAt(0)));
+  const b64decode = (b64) => dec.decode(fromB64(b64.replace(/\s/g, "")));
 
   async function readJson(path, ref) {
     const f = await gh("GET", repoPath("/contents/" + path + "?ref=" + encodeURIComponent(ref)));
@@ -114,61 +149,100 @@
      State
      ========================================================== */
   const state = {
-    remote: { teachers: null, courses: null }, // { sha, json }
-    original: null,   // { teachers:[], courses:[], exams:[] } as loaded
-    draft: null,      // same shape, edited
-    uploads: new Map(), // path -> { base64, url }
-    previews: new Map(), // path -> object URL (kept after publish until Pages rebuilds)
+    remote: { teachers: null, courses: null },
+    original: null,
+    draft: null,
+    uploads: new Map(),  // path -> { base64, url }
+    previews: new Map(), // path -> data URL (kept after publish until Pages rebuilds)
     tab: "teachers",
     busy: false
   };
-
-  function snapshot(d) { return JSON.stringify(d); }
-  function isDirty() {
-    return snapshot(state.draft) !== snapshot(state.original);
-  }
+  const snapshot = (d) => JSON.stringify(d);
+  const isDirty = () => !!state.draft && snapshot(state.draft) !== snapshot(state.original);
   function changedSections() {
     const out = [];
-    if (snapshot(state.draft.teachers) !== snapshot(state.original.teachers)) out.push("преподаватели");
-    if (snapshot(state.draft.courses) !== snapshot(state.original.courses)) out.push("курсы");
-    if (snapshot(state.draft.exams) !== snapshot(state.original.exams)) out.push("экзамены");
+    if (snapshot(state.draft.teachers) !== snapshot(state.original.teachers)) out.push("teachers");
+    if (snapshot(state.draft.courses) !== snapshot(state.original.courses)) out.push("courses");
+    if (snapshot(state.draft.exams) !== snapshot(state.original.exams)) out.push("exams");
     return out;
   }
 
+  // keep only the languages the site supports (drops e.g. the old "tj" texts)
+  function cleanLangs(items) {
+    items.forEach((item) => {
+      Object.keys(item).forEach((k) => {
+        const v = item[k];
+        if (v && typeof v === "object" && !Array.isArray(v)) {
+          const out = {};
+          LANG_CODES.forEach((c) => { out[c] = typeof v[c] === "string" ? v[c] : ""; });
+          item[k] = out;
+        }
+      });
+    });
+    return items;
+  }
+
   /* ==========================================================
-     Login
+     Views: setup / sign in / app
      ========================================================== */
-  function showLogin(message) {
-    $("appView").hidden = true;
-    $("loginView").hidden = false;
+  function show(view) {
+    ["setupView", "signinView", "appView"].forEach((v) => { $(v).hidden = v !== view; });
+  }
+
+  let legacyCreds = null; // token found from the old plain-text storage
+
+  function showSetup(message, opts) {
+    opts = opts || {};
+    show("setupView");
     const fixedRepo = !!(CFG.owner && CFG.repo);
     $("repoFields").hidden = fixedRepo;
     $("repoSummary").hidden = !fixedRepo;
-    if (fixedRepo) $("repoSummary").textContent = "Репозиторий: " + CFG.owner + "/" + CFG.repo + " (ветка " + (CFG.branch || "main") + ")";
-    $("lOwner").value = auth.owner || CFG.owner || "";
-    $("lRepo").value = auth.repo || CFG.repo || "";
-    $("lBranch").value = auth.branch || CFG.branch || "main";
-    $("loginError").textContent = message || "";
-    setTimeout(() => (fixedRepo || $("lOwner").value ? $("lToken") : $("lOwner")).focus(), 0);
+    if (fixedRepo) $("repoSummary").textContent = "Repository: " + CFG.owner + "/" + CFG.repo + " (branch " + (CFG.branch || "main") + ")";
+    $("uOwner").value = (legacyCreds && legacyCreds.owner) || CFG.owner || "";
+    $("uRepo").value = (legacyCreds && legacyCreds.repo) || CFG.repo || "";
+    $("uBranch").value = (legacyCreds && legacyCreds.branch) || CFG.branch || "main";
+    // if we already have a token (old version), don't ask for it again
+    const haveToken = !!(legacyCreds && legacyCreds.token);
+    $("tokenStep").hidden = haveToken && fixedRepo;
+    $("tokenField").hidden = haveToken;
+    $("tokenHelp").hidden = haveToken;
+    const notice = $("setupNotice");
+    const text = message || (haveToken ? "Your GitHub token from the previous version was found. Just create a username and password." : "");
+    notice.hidden = !text;
+    notice.textContent = text;
+    notice.classList.toggle("notice--warn", !!message);
+    $("setupCancel").hidden = !opts.canCancel;
+    $("setupError").textContent = "";
+    if (opts.user) $("uUser").value = opts.user;
+    setTimeout(() => {
+      const first = [$("uOwner"), $("uToken"), $("uUser")].find((i) => i.offsetParent !== null && !i.value);
+      (first || $("uUser")).focus();
+    }, 0);
   }
 
-  async function login(creds, remember) {
+  function showSignin(message) {
+    show("signinView");
+    $("signinError").textContent = message || "";
+    $("sPass").value = "";
+    setTimeout(() => ($("sUser").value ? $("sPass") : $("sUser")).focus(), 0);
+  }
+
+  // check the token against GitHub and load the data
+  async function connect(creds) {
     Object.assign(auth, creds);
-    // 1) repo + access
     let repo;
     try { repo = await gh("GET", repoPath("")); }
-    catch (e) { throw new Error(explain(e, "repo")); }
+    catch (e) { const err = new Error(explain(e, "repo")); err.status = e.status; throw err; }
     if (repo.permissions && repo.permissions.push === false) {
-      throw new Error("У этого аккаунта GitHub нет права записи в репозиторий. Попросите владельца добавить вас как участника (Collaborator).");
+      throw new Error("This GitHub account can't write to the repository. Ask the owner to add you as a collaborator.");
     }
-    // 2) branch
     try { await gh("GET", repoPath("/git/ref/heads/" + encodeURIComponent(auth.branch))); }
-    catch (e) { throw new Error(e.status === 404 ? "Ветка «" + auth.branch + "» не найдена в репозитории." : explain(e)); }
-    // 3) data
+    catch (e) { throw new Error(e.status === 404 ? "Branch “" + auth.branch + "” doesn't exist in the repository." : explain(e)); }
     await loadData();
-    if (remember !== undefined) store.set(creds, remember);
-    $("loginView").hidden = true;
-    $("appView").hidden = false;
+  }
+
+  function enterApp() {
+    show("appView");
     $("repoName").textContent = auth.owner + "/" + auth.repo;
     $("siteLink").href = CFG.siteUrl || "../";
     renderAll();
@@ -179,48 +253,118 @@
       const [t, c] = await Promise.all([readJson(FILES.teachers, auth.branch), readJson(FILES.courses, auth.branch)]);
       state.remote.teachers = t; state.remote.courses = c;
       state.original = {
-        teachers: Array.isArray(t.json.teachers) ? t.json.teachers : [],
-        courses: Array.isArray(c.json.courses) ? c.json.courses : [],
-        exams: Array.isArray(c.json.exams) ? c.json.exams : []
+        teachers: cleanLangs(Array.isArray(t.json.teachers) ? t.json.teachers : []),
+        courses: cleanLangs(Array.isArray(c.json.courses) ? c.json.courses : []),
+        exams: cleanLangs(Array.isArray(c.json.exams) ? c.json.exams : [])
       };
       state.draft = clone(state.original);
       state.uploads.clear();
     } catch (e) {
-      if (e instanceof SyntaxError) throw new Error("Файл с данными на GitHub повреждён (неверный JSON). Восстановите его из истории коммитов.");
-      throw new Error(e.status === 404 ? "В репозитории нет файлов data/teachers.json и data/courses.json. Загрузите новую версию сайта." : explain(e));
+      if (e instanceof SyntaxError) throw new Error("The data file on GitHub is damaged (invalid JSON). Restore it from the commit history.");
+      throw new Error(e.status === 404 ? "data/teachers.json or data/courses.json is missing from the repository. Upload the latest website files." : explain(e));
     }
   }
 
-  function initLogin() {
-    $("loginForm").addEventListener("submit", async (e) => {
+  function initAuth() {
+    // ---- one-time setup ----
+    $("setupForm").addEventListener("submit", async (e) => {
       e.preventDefault();
+      const err = $("setupError");
+      err.textContent = "";
+      const fixedRepo = !!(CFG.owner && CFG.repo);
       const creds = {
-        owner: (CFG.owner || $("lOwner").value).trim(),
-        repo: (CFG.owner && CFG.repo ? CFG.repo : $("lRepo").value).trim(),
-        branch: ((CFG.owner && CFG.repo ? CFG.branch : $("lBranch").value) || "main").trim(),
-        token: $("lToken").value.trim()
+        owner: (fixedRepo ? CFG.owner : $("uOwner").value).trim(),
+        repo: (fixedRepo ? CFG.repo : $("uRepo").value).trim(),
+        branch: ((fixedRepo ? CFG.branch : $("uBranch").value) || "main").trim(),
+        token: (legacyCreds && legacyCreds.token) || $("uToken").value.trim()
       };
-      const err = $("loginError");
-      if (!creds.owner || !creds.repo) { err.textContent = "Укажите владельца и название репозитория."; return; }
-      if (!creds.token) { err.textContent = "Вставьте токен доступа."; $("lToken").focus(); return; }
-      const btn = $("loginBtn");
-      btn.disabled = true; btn.textContent = "Проверяем…"; err.textContent = "";
+      const user = $("uUser").value.trim();
+      const pass = $("uPass").value;
+      const fail = (msg, input) => { err.textContent = msg; if (input) input.focus(); };
+      if (!creds.owner || !creds.repo) return fail("Enter the repository owner and name.", $("uOwner"));
+      if (!creds.token) return fail("Paste your GitHub access token.", $("uToken"));
+      if (user.length < 3) return fail("Username must be at least 3 characters.", $("uUser"));
+      if (pass.length < 10) return fail("Password must be at least 10 characters.", $("uPass"));
+      if (pass !== $("uPass2").value) return fail("The passwords don't match.", $("uPass2"));
+
+      const btn = $("setupBtn");
+      btn.disabled = true; btn.textContent = "Checking the token…";
       try {
-        await login(creds, $("lRemember").checked);
-        $("lToken").value = "";
+        await connect(creds);
+        btn.textContent = "Encrypting…";
+        const vault = await sealVault(user, pass, creds);
+        if (!ls.set(localStorage, VAULT_KEY, vault)) throw new Error("This browser doesn't allow saving data (private mode?). Use a normal window.");
+        ls.del(localStorage, LEGACY_KEY); ls.del(sessionStorage, LEGACY_KEY);
+        ls.del(localStorage, FAILS_KEY);
+        legacyCreds = null;
+        ls.set(sessionStorage, SESSION_KEY, creds);
+        $("uToken").value = ""; $("uPass").value = ""; $("uPass2").value = "";
+        $("sUser").value = user;
+        enterApp();
+        toast("Done. Next time, sign in with your username and password.", 5000);
       } catch (ex) {
-        err.textContent = ex.message;
+        // a token that GitHub rejects should be re-entered, even if it came from the old version
+        if (ex.status === 401 && legacyCreds) { legacyCreds = null; showSetup(); }
+        fail(ex.message);
       } finally {
-        btn.disabled = false; btn.textContent = "Войти";
+        btn.disabled = false; btn.textContent = "Save and sign in";
+      }
+    });
+    $("setupCancel").addEventListener("click", () => showSignin());
+
+    // ---- sign in ----
+    $("signinForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const err = $("signinError");
+      const wait = lockRemaining();
+      if (wait) { err.textContent = "Too many wrong attempts. Try again in " + Math.ceil(wait / 1000) + " seconds."; return; }
+      const user = $("sUser").value.trim(), pass = $("sPass").value;
+      if (!user || !pass) { err.textContent = "Enter your username and password."; return; }
+      const vault = ls.get(localStorage, VAULT_KEY);
+      if (!vault) { showSetup(); return; }
+      const btn = $("signinBtn");
+      btn.disabled = true; btn.textContent = "Signing in…"; err.textContent = "";
+      let creds;
+      try {
+        creds = await openVault(user, pass, vault);
+      } catch (ex) {
+        registerFail();
+        err.textContent = "Wrong username or password.";
+        $("sPass").value = ""; $("sPass").focus();
+        btn.disabled = false; btn.textContent = "Sign in";
+        return;
+      }
+      ls.del(localStorage, FAILS_KEY);
+      try {
+        await connect(creds);
+        ls.set(sessionStorage, SESSION_KEY, creds);
+        $("sPass").value = "";
+        enterApp();
+      } catch (ex) {
+        if (ex.status === 401) {
+          // token expired or revoked on GitHub → need a new one, keep the same username
+          ls.del(localStorage, VAULT_KEY);
+          showSetup("Your GitHub token has expired or was deleted. Paste a new token and choose a password.", { user });
+        } else err.textContent = ex.message;
+      } finally {
+        btn.disabled = false; btn.textContent = "Sign in";
       }
     });
 
+    $("resetBtn").addEventListener("click", async () => {
+      const ok = await confirmDlg("Set up again?", "This removes the saved sign-in from this device. You'll need a GitHub token to create a new username and password.", "Set up again", true);
+      if (!ok) return;
+      ls.del(localStorage, VAULT_KEY);
+      ls.del(localStorage, FAILS_KEY);
+      showSetup();
+    });
+
     $("logoutBtn").addEventListener("click", async () => {
-      if (isDirty() && !(await confirmDlg("Выйти без публикации?", "Неопубликованные изменения будут потеряны.", "Выйти"))) return;
-      store.clear();
+      if (isDirty() && !(await confirmDlg("Sign out without publishing?", "Your unpublished changes will be lost.", "Sign out"))) return;
+      ls.del(sessionStorage, SESSION_KEY);
       auth.token = "";
       state.draft = state.original = null;
-      showLogin();
+      showSignin();
     });
   }
 
@@ -229,38 +373,38 @@
      ========================================================== */
   const SCHEMAS = {
     teachers: {
-      one: "преподавателя", title: "Преподаватель", add: "Добавить преподавателя",
-      hint: "Карточки в разделе «Преподаватели» на сайте. Порядок здесь = порядок на сайте.",
-      empty: "Преподавателей пока нет. Раздел на сайте скрыт, пока список пуст.",
+      one: "teacher", title: "Teacher", add: "Add teacher",
+      hint: "Cards in the “Teachers” section of the site. The order here is the order on the site.",
+      empty: "No teachers yet. The section is hidden on the site while the list is empty.",
       i18n: [
-        { key: "name", label: "Имя", required: true, ph: "Например: Мерна" },
-        { key: "role", label: "Должность", ph: "Например: Преподаватель английского" },
-        { key: "experience", label: "Опыт", ph: "Например: 5 лет опыта" },
-        { key: "languages", label: "Языки", ph: "Например: Английский, русский" },
-        { key: "bio", label: "О себе", textarea: true, rows: 5 }
+        { key: "name", label: "Name", required: true, ph: "e.g. Merna" },
+        { key: "role", label: "Role", ph: "e.g. English teacher" },
+        { key: "experience", label: "Experience", ph: "e.g. 5 years of experience" },
+        { key: "languages", label: "Languages", ph: "e.g. English, Russian" },
+        { key: "bio", label: "About", textarea: true, rows: 5 }
       ],
       shared: ["photo", "telegram", "whatsapp", "email", "hidden"],
       blank: () => ({ id: "", name: {}, role: {}, experience: {}, languages: {}, bio: {}, photo: "", telegram: "", whatsapp: "", email: "" })
     },
     courses: {
-      one: "курс", title: "Курс", add: "Добавить курс",
-      hint: "Блок «Чему я учу» на сайте.",
-      empty: "Курсов пока нет.",
+      one: "course", title: "Course", add: "Add course",
+      hint: "The “What I teach” block on the site.",
+      empty: "No courses yet.",
       i18n: [
-        { key: "title", label: "Название", required: true },
-        { key: "text", label: "Описание", textarea: true, rows: 3 }
+        { key: "title", label: "Title", required: true },
+        { key: "text", label: "Description", textarea: true, rows: 3 }
       ],
       shared: ["icon", "tags", "examGuide", "hidden"],
       blank: () => ({ id: "", icon: "chat", title: {}, text: {}, tags: [], examGuide: false })
     },
     exams: {
-      one: "экзамен", title: "Экзамен", add: "Добавить экзамен",
-      hint: "Список в окне «Какой экзамен мне нужен?». Окно открывается из курса, у которого включена эта кнопка.",
-      empty: "Экзаменов пока нет. Кнопка «Какой экзамен мне нужен?» на сайте скрыта.",
+      one: "exam", title: "Exam", add: "Add exam",
+      hint: "The list in the “Which exam do I need?” window. It opens from a course that has this button turned on.",
+      empty: "No exams yet. The “Which exam do I need?” button is hidden on the site.",
       sharedFirst: ["examName"],
       i18n: [
-        { key: "type", label: "Для кого / тип", ph: "Например: Academic & General Training" },
-        { key: "desc", label: "Описание", textarea: true, rows: 3 }
+        { key: "type", label: "Who it's for / type", ph: "e.g. Academic & General Training" },
+        { key: "desc", label: "Description", textarea: true, rows: 3 }
       ],
       shared: ["hidden"],
       blank: () => ({ id: "", name: "", type: {}, desc: {} })
@@ -284,10 +428,16 @@
     const src = photoSrc(item.photo);
     if (src) {
       const img = el("img", { src, alt: "", loading: "lazy" });
-      img.addEventListener("error", () => img.remove()); // photo not on the site yet → initials
+      img.addEventListener("error", () => img.remove());
       wrap.appendChild(img);
     }
     return wrap;
+  }
+
+  function langFilled(tab, item, code) {
+    const req = SCHEMAS[tab].i18n.filter((f) => f.required).map((f) => f.key);
+    const keys = req.length ? req : [SCHEMAS[tab].i18n[0].key];
+    return keys.every((k) => item[k] && String(item[k][code] || "").trim());
   }
 
   function renderList() {
@@ -309,34 +459,28 @@
         lead = el("span", { class: "course-ico" }, icon(["chat", "case", "cap"].includes(item.icon) ? item.icon : "chat"));
         title = pick(item.title); sub = pick(item.text);
       } else {
-        lead = el("span", { class: "exam-badge" }, (item.name || "?").slice(0, 5));
+        lead = el("span", { class: "exam-badge" }, item.name || "?");
         title = item.name; sub = pick(item.type);
       }
       const missing = LANGS.filter((l) => !langFilled(tab, item, l.code)).map((l) => l.label);
       const row = el("li", { class: "item" + (item.hidden ? " is-hidden" : "") },
         lead,
         el("div", { class: "item-main" },
-          el("p", { class: "item-title" }, title || "Без названия",
-            item.hidden ? el("span", { class: "badge" }, icon("eye-off"), "Скрыт") : null),
+          el("p", { class: "item-title" }, title || "Untitled",
+            item.hidden ? el("span", { class: "badge" }, icon("eye-off"), "Hidden") : null),
           sub ? el("p", { class: "item-sub" }, sub) : null,
-          missing.length ? el("p", { class: "item-warn" }, "Нет перевода: " + missing.join(", ")) : null
+          missing.length ? el("p", { class: "item-warn" }, "Missing translation: " + missing.join(", ")) : null
         ),
         el("div", { class: "item-actions" },
-          el("button", { type: "button", class: "icon-btn", "aria-label": "Выше", title: "Выше", disabled: i === 0, onclick: () => move(i, -1) }, icon("up")),
-          el("button", { type: "button", class: "icon-btn", "aria-label": "Ниже", title: "Ниже", disabled: i === items.length - 1, onclick: () => move(i, 1) }, icon("down")),
-          el("button", { type: "button", class: "icon-btn", "aria-label": "Изменить", title: "Изменить", onclick: () => openEditor(i) }, icon("edit")),
-          el("button", { type: "button", class: "icon-btn icon-btn--danger", "aria-label": "Удалить", title: "Удалить", onclick: () => remove(i) }, icon("trash"))
+          el("button", { type: "button", class: "icon-btn", "aria-label": "Move up", title: "Move up", disabled: i === 0, onclick: () => move(i, -1) }, icon("up")),
+          el("button", { type: "button", class: "icon-btn", "aria-label": "Move down", title: "Move down", disabled: i === items.length - 1, onclick: () => move(i, 1) }, icon("down")),
+          el("button", { type: "button", class: "icon-btn", "aria-label": "Edit", title: "Edit", onclick: () => openEditor(i) }, icon("edit")),
+          el("button", { type: "button", class: "icon-btn icon-btn--danger", "aria-label": "Delete", title: "Delete", onclick: () => remove(i) }, icon("trash"))
         )
       );
       row.querySelector(".item-main").addEventListener("click", () => openEditor(i));
       list.appendChild(row);
     });
-  }
-
-  function langFilled(tab, item, code) {
-    const req = SCHEMAS[tab].i18n.filter((f) => f.required).map((f) => f.key);
-    const keys = req.length ? req : [SCHEMAS[tab].i18n[0].key];
-    return keys.every((k) => item[k] && String(item[k][code] || "").trim());
   }
 
   function renderCounts() {
@@ -349,7 +493,7 @@
     const dirty = isDirty();
     $("publishBar").hidden = !dirty;
     document.body.classList.toggle("has-bar", dirty);
-    if (dirty) $("publishText").textContent = "Не опубликовано: " + changedSections().join(", ") + ". На сайте пока старая версия.";
+    if (dirty) $("publishText").textContent = "Unpublished changes: " + changedSections().join(", ") + ". The site still shows the old version.";
   }
 
   function renderAll() {
@@ -373,17 +517,17 @@
     const arr = state.draft[state.tab];
     const item = arr[i];
     const name = state.tab === "exams" ? item.name : pick(item.name || item.title);
-    const ok = await confirmDlg("Удалить " + SCHEMAS[state.tab].one + "?", "«" + (name || "Без названия") + "» исчезнет с сайта после публикации. До публикации можно нажать «Отменить изменения».", "Удалить");
+    const ok = await confirmDlg("Delete this " + SCHEMAS[state.tab].one + "?", "“" + (name || "Untitled") + "” will disappear from the site when you publish. Until then you can still click “Discard changes”.", "Delete", true);
     if (!ok) return;
     arr.splice(i, 1);
     renderAll();
-    toast("Удалено. Нажмите «Опубликовать», чтобы применить на сайте.");
+    toast("Deleted. Click “Publish” to apply it on the site.");
   }
 
   /* ==========================================================
      Editor
      ========================================================== */
-  let editing = null; // { tab, index (-1 = new), item, photo: {path, base64, url} | null }
+  let editing = null; // { tab, index (-1 = new), item, photo }
 
   function field(label, input, hint, id) {
     return el("div", { class: "field" },
@@ -395,18 +539,18 @@
   function sharedField(name, item) {
     switch (name) {
       case "examName":
-        return field("Название экзамена", el("input", { id: "f-name", value: item.name || "", required: true, maxlength: 20, placeholder: "Например: IELTS" }), null, "f-name");
+        return field("Exam name", el("input", { id: "f-name", value: item.name || "", required: true, maxlength: 20, placeholder: "e.g. IELTS" }), null, "f-name");
       case "photo": {
         const prev = el("div", { class: "photo-preview", id: "photoPreview" });
         const fileIn = el("input", { type: "file", id: "f-photo", accept: "image/jpeg,image/png,image/webp", class: "sr-only" });
         const box = el("div", { class: "field" },
-          el("span", { class: "label" }, "Фото"),
+          el("span", { class: "label" }, "Photo"),
           el("div", { class: "photo-row" },
             prev,
             el("div", { class: "photo-actions" },
-              el("label", { for: "f-photo", class: "btn btn-line btn-sm" }, "Загрузить фото"),
-              el("button", { type: "button", class: "btn btn-line btn-sm", id: "photoRemove" }, "Убрать фото"),
-              el("p", { class: "hint" }, "JPG или PNG. Фото обрежется до квадрата по центру и уменьшится до 640×640.")
+              el("label", { for: "f-photo", class: "btn btn-line btn-sm" }, "Upload photo"),
+              el("button", { type: "button", class: "btn btn-line btn-sm", id: "photoRemove" }, "Remove photo"),
+              el("p", { class: "hint" }, "JPG or PNG. It's cropped to a centred square and resized to 640×640.")
             )),
           fileIn);
         fileIn.addEventListener("change", () => onPhoto(fileIn));
@@ -414,27 +558,27 @@
         return box;
       }
       case "telegram":
-        return field("Telegram", el("input", { id: "f-telegram", value: item.telegram || "", spellcheck: "false", placeholder: "@username, ссылка t.me/… или номер +992…" }), null, "f-telegram");
+        return field("Telegram", el("input", { id: "f-telegram", value: item.telegram || "", autocapitalize: "none", spellcheck: "false", placeholder: "@username, a t.me/… link or +992… number" }), null, "f-telegram");
       case "whatsapp":
-        return field("WhatsApp — номер", el("input", { id: "f-whatsapp", value: item.whatsapp ? "+" + item.whatsapp : "", inputmode: "tel", placeholder: "+992 92 000 0000" }), "С кодом страны.", "f-whatsapp");
+        return field("WhatsApp number", el("input", { id: "f-whatsapp", value: item.whatsapp ? "+" + item.whatsapp : "", inputmode: "tel", placeholder: "+992 92 000 0000" }), "Include the country code.", "f-whatsapp");
       case "email":
-        return field("Email", el("input", { id: "f-email", type: "email", value: item.email || "", spellcheck: "false", placeholder: "name@example.com" }), null, "f-email");
+        return field("Email", el("input", { id: "f-email", type: "email", value: item.email || "", autocapitalize: "none", spellcheck: "false", placeholder: "name@example.com" }), null, "f-email");
       case "icon": {
-        const opts = [["chat", "Разговор"], ["case", "Портфель (бизнес)"], ["cap", "Шапочка (экзамены)"]];
-        const group = el("div", { class: "icon-choice", role: "radiogroup", "aria-label": "Иконка" },
+        const opts = [["chat", "Conversation"], ["case", "Briefcase (business)"], ["cap", "Graduation cap (exams)"]];
+        const group = el("div", { class: "icon-choice", role: "radiogroup", "aria-label": "Icon" },
           opts.map(([v, l]) => el("label", { class: "icon-opt" },
             el("input", { type: "radio", name: "f-icon", value: v, checked: (item.icon || "chat") === v }),
             icon(v), el("span", null, l))));
-        return el("div", { class: "field" }, el("span", { class: "label" }, "Иконка"), group);
+        return el("div", { class: "field" }, el("span", { class: "label" }, "Icon"), group);
       }
       case "tags":
-        return field("Метки", el("input", { id: "f-tags", value: (item.tags || []).join(", "), placeholder: "IELTS, TOEFL, SAT" }), "Через запятую. Показываются под описанием. Можно оставить пустым.", "f-tags");
+        return field("Tags", el("input", { id: "f-tags", value: (item.tags || []).join(", "), placeholder: "IELTS, TOEFL, SAT" }), "Comma-separated. Shown under the description. Optional.", "f-tags");
       case "examGuide":
         return el("label", { class: "check" }, el("input", { type: "checkbox", id: "f-examGuide", checked: !!item.examGuide }),
-          el("span", null, "Показывать кнопку «Какой экзамен мне нужен?»"));
+          el("span", null, "Show the “Which exam do I need?” button"));
       case "hidden":
         return el("label", { class: "check" }, el("input", { type: "checkbox", id: "f-hidden", checked: !!item.hidden }),
-          el("span", null, "Скрыть на сайте (останется здесь, можно вернуть)"));
+          el("span", null, "Hide on the site (stays here, you can show it again)"));
     }
     return null;
   }
@@ -446,10 +590,10 @@
     const p = editing.photo;
     const src = p ? p.url : photoSrc(editing.item.photo);
     if (src) {
-      const img = el("img", { src, alt: "Предпросмотр фото" });
-      img.addEventListener("error", () => { prev.replaceChildren(el("span", null, "Фото появится на сайте после публикации")); });
+      const img = el("img", { src, alt: "Photo preview" });
+      img.addEventListener("error", () => { prev.replaceChildren(el("span", null, "The photo will appear on the site after publishing")); });
       prev.appendChild(img);
-    } else prev.appendChild(el("span", null, "Нет фото"));
+    } else prev.appendChild(el("span", null, "No photo"));
     $("photoRemove").hidden = !src;
   }
 
@@ -459,7 +603,7 @@
     if (!file) return;
     const err = $("editorError");
     err.textContent = "";
-    if (file.size > 20 * 1024 * 1024) { err.textContent = "Файл больше 20 МБ. Выберите фото поменьше."; return; }
+    if (file.size > 20 * 1024 * 1024) { err.textContent = "The file is larger than 20 MB. Choose a smaller photo."; return; }
     try {
       const bmp = await createImageBitmap(file);
       const side = Math.min(bmp.width, bmp.height);
@@ -468,9 +612,8 @@
       canvas.width = canvas.height = size;
       const ctx = canvas.getContext("2d");
       ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, size, size);
-      // centre crop; for portraits keep a bit more of the top (faces)
       const sx = (bmp.width - side) / 2;
-      const sy = bmp.height > bmp.width ? (bmp.height - side) * 0.3 : (bmp.height - side) / 2;
+      const sy = bmp.height > bmp.width ? (bmp.height - side) * 0.3 : (bmp.height - side) / 2; // keep faces in portraits
       ctx.imageSmoothingQuality = "high";
       ctx.drawImage(bmp, sx, sy, side, side, 0, 0, size, size);
       bmp.close && bmp.close();
@@ -479,7 +622,7 @@
       editing.photo = { path: null, base64: dataUrl.split(",")[1], url: dataUrl };
       renderPhoto();
     } catch (e) {
-      err.textContent = "Не удалось прочитать фото. Сохраните его как JPG или PNG и попробуйте снова.";
+      err.textContent = "Couldn't read this photo. Save it as JPG or PNG and try again.";
     }
   }
 
@@ -489,29 +632,29 @@
     const item = index >= 0 ? clone(state.draft[tab][index]) : sc.blank();
     editing = { tab, index, item, photo: null };
 
-    $("editorTitle").textContent = (index >= 0 ? "Изменить: " : "Новый: ") + sc.title.toLowerCase();
+    $("editorTitle").textContent = (index >= 0 ? "Edit " : "New ") + sc.one;
     $("editorError").textContent = "";
     const body = $("editorBody");
     body.replaceChildren();
 
     (sc.sharedFirst || []).forEach((n) => body.appendChild(sharedField(n, item)));
 
-    // language tabs
-    const startLang = "ru";
-    const tabs = el("div", { class: "lang-tabs", role: "tablist", "aria-label": "Язык текста" });
+    const startLang = "en";
+    const tabs = el("div", { class: "lang-tabs", role: "tablist", "aria-label": "Text language" });
     const panels = el("div", { class: "lang-panels" });
     LANGS.forEach((L) => {
       const btn = el("button", { type: "button", role: "tab", class: "lang-tab", id: "lt-" + L.code, "aria-controls": "lp-" + L.code, "aria-selected": String(L.code === startLang), "data-lang": L.code },
         L.label, el("span", { class: "dot", "aria-hidden": "true" }));
       btn.addEventListener("click", () => selectLang(L.code));
       tabs.appendChild(btn);
-      const panel = el("div", { class: "lang-panel", role: "tabpanel", id: "lp-" + L.code, "aria-labelledby": "lt-" + L.code, hidden: L.code !== startLang, lang: L.html, dir: L.dir });
+      const panel = el("div", { class: "lang-panel", role: "tabpanel", id: "lp-" + L.code, "aria-labelledby": "lt-" + L.code, hidden: L.code !== startLang, lang: L.code, dir: L.dir });
       sc.i18n.forEach((f) => {
         const id = "f-" + f.key + "-" + L.code;
         const val = (item[f.key] && item[f.key][L.code]) || "";
+        const ph = L.code === "en" ? f.ph || "" : "";
         const input = f.textarea
-          ? el("textarea", { id, rows: f.rows || 4, "data-key": f.key, "data-lang": L.code, placeholder: L.code === "ru" ? f.ph || "" : "" })
-          : el("input", { id, "data-key": f.key, "data-lang": L.code, placeholder: L.code === "ru" ? f.ph || "" : "" });
+          ? el("textarea", { id, rows: f.rows || 4, "data-key": f.key, "data-lang": L.code, placeholder: ph })
+          : el("input", { id, "data-key": f.key, "data-lang": L.code, placeholder: ph });
         input.value = val;
         input.addEventListener("input", updateLangDots);
         panel.appendChild(field(f.label + (f.required ? " *" : "") + " · " + L.name, input, null, id));
@@ -521,8 +664,8 @@
     body.append(
       el("div", { class: "lang-block" },
         el("div", { class: "lang-head" },
-          el("span", { class: "label" }, "Текст на сайте"),
-          el("p", { class: "hint" }, "Заполните все 4 языка. Если поле пустое, на сайте покажется английский (или русский) вариант.")),
+          el("span", { class: "label" }, "Text on the site"),
+          el("p", { class: "hint" }, "Fill in all 3 languages. Any empty field shows the English text on the site.")),
         tabs, panels)
     );
 
@@ -598,36 +741,34 @@
       return false;
     };
 
-    // translated fields
     sc.i18n.forEach((f) => {
       item[f.key] = {};
       LANGS.forEach((L) => { item[f.key][L.code] = ($("f-" + f.key + "-" + L.code).value || "").trim(); });
     });
     for (const f of sc.i18n.filter((x) => x.required)) {
       if (!LANGS.some((L) => item[f.key][L.code])) {
-        return fail("Заполните поле «" + f.label + "» хотя бы на одном языке.", $("f-" + f.key + "-ru"), "ru");
+        return fail("Fill in “" + f.label + "” in at least one language.", $("f-" + f.key + "-en"), "en");
       }
     }
 
-    // shared fields
     if (sc.sharedFirst && sc.sharedFirst.includes("examName")) {
       const n = $("f-name").value.trim();
-      if (!n) return fail("Укажите название экзамена.", $("f-name"));
+      if (!n) return fail("Enter the exam name.", $("f-name"));
       item.name = n;
     }
     if (sc.shared.includes("telegram")) {
       const tg = normTelegram($("f-telegram").value);
-      if (tg === null) return fail("Telegram: укажите @username, ссылку t.me/… или номер с кодом страны.", $("f-telegram"));
+      if (tg === null) return fail("Telegram: enter an @username, a t.me/… link or a number with the country code.", $("f-telegram"));
       item.telegram = tg;
     }
     if (sc.shared.includes("whatsapp")) {
       const wa = normPhone($("f-whatsapp").value);
-      if (wa === null) return fail("WhatsApp: номер должен содержать 7–15 цифр с кодом страны.", $("f-whatsapp"));
+      if (wa === null) return fail("WhatsApp: the number needs 7–15 digits including the country code.", $("f-whatsapp"));
       item.whatsapp = wa;
     }
     if (sc.shared.includes("email")) {
       const em = normEmail($("f-email").value);
-      if (em === null) return fail("Проверьте email — он должен быть вида name@example.com.", $("f-email"));
+      if (em === null) return fail("Check the email address — it should look like name@example.com.", $("f-email"));
       item.email = em;
     }
     if (sc.shared.includes("icon")) {
@@ -642,13 +783,11 @@
       if ($("f-hidden").checked) item.hidden = true; else delete item.hidden;
     }
 
-    // id (stable once set)
     if (!item.id) {
-      const base = slug(tab === "exams" ? item.name : (item.name || item.title || {}).en || "") ;
+      const base = slug(tab === "exams" ? item.name : (item.name || item.title || {}).en || "");
       item.id = uniqueId(base, tab, index);
     }
 
-    // photo
     if (editing.photo) {
       if (editing.photo.base64) {
         const path = PHOTO_DIR + item.id + "-" + Date.now().toString(36) + ".jpg";
@@ -660,11 +799,10 @@
     }
 
     if (index >= 0) state.draft[tab][index] = item; else state.draft[tab].push(item);
-    // drop uploads no longer referenced by any draft item
     pruneUploads();
     closeEditor();
     renderAll();
-    toast(index >= 0 ? "Изменения сохранены в черновик. Не забудьте опубликовать." : "Добавлено в черновик. Не забудьте опубликовать.");
+    toast(index >= 0 ? "Saved to the draft. Don't forget to publish." : "Added to the draft. Don't forget to publish.");
     return true;
   }
 
@@ -688,7 +826,6 @@
       state.tab = b.dataset.tab;
       renderAll();
     }));
-    // arrow keys between tabs
     $("appView").querySelector(".tabs").addEventListener("keydown", (e) => {
       if (!["ArrowLeft", "ArrowRight"].includes(e.key)) return;
       const tabs = [...document.querySelectorAll(".tab")];
@@ -719,12 +856,11 @@
     btn.disabled = true; $("discardBtn").disabled = true;
     const setStatus = (t) => { $("publishText").textContent = t; };
     try {
-      setStatus("Проверяем, не изменились ли данные на GitHub…");
+      setStatus("Checking that nothing changed on GitHub…");
       const ref = await gh("GET", repoPath("/git/ref/heads/" + encodeURIComponent(auth.branch)));
       const headSha = ref.object.sha;
       const head = await gh("GET", repoPath("/git/commits/" + headSha));
 
-      // someone else changed the data since we loaded it?
       for (const key of ["teachers", "courses"]) {
         const f = await gh("GET", repoPath("/contents/" + FILES[key] + "?ref=" + headSha));
         if (f.sha !== state.remote[key].sha) throw new ApiError(409, "conflict");
@@ -733,32 +869,29 @@
       const tree = [];
       buildFiles().forEach((f) => tree.push({ path: f.path, mode: "100644", type: "blob", content: f.content }));
 
-      // new photos
       pruneUploads();
       let n = 0;
       for (const [path, up] of state.uploads) {
         n++;
-        setStatus("Загружаем фото " + n + " из " + state.uploads.size + "…");
+        setStatus("Uploading photo " + n + " of " + state.uploads.size + "…");
         const blob = await gh("POST", repoPath("/git/blobs"), { content: up.base64, encoding: "base64" });
         tree.push({ path, mode: "100644", type: "blob", sha: blob.sha });
       }
-      // photos of removed teachers / replaced photos (only inside img/teachers/)
       const stillUsed = new Set(state.draft.teachers.map((t) => t.photo));
       const removed = [...new Set(state.original.teachers.map((t) => t.photo))]
         .filter((p) => p && p.startsWith(PHOTO_DIR) && !stillUsed.has(p));
       removed.forEach((path) => tree.push({ path, mode: "100644", type: "blob", sha: null }));
 
-      setStatus("Сохраняем…");
+      setStatus("Saving…");
       const newTree = await gh("POST", repoPath("/git/trees"), { base_tree: head.tree.sha, tree });
-      const message = "Админка: обновлены " + changedSections().join(", ");
+      const message = "Admin: updated " + changedSections().join(", ");
       const commit = await gh("POST", repoPath("/git/commits"), { message, tree: newTree.sha, parents: [headSha] });
       await gh("PATCH", repoPath("/git/refs/heads/" + encodeURIComponent(auth.branch)), { sha: commit.sha, force: false });
 
-      // keep local previews of new photos until GitHub Pages serves them
       for (const [path, up] of state.uploads) state.previews.set(path, up.url);
       await loadData();
       renderAll();
-      toast("Опубликовано. Сайт обновится через 1–2 минуты.", 6000);
+      toast("Published. The site will update in 1–2 minutes.", 6000);
     } catch (e) {
       setStatus(explain(e));
       toast(explain(e), 8000, true);
@@ -771,25 +904,26 @@
   function initPublish() {
     $("publishBtn").addEventListener("click", publish);
     $("discardBtn").addEventListener("click", async () => {
-      if (!(await confirmDlg("Отменить все изменения?", "Черновик вернётся к версии, которая сейчас на сайте.", "Отменить изменения"))) return;
+      if (!(await confirmDlg("Discard all changes?", "The draft goes back to the version that's on the site now.", "Discard changes", true))) return;
       state.draft = clone(state.original);
       state.uploads.clear();
       renderAll();
     });
     window.addEventListener("beforeunload", (e) => {
-      if (state.draft && isDirty()) { e.preventDefault(); e.returnValue = ""; }
+      if (isDirty()) { e.preventDefault(); e.returnValue = ""; }
     });
   }
 
   /* ==========================================================
      Small UI helpers
      ========================================================== */
-  function confirmDlg(title, text, yes) {
+  function confirmDlg(title, text, yes, danger) {
     return new Promise((resolve) => {
       const dlg = $("confirmDlg");
       $("confirmTitle").textContent = title;
       $("confirmText").textContent = text;
-      $("confirmYes").textContent = yes || "Да";
+      $("confirmYes").textContent = yes || "OK";
+      $("confirmYes").className = "btn " + (danger === false ? "btn-ink" : "btn-danger");
       const done = (v) => { cleanup(); if (dlg.open) dlg.close(); resolve(v); };
       const onYes = () => done(true), onNo = () => done(false), onCancel = () => { cleanup(); resolve(false); };
       const cleanup = () => {
@@ -819,23 +953,30 @@
      Boot
      ========================================================== */
   document.addEventListener("DOMContentLoaded", async () => {
-    initLogin();
+    initAuth();
     initEditor();
     initPublish();
-    const saved = store.get();
-    if (saved && saved.token) {
-      try {
-        await login(saved);
-        return;
-      } catch (e) {
-        Object.assign(auth, saved, { token: "" });
-        showLogin(e.message);
-        return;
-      }
+
+    if (!window.crypto || !crypto.subtle) {
+      showSetup("This page must be opened over HTTPS (secure connection) to sign in.");
+      $("setupBtn").disabled = true;
+      return;
     }
-    showLogin();
+
+    // migrate the plain-text token saved by the previous version, then delete it
+    legacyCreds = ls.get(localStorage, LEGACY_KEY) || ls.get(sessionStorage, LEGACY_KEY);
+    if (legacyCreds && !legacyCreds.token) legacyCreds = null;
+
+    // same tab, already signed in → continue without asking again
+    const session = ls.get(sessionStorage, SESSION_KEY);
+    if (session && session.token) {
+      try { await connect(session); enterApp(); return; }
+      catch (e) { ls.del(sessionStorage, SESSION_KEY); }
+    }
+
+    if (ls.get(localStorage, VAULT_KEY)) showSignin();
+    else showSetup();
   });
 
-  // for automated checks
   window.__admin = { state, normTelegram, normPhone };
 })();

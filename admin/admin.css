@@ -272,3 +272,26 @@ body.has-bar .toast { bottom: 100px; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
 }
+
+/* ---------- sign-in / setup ---------- */
+.login-card--wide { max-width: 520px; }
+.login-foot { border-top: 1px solid var(--rule); padding-top: 12px; }
+.link-btn {
+  background: none; border: 0; padding: 10px 0; cursor: pointer; text-align: start;
+  color: var(--ink); font-weight: 500; text-decoration: underline; text-underline-offset: 3px;
+}
+.notice { padding: 12px 14px; border-radius: var(--r-m); background: var(--ink-soft); color: var(--ink-deep); font-size: .9375rem; }
+.notice--warn { background: var(--mark-soft); }
+.step { border: 0; padding: 0; margin: 0; min-width: 0; display: grid; gap: 14px; }
+.step + .step { border-top: 1px solid var(--rule); padding-top: 18px; }
+.step legend { display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--ink-deep); padding: 0; margin-bottom: 14px; float: left; width: 100%; }
+.step legend + * { clear: both; }
+.step-n {
+  width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; flex: none;
+  background: var(--ink); color: #fff; font-size: .8125rem;
+}
+.login-card form .btn + .btn { margin-top: -4px; }
+
+/* the global margin reset removes <dialog> auto-centering */
+.editor, .confirm { margin: auto; }
+@media (max-width: 640px) { .editor { margin: 0; } }
