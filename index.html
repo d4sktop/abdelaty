@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,600;7..72,700&family=Onest:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=20261107">
 
   <script type="application/ld+json">
   {
@@ -34,9 +34,9 @@
     "sameAs": ["https://t.me/Mr_abdelaty"]
   }
   </script>
-  <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3.11.0/dist/email.min.js"></script>
-  <script defer src="translations.js"></script>
-  <script defer src="script.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3.11.0/dist/email.min.js"></script>
+  <script defer src="translations.js?v=20261107"></script>
+  <script defer src="script.js?v=20261107"></script>
 </head>
 
 <body>
@@ -88,13 +88,14 @@
         <select id="langSelect">
           <option value="en">English</option>
           <option value="ru">Русский</option>
+          <option value="tj">Тоҷикӣ</option>
           <option value="ar">العربية</option>
         </select>
       </label>
       <a href="#placement-test" class="btn btn-mark btn-sm header-cta" data-i18n="ctaTest">Check my level</a>
       <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mainNav">
         <span class="sr-only" data-i18n="menu">Menu</span>
-        <span class="bar bar1"></span><span class="bar bar2"></span>
+        <span class="bar bar1" aria-hidden="true"></span><span class="bar bar2" aria-hidden="true"></span><span class="bar bar3" aria-hidden="true"></span>
       </button>
     </div>
   </div>
@@ -171,30 +172,7 @@
   <section class="section section-alt" id="courses">
     <div class="wrap">
       <h2 class="h2" data-i18n="coursesTitle">What I teach</h2>
-      <div class="courses">
-        <article class="course">
-          <svg class="course-ico" aria-hidden="true"><use href="#i-chat"/></svg>
-          <h3 data-i18n="c1Title">General English</h3>
-          <p data-i18n="c1Text">Practical fluency in reading, writing, listening and real conversation for everyday life and travel.</p>
-        </article>
-        <article class="course">
-          <svg class="course-ico" aria-hidden="true"><use href="#i-case"/></svg>
-          <h3 data-i18n="c2Title">Business English</h3>
-          <p data-i18n="c2Text">Corporate communication, presentations, negotiations, emails and professional vocabulary.</p>
-        </article>
-        <article class="course course-exams">
-          <svg class="course-ico" aria-hidden="true"><use href="#i-cap"/></svg>
-          <h3 data-i18n="c3Title">Exam preparation</h3>
-          <p data-i18n="c3Text">Targeted preparation with proven strategies and full practice tests.</p>
-          <ul class="chips" aria-label="Exams">
-            <li>IELTS</li><li>TOEFL</li><li>SAT</li><li>OET</li><li>PTE</li>
-          </ul>
-          <button type="button" class="link-btn" id="openExamGuide">
-            <span data-i18n="compareExams">Which exam do I need?</span>
-            <svg class="ico flip-rtl" aria-hidden="true"><use href="#i-arrow"/></svg>
-          </button>
-        </article>
-      </div>
+      <div class="courses" id="courseList" aria-busy="true"></div>
     </div>
   </section>
 
@@ -345,52 +323,10 @@
   </section>
 
   <!-- TEAM -->
-  <section class="section section-alt" id="team">
+  <section class="section section-alt" id="team" hidden>
     <div class="wrap">
       <h2 class="h2" data-i18n="teamTitle">Associate teachers</h2>
-      <div class="team">
-        <article class="person">
-          <picture>
-            <source srcset="img/teacher1.webp" type="image/webp">
-            <img src="img/teacher1.jpg" width="640" height="640" alt="Merna" loading="lazy">
-          </picture>
-          <div class="person-body">
-            <h3>Merna</h3>
-            <p class="person-role" data-i18n="mernaRole">English teacher</p>
-            <ul class="person-meta">
-              <li data-i18n="mernaExp">5 years of experience</li>
-              <li data-i18n="mernaLang">English</li>
-            </ul>
-            <p data-i18n="mernaBio">I'm an English teacher with a BA in English and a TOEFL certificate, with several years of international experience teaching teenagers and adults from elementary to advanced levels. I focus on General English, speaking, vocabulary and practical language skills.</p>
-            <div class="person-links">
-              <a href="https://t.me/+992751330330" target="_blank" rel="noopener" aria-label="Merna — Telegram"><svg class="ico" aria-hidden="true"><use href="#i-tg"/></svg>Telegram</a>
-              <a href="https://wa.me/992920271870" target="_blank" rel="noopener" aria-label="Merna — WhatsApp"><svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg>WhatsApp</a>
-              <a href="mailto:Mernasalah167@gmail.com" aria-label="Merna — Email"><svg class="ico" aria-hidden="true"><use href="#i-mail"/></svg>Email</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="person">
-          <picture>
-            <source srcset="img/teacher2.webp" type="image/webp">
-            <img src="img/teacher2.jpg" width="640" height="640" alt="Farida" loading="lazy">
-          </picture>
-          <div class="person-body">
-            <h3 data-i18n="faridaName">Farida Samadova</h3>
-            <p class="person-role" data-i18n="faridaRole">Assistant language tutor</p>
-            <ul class="person-meta">
-              <li data-i18n="faridaExp">2 years of experience</li>
-              <li data-i18n="faridaLang">English, Russian</li>
-            </ul>
-            <p data-i18n="faridaBio">I teach English and Russian. My English is advanced and Russian is my native language. I help students improve their English and Russian skills, and I'm responsible, motivated and passionate about teaching.</p>
-            <div class="person-links">
-              <a href="https://t.me/+992751330330" target="_blank" rel="noopener" aria-label="Farida — Telegram"><svg class="ico" aria-hidden="true"><use href="#i-tg"/></svg>Telegram</a>
-              <a href="https://wa.me/992926779626" target="_blank" rel="noopener" aria-label="Farida — WhatsApp"><svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg>WhatsApp</a>
-              <a href="mailto:samadovafarida221@gmail.com" aria-label="Farida — Email"><svg class="ico" aria-hidden="true"><use href="#i-mail"/></svg>Email</a>
-            </div>
-          </div>
-        </article>
-      </div>
+      <div class="team" id="teamList" aria-busy="true"></div>
     </div>
   </section>
 
@@ -475,13 +411,7 @@
     <button type="button" class="modal-close" id="closeExamGuide"><span class="sr-only" data-i18n="close">Close</span><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button>
   </div>
   <p class="modal-sub" data-i18n="egSub">Pick the exam that matches your goal. Not sure? Ask me — I'll help you choose.</p>
-  <dl class="exam-list">
-    <div><dt>IELTS</dt><dd><strong data-i18n="ieltsType">Academic & General Training</strong><span data-i18n="ieltsDesc">University study and immigration to the UK, Australia, Canada, New Zealand and Europe.</span></dd></div>
-    <div><dt>TOEFL</dt><dd><strong data-i18n="toeflType">Academic English</strong><span data-i18n="toeflDesc">University admission, mostly in the USA and Canada, and many international programs.</span></dd></div>
-    <div><dt>SAT</dt><dd><strong data-i18n="satType">College admission</strong><span data-i18n="satDesc">High-school students applying to US universities and international scholarships.</span></dd></div>
-    <div><dt>OET</dt><dd><strong data-i18n="oetType">Healthcare professionals</strong><span data-i18n="oetDesc">Doctors, nurses and other medical staff registering to work in the UK, Ireland, Australia and other countries.</span></dd></div>
-    <div><dt>PTE</dt><dd><strong data-i18n="pteType">Computer-based Academic English</strong><span data-i18n="pteDesc">University study and visa applications, especially for Australia, New Zealand and the UK. Results usually come within a few days.</span></dd></div>
-  </dl>
+  <dl class="exam-list" id="examList"></dl>
   <a href="#contact" class="btn btn-ink" id="egContact" data-i18n="egCta">Ask which exam fits me</a>
 </dialog>
 

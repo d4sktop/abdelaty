@@ -69,6 +69,7 @@
     // re-render dynamic parts in the new language
     Test.refreshLanguage();
     renderHeroYou();
+    Content.render();
   }
 
   /* ==========================================================
@@ -167,16 +168,172 @@
      ========================================================== */
   function initExamGuide() {
     const dlg = $("examGuide");
-    const open = $("openExamGuide");
-    if (!dlg || !open) return;
+    if (!dlg) return;
     const close = () => { if (dlg.open) dlg.close(); };
-    open.addEventListener("click", () => {
+    // the button is rendered from data/courses.json, so listen on the document
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest("[data-exam-guide]")) return;
       if (typeof dlg.showModal === "function") dlg.showModal(); else dlg.setAttribute("open", "");
     });
     $("closeExamGuide").addEventListener("click", close);
     $("egContact").addEventListener("click", close);
     dlg.addEventListener("click", (e) => { if (e.target === dlg) close(); }); // click on backdrop
   }
+
+  /* ==========================================================
+     Content managed in /admin: teachers, courses, exams.
+     Stored as JSON in the repository (data/*.json) and rendered here.
+     Everything is inserted with textContent, never innerHTML.
+     ========================================================== */
+  const Content = (function () {
+    let teachers = null, courses = null, exams = null, failed = false;
+    const ICONS = ["chat", "case", "cap"];
+
+    // pick the text for the current language, falling back to English, then any language
+    const pick = (obj) => {
+      if (!obj || typeof obj !== "object") return typeof obj === "string" ? obj : "";
+      return (obj[lang] || obj.en || obj.ru || obj.tj || obj.ar || "").trim();
+    };
+    const el = (tag, cls, text) => {
+      const n = document.createElement(tag);
+      if (cls) n.className = cls;
+      if (text != null) n.textContent = text;
+      return n;
+    };
+    const icon = (id, cls) => {
+      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("class", cls || "ico");
+      svg.setAttribute("aria-hidden", "true");
+      const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
+      use.setAttribute("href", "#i-" + id);
+      svg.appendChild(use);
+      return svg;
+    };
+    // links typed by the admin are normalised and only http(s)/mailto are allowed
+    const safeUrl = (u) => /^(https:\/\/|mailto:)/i.test(u || "") ? u : null;
+    const photoUrl = (p) => /^img\/[\w\-./]+\.(jpe?g|png|webp)$/i.test(p || "") && p.indexOf("..") === -1 ? p : null;
+
+    function renderTeachers() {
+      const box = $("teamList");
+      const section = $("team");
+      if (!box) return;
+      box.replaceChildren();
+      box.removeAttribute("aria-busy");
+      if (failed) { section.hidden = false; box.appendChild(el("p", "data-error", t("dataError"))); return; }
+      const list = (teachers || []).filter((x) => !x.hidden);
+      section.hidden = list.length === 0;
+      list.forEach((p) => {
+        const name = pick(p.name);
+        const card = el("article", "person");
+        const src = photoUrl(p.photo);
+        if (src) {
+          const img = el("img");
+          img.src = src; img.width = 640; img.height = 640; img.loading = "lazy"; img.alt = name;
+          card.appendChild(img);
+        } else {
+          const ph = el("div", "person-initials", name.split(/\s+/).map((w) => w[0] || "").join("").slice(0, 2).toUpperCase());
+          ph.setAttribute("aria-hidden", "true");
+          card.appendChild(ph);
+        }
+        const body = el("div", "person-body");
+        body.appendChild(el("h3", null, name));
+        const role = pick(p.role);
+        if (role) body.appendChild(el("p", "person-role", role));
+        const meta = [pick(p.experience), pick(p.languages)].filter(Boolean);
+        if (meta.length) {
+          const ul = el("ul", "person-meta");
+          meta.forEach((m) => ul.appendChild(el("li", null, m)));
+          body.appendChild(ul);
+        }
+        const bio = pick(p.bio);
+        if (bio) body.appendChild(el("p", null, bio));
+        const links = el("div", "person-links");
+        const add = (href, ico, label) => {
+          if (!href) return;
+          const a = el("a");
+          a.href = href;
+          if (/^https:/.test(href)) { a.target = "_blank"; a.rel = "noopener"; }
+          a.setAttribute("aria-label", name + " — " + label);
+          a.append(icon(ico), document.createTextNode(label));
+          links.appendChild(a);
+        };
+        add(safeUrl(p.telegram), "tg", "Telegram");
+        add(p.whatsapp && /^\d{7,15}$/.test(p.whatsapp) ? "https://wa.me/" + p.whatsapp : null, "wa", "WhatsApp");
+        add(p.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(p.email) ? "mailto:" + p.email : null, "mail", "Email");
+        if (links.childNodes.length) body.appendChild(links);
+        card.appendChild(body);
+        box.appendChild(card);
+      });
+    }
+
+    function renderCourses() {
+      const box = $("courseList");
+      if (!box) return;
+      box.replaceChildren();
+      box.removeAttribute("aria-busy");
+      if (failed) { box.appendChild(el("p", "data-error", t("dataError"))); return; }
+      (courses || []).filter((x) => !x.hidden).forEach((c) => {
+        const card = el("article", "course");
+        card.appendChild(icon(ICONS.includes(c.icon) ? c.icon : "chat", "course-ico"));
+        card.appendChild(el("h3", null, pick(c.title)));
+        const text = pick(c.text);
+        if (text) card.appendChild(el("p", null, text));
+        const tags = (c.tags || []).filter(Boolean);
+        if (tags.length) {
+          const ul = el("ul", "chips");
+          tags.forEach((tg) => ul.appendChild(el("li", null, tg)));
+          card.appendChild(ul);
+        }
+        if (c.examGuide && (exams || []).some((x) => !x.hidden)) {
+          const b = el("button", "link-btn");
+          b.type = "button";
+          b.setAttribute("data-exam-guide", "");
+          b.append(el("span", null, t("compareExams")), icon("arrow", "ico flip-rtl"));
+          card.appendChild(b);
+        }
+        box.appendChild(card);
+      });
+    }
+
+    function renderExams() {
+      const box = $("examList");
+      if (!box) return;
+      box.replaceChildren();
+      (exams || []).filter((x) => !x.hidden).forEach((x) => {
+        const row = el("div");
+        row.appendChild(el("dt", null, x.name || ""));
+        const dd = el("dd");
+        const type = pick(x.type), desc = pick(x.desc);
+        if (type) dd.appendChild(el("strong", null, type));
+        if (desc) dd.appendChild(el("span", null, desc));
+        row.appendChild(dd);
+        box.appendChild(row);
+      });
+    }
+
+    function render() {
+      if (teachers === null && !failed) return; // not loaded yet
+      renderCourses(); renderExams(); renderTeachers();
+    }
+
+    async function load() {
+      try {
+        // no-cache = revalidate with GitHub Pages every time, so admin edits show up quickly
+        const [a, b] = await Promise.all([
+          fetch("data/teachers.json", { cache: "no-cache" }).then((r) => { if (!r.ok) throw r.status; return r.json(); }),
+          fetch("data/courses.json", { cache: "no-cache" }).then((r) => { if (!r.ok) throw r.status; return r.json(); })
+        ]);
+        teachers = Array.isArray(a.teachers) ? a.teachers : [];
+        courses = Array.isArray(b.courses) ? b.courses : [];
+        exams = Array.isArray(b.exams) ? b.exams : [];
+      } catch (e) {
+        failed = true;
+      }
+      render();
+    }
+
+    return { load, render };
+  })();
 
   /* ==========================================================
      Placement test
@@ -766,6 +923,7 @@
     initFloatChat();
     initForm();
     applyLanguage(detectLang());
+    Content.load();
   });
 
   // exposed for automated checks

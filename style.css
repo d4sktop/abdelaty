@@ -177,14 +177,18 @@ p { max-width: 65ch; }
   display: none; width: 44px; height: 44px; border: 0; background: transparent; cursor: pointer;
   position: relative; border-radius: var(--r-s);
 }
+/* three lines, all positioned from the centre so the cross always meets in the middle */
 .menu-toggle .bar {
-  position: absolute; left: 11px; right: 11px; height: 2px; background: #fff; border-radius: 2px;
-  transition: transform .2s, top .2s;
+  position: absolute; left: 50%; top: 50%;
+  width: 22px; height: 2px; margin: -1px 0 0 -11px;
+  background: #fff; border-radius: 2px;
+  transition: transform .2s ease, opacity .15s ease;
 }
-.menu-toggle .bar1 { top: 17px; }
-.menu-toggle .bar2 { top: 25px; }
-.menu-toggle[aria-expanded="true"] .bar1 { top: 21px; transform: rotate(45deg); }
-.menu-toggle[aria-expanded="true"] .bar2 { top: 21px; transform: rotate(-45deg); }
+.menu-toggle .bar1 { transform: translateY(-7px); }
+.menu-toggle .bar3 { transform: translateY(7px); }
+.menu-toggle[aria-expanded="true"] .bar1 { transform: rotate(45deg); }
+.menu-toggle[aria-expanded="true"] .bar2 { opacity: 0; }
+.menu-toggle[aria-expanded="true"] .bar3 { transform: rotate(-45deg); }
 .nav-cta { display: none; }
 
 /* ---------- Hero ---------- */
@@ -481,6 +485,14 @@ p { max-width: 65ch; }
 .person-links a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .person-links .ico { width: 18px; height: 18px; }
 
+.person-initials {
+  width: 140px; height: 140px; border-radius: var(--r-m);
+  display: grid; place-items: center;
+  background: var(--ink-soft); color: var(--ink);
+  font-family: var(--f-display); font-size: 2.5rem; font-weight: 600;
+}
+.data-error { color: var(--muted); padding: 24px 0; }
+
 /* ---------- Contact ---------- */
 .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 88px); align-items: start; }
 .contact-info > p { color: var(--muted); margin-bottom: 24px; }
@@ -698,14 +710,13 @@ p { max-width: 65ch; }
   /* team */
   .team { margin-top: 20px; gap: 16px; }
   .person { grid-template-columns: 72px 1fr; gap: 14px 16px; padding: 18px; }
-  .person picture { grid-row: 1; }
-  .person img { width: 72px; height: 72px; border-radius: 50%; }
+  .person img, .person-initials { width: 72px; height: 72px; border-radius: 50%; font-size: 1.5rem; }
   .person-body { display: contents; }
   .person-body > h3, .person-body > .person-role { grid-column: 2; }
   .person-body > h3 { align-self: end; }
   .person-role { margin: -10px 0 0; align-self: start; }
   .person-body > .person-meta, .person-body > p, .person-body > .person-links { grid-column: 1 / -1; margin: 0; }
-  .person picture { grid-row: 1 / span 2; align-self: center; }
+  .person > img, .person > .person-initials { grid-row: 1 / span 2; align-self: center; }
   .person-links { gap: 4px 20px; }
   .person-links a { padding: 10px 0; }
 
